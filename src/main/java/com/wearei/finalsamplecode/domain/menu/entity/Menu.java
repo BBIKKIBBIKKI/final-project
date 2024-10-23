@@ -1,6 +1,7 @@
 package com.wearei.finalsamplecode.domain.menu.entity;
 
 import com.wearei.finalsamplecode.domain.store.entity.Store;
+import com.wearei.finalsamplecode.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,4 +23,17 @@ public class Menu {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
     private Store store;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    public Menu(Store store, String menuName, User user) {
+        this.store = store;
+        this.menuName = menuName;
+        this.user = user;
+    }
+
+    public void update(String menuName) {
+    }
 }
