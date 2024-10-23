@@ -7,8 +7,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 @Entity
 @Getter
 @NoArgsConstructor
@@ -26,19 +24,22 @@ public class Board extends Timestamped {
     private Team team;
 
     private String title;
-    private String contents;
-    private String backgroundImage;
-    private int likes;
-    private boolean isDeleted;
 
-    public void addLike(){
+    private String contents;
+
+    private String backgroundImage;
+
+    private int likes;
+
+    private Boolean isDeleted = false;
+
+    public void increaseLike(){
         this.likes++;
     }
 
-    public void removeLike(){
+    public void decreaseLike(){
         if(this.likes>0) {
             this.likes--;
         }
     }
-
 }
