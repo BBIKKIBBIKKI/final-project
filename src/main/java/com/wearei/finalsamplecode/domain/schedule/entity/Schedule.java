@@ -32,4 +32,22 @@ public class Schedule extends Timestamped {
 
     private LocalDate date;
     private LocalTime time;
+
+
+    public Schedule(Team team, String title, String contents, String ground, LocalDate date, LocalTime time) {
+        this.team = team;
+        this.title = title;
+        this.contents = contents;
+        this.ground = ground;
+        this.time = time;
+        this.date = date;
+    }
+
+    public void updateSchedule(String title, String contents, String ground, LocalDate date, LocalTime time) {
+        this.title = title;
+        this.contents = contents;
+        this.ground = ground;
+        this.date = date;
+        this.time = time;
+    }
 }
