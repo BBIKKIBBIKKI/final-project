@@ -15,6 +15,12 @@ public enum ErrorStatus implements BaseCode {
     _BAD_REQUEST_EMAIL(HttpStatus.BAD_REQUEST, "400", "이미 존재하는 이메일입니다"),
     _BAD_REQUEST_PASSWORD(HttpStatus.BAD_REQUEST, "400", "비밀번호가 일치하지 않습니다."),
 
+    // team
+    _NOT_FOUND_TEAM(HttpStatus.NOT_FOUND, "404", "존재하지 않은 구단입니다"),
+
+    // schedule
+    _NOT_FOUND_SCHEDULE(HttpStatus.NOT_FOUND, "404", "존재하지 않은 일정입니다"),
+
     // shop
     _BAD_REQUEST_CREATE_SHOP(HttpStatus.BAD_REQUEST, "400", "사장님 계정만 가게 생성이 가능합니다."),
     _BAD_REQUEST_UPDATE_SHOP(HttpStatus.BAD_REQUEST, "400", "본인 가게만 수정이 가능합니다."),
