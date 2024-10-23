@@ -18,7 +18,6 @@ import java.util.List;
 public class StoreController {
     private final StoreService storeService;
 
-
     // 가게 생성 (사장님 권한)
     @PostMapping
     public ApiResponse<StoreCreateResponse> createStore(@RequestBody StoreCreateRequest request, @AuthenticationPrincipal AuthUser authUser) {
@@ -53,12 +52,10 @@ public class StoreController {
         return ApiResponse.onSuccess(storeService.searchStoresOrMenus(storeName, menuName));
     }
 
-
     // 가게 삭제 (사장님 권한)
     @DeleteMapping("/{storeId}")
     public ApiResponse<String> deleteStore(@PathVariable Long storeId, @AuthenticationPrincipal AuthUser authUser){
         storeService.deleteStore(storeId, authUser);
         return ApiResponse.onSuccess("정상 삭제되었습니다.");
-
     }
 }
