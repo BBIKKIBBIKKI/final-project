@@ -2,11 +2,13 @@ package com.wearei.finalsamplecode.domain.store.service;
 
 import com.wearei.finalsamplecode.apipayload.status.ErrorStatus;
 import com.wearei.finalsamplecode.common.dto.AuthUser;
+import com.wearei.finalsamplecode.domain.menu.dto.response.CreateMenuResponse;
+import com.wearei.finalsamplecode.domain.menu.entity.Menu;
+import com.wearei.finalsamplecode.domain.menu.repository.MenuRepository;
+import com.wearei.finalsamplecode.domain.menu.service.MenuService;
 import com.wearei.finalsamplecode.domain.store.dto.request.StoreCreateRequest;
 import com.wearei.finalsamplecode.domain.store.dto.request.StoreUpdateRequest;
-import com.wearei.finalsamplecode.domain.store.dto.response.StoreCreateResponse;
-import com.wearei.finalsamplecode.domain.store.dto.response.StoreIntegratedResponse;
-import com.wearei.finalsamplecode.domain.store.dto.response.StoreUpdateResponse;
+import com.wearei.finalsamplecode.domain.store.dto.response.*;
 import com.wearei.finalsamplecode.domain.store.entity.Store;
 import com.wearei.finalsamplecode.domain.store.repository.StoreRepository;
 import com.wearei.finalsamplecode.domain.user.entity.User;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -25,10 +28,11 @@ import java.util.List;
 public class StoreService {
     private final StoreRepository storeRepository;
     private final UserRepository userRepository;
+    private final MenuService menuService;
 
     // 가게 생성
     public StoreCreateResponse createStore(StoreCreateRequest request, AuthUser authUser) {
-        User user = checkUser(authUser.getId());
+        User user = User.fromAuthUser(authUser);
 
         authCheck(authUser);
 
@@ -59,6 +63,32 @@ public class StoreService {
         return new StoreUpdateResponse(store.getStoreName(), store.getOpenedAt(), store.getClosedAt());
     }
 
+    // 가게 다건 조회
+    @Transactional(readOnly = true)
+    public List<StoreGetAllResponse> getAllStores() {
+        List<Store> stores = storeRepository.findAll();
+        List<StoreGetAllResponse> storeList = new ArrayList<>();
+        for (Store store : stores) {
+            StoreGetAllResponse response = new StoreGetAllResponse(store.getStoreName(), store.getOpenedAt(), store.getClosedAt());
+            storeList.add(response);
+        }
+        return storeList;
+    }
+
+    // 가게 단건 조회 ( 메뉴도 같이 조회 )
+    @Transactional(readOnly = true)
+    public StoreGetResponse getStore(Long storeId) {
+        Store store = checkStore(storeId);
+
+        List<Menu> menus = menuService.findAllMenus();
+        List<CreateMenuResponse> menuList = new ArrayList<>();
+        for (Menu menu : menus){
+            CreateMenuResponse response = new CreateMenuResponse( store.getStoreName() ,menu.getMenuName());
+            menuList.add(response);
+        }
+
+        return new StoreGetResponse(store.getStoreName(), menuList);
+    }
 
     // 통합검색 (가게 + 메뉴)
     @Transactional(readOnly = true)
@@ -86,13 +116,13 @@ public class StoreService {
     }
 
     // 유저 확인
-    private User checkUser(Long userId){
+    public User checkUser(Long userId){
         return userRepository.findById(userId).orElseThrow(()
                 -> new ApiException(ErrorStatus._NOT_FOUND_USER));
     }
 
     // 가게 확인
-    private Store checkStore(Long storeId){
+    public Store checkStore(Long storeId){
         Store store =  storeRepository.findById(storeId).orElseThrow(()
         -> new ApiException(ErrorStatus._NOT_FOUND_STORE));
 
