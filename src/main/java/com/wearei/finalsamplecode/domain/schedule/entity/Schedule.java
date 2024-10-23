@@ -1,6 +1,7 @@
 package com.wearei.finalsamplecode.domain.schedule.entity;
 
 import com.wearei.finalsamplecode.common.entity.Timestamped;
+import com.wearei.finalsamplecode.domain.team.entity.Team;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

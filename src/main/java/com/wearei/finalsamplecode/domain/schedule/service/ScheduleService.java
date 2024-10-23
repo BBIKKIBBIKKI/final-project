@@ -7,7 +7,8 @@ import com.wearei.finalsamplecode.domain.schedule.dto.response.ScheduleResponseD
 import com.wearei.finalsamplecode.domain.schedule.dto.response.ScheduleUpdateResponseDto;
 import com.wearei.finalsamplecode.domain.schedule.entity.Schedule;
 import com.wearei.finalsamplecode.domain.schedule.repository.ScheduleRepository;
-import com.wearei.finalsamplecode.domain.user.repository.UserRepository;
+import com.wearei.finalsamplecode.domain.team.entity.Team;
+import com.wearei.finalsamplecode.domain.team.repository.TeamRepository;
 import com.wearei.finalsamplecode.exception.ApiException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,10 +21,8 @@ public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
     private final TeamRepository teamRepository;
-    private final UserRepository userRepository;
 
-
-    public ScheduleResponseDto createSchedule(ScheduleRequestDto scheduleRequestDto) {
+    public ScheduleResponseDto createSchedule(Team team, ScheduleRequestDto scheduleRequestDto) {
         //구단id확인
         findByTeamId(scheduleRequestDto.getTeamId());
         // 일정 생성하기
@@ -71,6 +70,8 @@ public class ScheduleService {
                 schedule.getModifiedAt()
         );
     }
+
+
 
 
 
