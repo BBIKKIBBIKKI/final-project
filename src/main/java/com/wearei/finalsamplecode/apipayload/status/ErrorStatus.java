@@ -22,9 +22,9 @@ public enum ErrorStatus implements BaseCode {
     _NOT_FOUND_SCHEDULE(HttpStatus.NOT_FOUND, "404", "존재하지 않은 일정입니다"),
 
     // shop
-    _BAD_REQUEST_CREATE_SHOP(HttpStatus.BAD_REQUEST, "400", "사장님 계정만 가게 생성이 가능합니다."),
-    _BAD_REQUEST_UPDATE_SHOP(HttpStatus.BAD_REQUEST, "400", "본인 가게만 수정이 가능합니다."),
-    _NOT_FOUND_SHOP(HttpStatus.NOT_FOUND, "404", "존재하지 않은 가게입니다."),
+    _BAD_REQUEST_CREATE_STORE(HttpStatus.BAD_REQUEST, "400", "사장님 계정만 가게 생성이 가능합니다."),
+    _BAD_REQUEST_STORE(HttpStatus.BAD_REQUEST, "400", "사장님만 접근 가능한 권한입니다."),
+    _NOT_FOUND_STORE(HttpStatus.NOT_FOUND, "404", "해당 가게는 존재하지 않습니다."),
 
     // menu
     _NOT_FOUND_MENU(HttpStatus.NOT_FOUND, "404", "존재하지 않는 메뉴입니다."),
