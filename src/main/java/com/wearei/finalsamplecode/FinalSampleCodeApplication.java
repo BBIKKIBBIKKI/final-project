@@ -1,4 +1,4 @@
-package main.java.com.wearei.finalsamplecode;
+package com.wearei.finalsamplecode;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
