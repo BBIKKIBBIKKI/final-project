@@ -1,7 +1,6 @@
 package com.wearei.finalsamplecode.domain.schedule.dto.request;
 
 import lombok.Getter;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 
