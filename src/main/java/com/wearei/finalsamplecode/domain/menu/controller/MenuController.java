@@ -3,6 +3,7 @@ package com.wearei.finalsamplecode.domain.menu.controller;
 import com.wearei.finalsamplecode.apipayload.ApiResponse;
 import com.wearei.finalsamplecode.common.dto.AuthUser;
 import com.wearei.finalsamplecode.domain.menu.dto.request.CreateMenuRequest;
+import com.wearei.finalsamplecode.domain.menu.dto.request.DeleteMenuRequest;
 import com.wearei.finalsamplecode.domain.menu.dto.request.UpdateMenuRequest;
 import com.wearei.finalsamplecode.domain.menu.dto.response.CreateMenuResponse;
 import com.wearei.finalsamplecode.domain.menu.dto.response.UpdateMenuResponse;
@@ -31,5 +32,11 @@ public class MenuController {
     public ApiResponse<UpdateMenuResponse> updateMenu(@PathVariable Long menuId, @RequestBody UpdateMenuRequest request, @AuthenticationPrincipal AuthUser authUser){
         UpdateMenuResponse updateMenuResponse = menuService.updateMenu(menuId, request, authUser);
         return ApiResponse.onSuccess(updateMenuResponse);
+    }
+
+    @DeleteMapping("/{menuId}")
+    public ApiResponse<Void> deleteMenu(@PathVariable Long menuId, @AuthenticationPrincipal AuthUser authUser, @RequestBody DeleteMenuRequest request){
+        menuService.deleteMenu(menuId, authUser, request);
+        return ApiResponse.onSuccess(null);
     }
 }
