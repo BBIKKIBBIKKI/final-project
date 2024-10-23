@@ -29,5 +29,6 @@ public class Comment extends Timestamped {
     private Team team;
 
     private String contents;
-    private boolean isDeleted;
+
+    private Boolean isDeleted = false;
 }
