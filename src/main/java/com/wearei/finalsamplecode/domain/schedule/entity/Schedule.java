@@ -5,7 +5,6 @@ import com.wearei.finalsamplecode.domain.team.entity.Team;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -22,17 +21,19 @@ public class Schedule extends Timestamped {
     @JoinColumn(name = "team_id")
     private Team team;
 
-    @OneToOne
-    @JoinColumn(name = "chat_id")
-    private Chat chat;
+//    @OneToOne
+//    @JoinColumn(name = "chat_id")
+//    private Chat chat;
 
     private String title;
+
     private String contents;
+
     private String ground;
 
     private LocalDate date;
-    private LocalTime time;
 
+    private LocalTime time;
 
     public Schedule(Team team, String title, String contents, String ground, LocalDate date, LocalTime time) {
         this.team = team;
