@@ -26,7 +26,6 @@ public class Schedule extends Timestamped {
     @JoinColumn(name = "chat_id")
     private Chat chat;
 
-    private String teamname;
     private String title;
     private String contents;
     private String ground;
