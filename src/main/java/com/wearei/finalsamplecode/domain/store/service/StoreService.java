@@ -4,7 +4,6 @@ import com.wearei.finalsamplecode.apipayload.status.ErrorStatus;
 import com.wearei.finalsamplecode.common.dto.AuthUser;
 import com.wearei.finalsamplecode.domain.menu.dto.response.CreateMenuResponse;
 import com.wearei.finalsamplecode.domain.menu.entity.Menu;
-import com.wearei.finalsamplecode.domain.menu.repository.MenuRepository;
 import com.wearei.finalsamplecode.domain.menu.service.MenuService;
 import com.wearei.finalsamplecode.domain.store.dto.request.StoreCreateRequest;
 import com.wearei.finalsamplecode.domain.store.dto.request.StoreUpdateRequest;
@@ -18,9 +17,9 @@ import com.wearei.finalsamplecode.exception.ApiException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
