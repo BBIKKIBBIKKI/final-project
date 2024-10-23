@@ -1,7 +1,7 @@
 package com.wearei.finalsamplecode.domain.team.entity;
 
 import com.wearei.finalsamplecode.domain.team.dto.request.TeamRequest;
-import com.wearei.finalsamplecode.domain.team.dto.response.TeamResponse;
+//import com.wearei.finalsamplecode.domain.team.dto.response.TeamResponse;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,7 +16,7 @@ public class Team {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "team_id")
-    private long teamId;
+    private Long teamId;
     @Column(name="team_name", length=50)
     private String teamName;
     @Column(name="uniform_img")
