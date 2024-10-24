@@ -29,7 +29,7 @@ public class StoreService {
     private final MenuService menuService;
 
     // 가게 생성
-    public StoreCreateResponse createStore(StoreCreateRequest request, AuthUser authUser) {
+    public StoreCreateResponse createStore(StoreCreateRequest request,  AuthUser authUser) {
         User user = User.fromAuthUser(authUser);
 
         authCheck(authUser);
