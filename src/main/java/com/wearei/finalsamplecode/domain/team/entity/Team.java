@@ -1,9 +1,7 @@
 package com.wearei.finalsamplecode.domain.team.entity;
 
 import com.wearei.finalsamplecode.domain.team.dto.request.TeamRequest;
-import com.wearei.finalsamplecode.domain.team.dto.response.TeamResponse;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
