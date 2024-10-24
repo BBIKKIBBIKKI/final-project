@@ -71,7 +71,6 @@ public class MenuService {
         return new UpdateMenuResponse(menu.getMenuName());
     }
 
-
     // 메뉴 삭제
     public void deleteMenu(Long menuId, AuthUser authUser, DeleteMenuRequest request) {
         Store store = storeRepository.findById(request.getStoreId()).orElseThrow(()
@@ -88,8 +87,6 @@ public class MenuService {
         menuRepository.delete(menu);
     }
 
-
-
     // 메뉴 확인
     private Menu checkMenu(Long menuId) {
         return menuRepository.findById(menuId).orElseThrow(()
@@ -98,11 +95,10 @@ public class MenuService {
 
     // 가게 사장님 권한 확인
     private void authCheck(AuthUser authUser, Store store) {
-        if(!Objects.equals(store.getUser().getId(), authUser.getId())){
+        if(!Objects.equals(store.getUser().getUserId(), authUser.getId())){
             throw new ApiException(ErrorStatus._BAD_REQUEST_STORE);
         }
     }
-
 
     public List<Menu> findAllMenus(){
         return menuRepository.findAll();
