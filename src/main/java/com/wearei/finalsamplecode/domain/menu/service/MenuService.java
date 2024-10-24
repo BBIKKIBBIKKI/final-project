@@ -43,6 +43,7 @@ public class MenuService {
         Menu menu = new Menu(
                 store,
                 request.getMenuName(),
+                request.getPrice(),
                 user
         );
         Menu savedMenu = menuRepository.save(menu);
@@ -66,11 +67,10 @@ public class MenuService {
 
         Menu menu = checkMenu(menuId);
 
-        menu.update(request.getMenuName());
+        menu.update(request.getMenuName(), request.getPrice());
 
         return new UpdateMenuResponse(menu.getMenuName());
     }
-
 
     // 메뉴 삭제
     public void deleteMenu(Long menuId, AuthUser authUser, DeleteMenuRequest request) {
@@ -88,10 +88,8 @@ public class MenuService {
         menuRepository.delete(menu);
     }
 
-
-
     // 메뉴 확인
-    private Menu checkMenu(Long menuId) {
+    public Menu checkMenu(Long menuId) {
         return menuRepository.findById(menuId).orElseThrow(()
         -> new ApiException(ErrorStatus._NOT_FOUND_MENU));
     }
@@ -102,7 +100,6 @@ public class MenuService {
             throw new ApiException(ErrorStatus._BAD_REQUEST_STORE);
         }
     }
-
 
     public List<Menu> findAllMenus(){
         return menuRepository.findAll();

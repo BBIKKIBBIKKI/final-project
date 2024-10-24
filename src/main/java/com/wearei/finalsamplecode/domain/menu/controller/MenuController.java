@@ -18,15 +18,11 @@ import org.springframework.web.bind.annotation.*;
 public class MenuController {
     private final MenuService menuService;
 
-
-
-
     @PostMapping
     public ApiResponse<CreateMenuResponse> createMenu(@RequestBody CreateMenuRequest request, @AuthenticationPrincipal AuthUser authUser) {
         CreateMenuResponse createMenuResponse = menuService.createMenu(request, authUser);
         return ApiResponse.onSuccess(createMenuResponse);
     }
-
 
     @PatchMapping("/{menuId}")
     public ApiResponse<UpdateMenuResponse> updateMenu(@PathVariable Long menuId, @RequestBody UpdateMenuRequest request, @AuthenticationPrincipal AuthUser authUser){

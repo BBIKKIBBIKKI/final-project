@@ -1,5 +1,6 @@
 package com.wearei.finalsamplecode.domain.store.entity;
 
+import com.wearei.finalsamplecode.common.entity.BaseEntity;
 import com.wearei.finalsamplecode.domain.menu.entity.Menu;
 import com.wearei.finalsamplecode.domain.user.entity.User;
 import jakarta.persistence.*;
@@ -13,13 +14,9 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
+@AttributeOverride(name="id", column = @Column(name="store_id"))
 @Table(name="Stores")
-public class Store {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long storeId;
-
+public class Store extends BaseEntity {
     @Column(name="store_name", nullable=false)
     private String storeName;
 
