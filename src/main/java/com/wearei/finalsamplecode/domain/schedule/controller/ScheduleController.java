@@ -1,13 +1,13 @@
 package com.wearei.finalsamplecode.domain.schedule.controller;
 
 import com.wearei.finalsamplecode.apipayload.ApiResponse;
-import com.wearei.finalsamplecode.domain.schedule.dto.request.ScheduleRequestDto;
+import com.wearei.finalsamplecode.domain.schedule.dto.request.ScheduleCreateRequestDto;
 import com.wearei.finalsamplecode.domain.schedule.dto.request.ScheduleUpdateRequestDto;
-import com.wearei.finalsamplecode.domain.schedule.dto.response.ScheduleResponseDto;
+import com.wearei.finalsamplecode.domain.schedule.dto.response.ScheduleCreateResponseDto;
+import com.wearei.finalsamplecode.domain.schedule.dto.response.ScheduleSearchResponseDto;
 import com.wearei.finalsamplecode.domain.schedule.dto.response.ScheduleUpdateResponseDto;
 import com.wearei.finalsamplecode.domain.schedule.repository.ScheduleRepository;
 import com.wearei.finalsamplecode.domain.schedule.service.ScheduleService;
-import com.wearei.finalsamplecode.domain.team.entity.Team;
 import com.wearei.finalsamplecode.domain.team.service.TeamService;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -15,20 +15,19 @@ import java.util.List;
 @RestController
 @RequestMapping("/schedules")
 public class ScheduleController {
-
     private ScheduleRepository scheduleRepository;
     private ScheduleService scheduleService;
     private TeamService teamService;
 
     @PostMapping()
-    public ApiResponse<ScheduleResponseDto> createSchedule(@RequestBody Team team, ScheduleRequestDto scheduleRequestDto){
+    public ApiResponse<ScheduleCreateResponseDto> createSchedule( @RequestBody ScheduleCreateRequestDto scheduleRequestDto){
 
-        ScheduleResponseDto createSchedule = scheduleService.createSchedule(team, scheduleRequestDto);
+        ScheduleCreateResponseDto createSchedule = scheduleService.createSchedule(scheduleRequestDto);
 
         return ApiResponse.onSuccess(createSchedule);
     }
 
-    @PatchMapping()
+    @PatchMapping("/{scheduleId}")
     public ApiResponse<ScheduleUpdateResponseDto> updateSchedule(@RequestBody ScheduleUpdateRequestDto scheduleUpdateRequestDto){
 
         ScheduleUpdateResponseDto updateSchedule = scheduleService.updateSchedule(scheduleUpdateRequestDto);
@@ -37,23 +36,23 @@ public class ScheduleController {
     }
 
     @GetMapping()
-    public ApiResponse<List<ScheduleResponseDto>> getSchedules(@PathVariable Long teamId){
+    public ApiResponse<List<ScheduleSearchResponseDto>> getSchedules(@RequestBody Long teamId){
 
-        List<ScheduleResponseDto> schedules = scheduleService.getSchedules(teamId);
+        List<ScheduleSearchResponseDto> schedules = scheduleService.getSchedules(teamId);
 
         return ApiResponse.onSuccess(schedules);
     }
 
     @GetMapping("/{scheduleId}")
-    public ApiResponse<ScheduleResponseDto> getSchedule(@PathVariable Long teamId, Long scheduleId){
+    public ApiResponse<ScheduleSearchResponseDto> getSchedule(@PathVariable Long scheduleId, @RequestBody Long teamId){
 
-        ScheduleResponseDto schedule = scheduleService.getSchedule(teamId, scheduleId);
+        ScheduleSearchResponseDto schedule = scheduleService.getSchedule(teamId, scheduleId);
 
         return ApiResponse.onSuccess(schedule);
     }
 
     @DeleteMapping("/scheduleId")
-    public ApiResponse<Void> deleteSchedule(@PathVariable Long teamId, Long scheduleId){
+    public ApiResponse<Void> deleteSchedule(@PathVariable Long scheduleId, @RequestBody Long teamId){
 
         scheduleService.deleteSchedule(teamId,scheduleId);
 

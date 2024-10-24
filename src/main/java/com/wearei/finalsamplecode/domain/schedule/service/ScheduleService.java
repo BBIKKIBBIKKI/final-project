@@ -1,9 +1,10 @@
 package com.wearei.finalsamplecode.domain.schedule.service;
 
 import com.wearei.finalsamplecode.apipayload.status.ErrorStatus;
-import com.wearei.finalsamplecode.domain.schedule.dto.request.ScheduleRequestDto;
+import com.wearei.finalsamplecode.domain.schedule.dto.request.ScheduleCreateRequestDto;
 import com.wearei.finalsamplecode.domain.schedule.dto.request.ScheduleUpdateRequestDto;
-import com.wearei.finalsamplecode.domain.schedule.dto.response.ScheduleResponseDto;
+import com.wearei.finalsamplecode.domain.schedule.dto.response.ScheduleCreateResponseDto;
+import com.wearei.finalsamplecode.domain.schedule.dto.response.ScheduleSearchResponseDto;
 import com.wearei.finalsamplecode.domain.schedule.dto.response.ScheduleUpdateResponseDto;
 import com.wearei.finalsamplecode.domain.schedule.entity.Schedule;
 import com.wearei.finalsamplecode.domain.schedule.repository.ScheduleRepository;
@@ -20,24 +21,23 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional
 public class ScheduleService {
-
     private final ScheduleRepository scheduleRepository;
     private final TeamRepository teamRepository;
 
-    public ScheduleResponseDto createSchedule(Team team, ScheduleRequestDto scheduleRequestDto) {
+    public ScheduleCreateResponseDto createSchedule(ScheduleCreateRequestDto scheduleCreateRequestDto) {
         //구단id확인
-        findByTeamId(scheduleRequestDto.getTeamId());
+       Team team = findByTeamId(scheduleCreateRequestDto.getTeamId());
         // 일정 생성하기
         Schedule schedule = new Schedule(team,
-                scheduleRequestDto.getTitle(),
-                scheduleRequestDto.getContents(),
-                scheduleRequestDto.getGround(),
-                scheduleRequestDto.getDate(),
-                scheduleRequestDto.getTime()
+                scheduleCreateRequestDto.getTitle(),
+                scheduleCreateRequestDto.getContents(),
+                scheduleCreateRequestDto.getGround(),
+                scheduleCreateRequestDto.getDate(),
+                scheduleCreateRequestDto.getTime()
         );
         //생성한 일정 저장
         Schedule createSchedule = scheduleRepository.save(schedule);
-        return new ScheduleResponseDto(scheduleRequestDto.getTeamId(),
+        return new ScheduleCreateResponseDto(scheduleCreateRequestDto.getTeamId(),
                 createSchedule.getId(),
                 createSchedule.getTitle(),
                 createSchedule.getContents(),
@@ -75,12 +75,12 @@ public class ScheduleService {
         );
     }
 
-    public List<ScheduleResponseDto> getSchedules(Long teamId){
-
+    @Transactional(readOnly = true)
+    public List<ScheduleSearchResponseDto> getSchedules(Long teamId){
         findByTeamId(teamId);
 
-        return scheduleRepository.findByTeamId(teamId).stream()
-                .map(schedule -> new ScheduleResponseDto(teamId,
+        return scheduleRepository.findByTeam_Id(teamId).stream()
+                .map(schedule -> new ScheduleSearchResponseDto(teamId,
                         schedule.getId(),
                         schedule.getTitle(),
                         schedule.getContents(),
@@ -92,16 +92,17 @@ public class ScheduleService {
                 .collect(Collectors.toList());
     }
 
-    public ScheduleResponseDto getSchedule(Long teamId,Long scheduleId){
+    @Transactional(readOnly = true)
+    public ScheduleSearchResponseDto getSchedule(Long teamId, Long scheduleId){
         Team team = findByTeamId(teamId);
 
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_SCHEDULE));
         //일정과 팀과의 연관관계 검증
-        if(!schedule.getTeam().getTeamId().equals(team.getTeamId())){
+        if(!schedule.getTeam().getId().equals(team.getId())){
             throw new ApiException(ErrorStatus._FORBIDDEN);
         }
 
-        return new ScheduleResponseDto(teamId,
+        return new ScheduleSearchResponseDto(teamId,
                 schedule.getId(),
                 schedule.getTitle(),
                 schedule.getContents(),
@@ -112,18 +113,18 @@ public class ScheduleService {
                 schedule.getModifiedAt());
     }
 
-    public void deleteSchedule(Long teamId, Long scheduleId){
+    public void deleteSchedule(Long scheduleId, Long teamId){
         Team team = findByTeamId(teamId);
 
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_SCHEDULE));
         //일정과 팀과의 연관관계 검증
-        if(schedule.getTeam() == null || !schedule.getTeam().getTeamId().equals(team.getTeamId())) {
+        if(schedule.getTeam() == null || !schedule.getTeam().getId().equals(team.getId())) {
             throw new ApiException(ErrorStatus._FORBIDDEN);
         }
         scheduleRepository.delete(schedule);
     }
 
-    private Team findByTeamId (Long teamId){
-        return teamRepository.findById(teamId).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_TEAM));
+    private Team findByTeamId (Long Id){
+        return teamRepository.findById(Id).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_TEAM));
     }
 }
