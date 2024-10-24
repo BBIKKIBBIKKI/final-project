@@ -1,55 +1,59 @@
 package com.wearei.finalsamplecode.config;
 
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.wearei.finalsamplecode.apipayload.status.ErrorStatus;
-import com.wearei.finalsamplecode.exception.ApiException;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.UUID;
 
-@Getter
-@Component
+@Service
 @RequiredArgsConstructor
 public class S3ClientUtility {
-
     private final AmazonS3Client amazonS3Client;
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    public String uploadFile(String dir, MultipartFile multipartFile) {
-        try {
-            // 파일명을 UUID로 생성
-            String fileName = dir + UUID.randomUUID() + "_" + multipartFile.getOriginalFilename();
-
-            // 메타데이터 설정
-            ObjectMetadata metadata = new ObjectMetadata();
-            metadata.setContentLength(multipartFile.getSize());
-            metadata.setContentType(multipartFile.getContentType());
-
-            // 파일을 S3에 업로드
-            amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, multipartFile.getInputStream(), metadata)
-                    .withCannedAcl(CannedAccessControlList.PublicRead));
-
-            // 업로드된 파일의 URL 반환
-            return amazonS3Client.getUrl(bucket, fileName).toString();
-        } catch (IOException e) {
-            throw new ApiException(ErrorStatus._FILE_UPLOAD_ERROR);
+    // S3에 이미지를 업로드하는 메소드
+    public String uploadImageToS3(MultipartFile file) throws IOException {
+        if (file == null || file.isEmpty()) {
+            return null; // 파일이 없으면 null을 반환
         }
+
+        String fileName = file.getOriginalFilename();
+        String fileUrl = "https://" + bucket + ".s3.ap-northeast-2.amazonaws.com/" + fileName;
+
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentType(file.getContentType());
+        metadata.setContentLength(file.getSize());
+
+        amazonS3Client.putObject(bucket, fileName, file.getInputStream(), metadata);
+
+        return fileUrl;
     }
 
-    public void deleteImageFromS3(String imageUrl) {
-        // URL에서 파일명 추출
-        String fileName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
+    // S3에서 이미지를 삭제하는 메소드 (필요 시 사용)
+    private void deleteImageFromS3(String imageUrl) {
+        if (imageUrl == null || imageUrl.isEmpty()) {
+            return;
+        }
 
+        String fileName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
         amazonS3Client.deleteObject(bucket, fileName);
     }
+
+    // S3에서 이미지를 업데이트하는 메소드
+    public String updateImageInS3(String currentImageUrl, MultipartFile newImage) throws IOException {
+        // 1. 기존 이미지가 있을 경우 삭제
+        if (currentImageUrl != null && !currentImageUrl.isEmpty()) {
+            deleteImageFromS3(currentImageUrl);
+        }
+
+        // 2. 새 이미지를 업로드
+        return uploadImageToS3(newImage);
+    }
 }
+
