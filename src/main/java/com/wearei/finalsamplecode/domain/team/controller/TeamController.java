@@ -46,7 +46,7 @@ public class TeamController {
 
     @PatchMapping("/teams/{teamId}")
     public ApiResponse<TeamUpdateResponse> updateTeam(
-            @RequestParam Long teamId,
+            @PathVariable Long teamId,
             @AuthenticationPrincipal AuthUser authUser,
             @RequestBody TeamUpdateRequest request,
             @RequestPart(required = false) MultipartFile uniformImg,
@@ -58,7 +58,7 @@ public class TeamController {
 
     @DeleteMapping("/teams/{teamId}")
     public ApiResponse<String> deleteTeam(
-            @RequestParam Long teamId,
+            @PathVariable Long teamId,
             @AuthenticationPrincipal AuthUser authUser
     ) {
         try {
