@@ -25,7 +25,6 @@ import java.io.IOException;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class TeamService {
 
     private final TeamRepository teamRepository;

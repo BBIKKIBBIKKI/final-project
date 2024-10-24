@@ -22,7 +22,6 @@ import java.io.IOException;
 @RequestMapping("/teams")
 @RequiredArgsConstructor
 public class TeamController {
-
     private final TeamService teamService;
 
     @PostMapping
