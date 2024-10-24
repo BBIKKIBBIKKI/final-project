@@ -27,34 +27,34 @@ public class StoreController {
 
     // 가게 수정 (사장님 권한)
     @PatchMapping("/{storeId}")
-    public ApiResponse<StoreUpdateResponse> updateStore(@RequestBody StoreUpdateRequest request, @AuthenticationPrincipal AuthUser authUser, @PathVariable Long storeId){
+    public ApiResponse<StoreUpdateResponse> updateStore(@RequestBody StoreUpdateRequest request, @AuthenticationPrincipal AuthUser authUser, @PathVariable Long storeId) {
         StoreUpdateResponse storeUpdateResponse = storeService.updateStore(request, authUser, storeId);
         return ApiResponse.onSuccess(storeUpdateResponse);
     }
 
     // 가게 다건 조회
     @GetMapping
-    public ApiResponse<List<StoreGetAllResponse>> getAllStores(){
+    public ApiResponse<List<StoreGetAllResponse>> getAllStores() {
         return ApiResponse.onSuccess(storeService.getAllStores());
     }
 
     // 가게 단건 조회(메뉴도 같이 나옴)
     @GetMapping("/{storeId}")
-    public ApiResponse<StoreGetResponse> getStoreAndMenu(@PathVariable Long storeId){
+    public ApiResponse<StoreGetResponse> getStoreAndMenu(@PathVariable Long storeId) {
         return ApiResponse.onSuccess(storeService.getStore(storeId));
     }
 
     // 가게 + 메뉴 통합 검색 기능
     @GetMapping("/search")
     public ApiResponse<List<StoreIntegratedResponse>> searchStoresOrMenus(@RequestParam(required = false) String storeName,
-                                                                          @RequestParam(required = false) String menuName){
+                                                                          @RequestParam(required = false) String menuName) {
 
         return ApiResponse.onSuccess(storeService.searchStoresOrMenus(storeName, menuName));
     }
 
     // 가게 삭제 (사장님 권한)
     @DeleteMapping("/{storeId}")
-    public ApiResponse<String> deleteStore(@PathVariable Long storeId, @AuthenticationPrincipal AuthUser authUser){
+    public ApiResponse<String> deleteStore(@PathVariable Long storeId, @AuthenticationPrincipal AuthUser authUser) {
         storeService.deleteStore(storeId, authUser);
         return ApiResponse.onSuccess("정상 삭제되었습니다.");
     }
