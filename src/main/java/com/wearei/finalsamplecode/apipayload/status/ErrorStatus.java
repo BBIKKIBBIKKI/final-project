@@ -46,10 +46,10 @@ public enum ErrorStatus implements BaseCode {
     _NOT_FOUND_ORDER_LIST(HttpStatus.BAD_REQUEST, "404", "주문 목록이 존재하지 않습니다."),
     _NOT_FOUND_ORDER_MENU_LIST(HttpStatus.BAD_REQUEST, "404", "주문-메뉴 목록이 존재하지 않습니다."),
     _NOT_FOUND_POINT_HISTORY(HttpStatus.BAD_REQUEST, "404", "포인트 기록이 존재하지 않습니다."),
+    _NOT_FOUND_ORDER(HttpStatus.NOT_FOUND, "404", "존재하지 않는 주문입니다."),
 
     // review
     _NOT_FOUND_REVIEW(HttpStatus.NOT_FOUND, "404", "존재하지 않는 리뷰입니다."),
-    _NOT_FOUND_ORDER(HttpStatus.NOT_FOUND, "404", "존재하지 않는 주문입니다."),
     _BAD_REQUEST_UPDATE_REVIEW(HttpStatus.BAD_REQUEST, "400", "본인의 리뷰만 수정할 수 있습니다."),
 
     // token

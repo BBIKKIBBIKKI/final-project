@@ -15,4 +15,5 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
             "(:menuName IS NULL OR m.menuName LIKE CONCAT('%', :menuName, '%'))")
     List<Store> searchStoresOrMenu(@Param("storeName") String storeName,
                                    @Param("menuName") String menuName);
+
 }

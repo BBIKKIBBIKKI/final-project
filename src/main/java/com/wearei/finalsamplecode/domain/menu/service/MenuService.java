@@ -33,7 +33,7 @@ public class MenuService {
         Store store = storeRepository.findById(request.getStoreId()).orElseThrow(()
                 -> new ApiException(ErrorStatus._NOT_FOUND_STORE));
 
-        if(!store.getIsDeleted()) {
+        if(store.isDeleted()) {
             throw new ApiException(ErrorStatus._NOT_FOUND_STORE);
         }
 
@@ -43,6 +43,7 @@ public class MenuService {
         Menu menu = new Menu(
                 store,
                 request.getMenuName(),
+                request.getPrice(),
                 user
         );
         Menu savedMenu = menuRepository.save(menu);
@@ -58,7 +59,7 @@ public class MenuService {
         Store store = storeRepository.findById(request.getStoreId()).orElseThrow(()
                 -> new ApiException(ErrorStatus._NOT_FOUND_STORE));
 
-        if(!store.getIsDeleted()) {
+        if(store.isDeleted()) {
             throw new ApiException(ErrorStatus._NOT_FOUND_STORE);
         }
 
@@ -66,7 +67,7 @@ public class MenuService {
 
         Menu menu = checkMenu(menuId);
 
-        menu.update(request.getMenuName());
+        menu.update(request.getMenuName(), request.getPrice());
 
         return new UpdateMenuResponse(menu.getMenuName());
     }
@@ -76,7 +77,7 @@ public class MenuService {
         Store store = storeRepository.findById(request.getStoreId()).orElseThrow(()
                 -> new ApiException(ErrorStatus._NOT_FOUND_STORE));
 
-        if(!store.getIsDeleted()) {
+        if(store.isDeleted()) {
             throw new ApiException(ErrorStatus._NOT_FOUND_STORE);
         }
 
@@ -88,7 +89,7 @@ public class MenuService {
     }
 
     // 메뉴 확인
-    private Menu checkMenu(Long menuId) {
+    public Menu checkMenu(Long menuId) {
         return menuRepository.findById(menuId).orElseThrow(()
         -> new ApiException(ErrorStatus._NOT_FOUND_MENU));
     }

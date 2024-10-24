@@ -1,6 +1,7 @@
 package com.wearei.finalsamplecode.domain.menu.controller;
 
 import com.wearei.finalsamplecode.apipayload.ApiResponse;
+import com.wearei.finalsamplecode.apipayload.status.SuccessStatus;
 import com.wearei.finalsamplecode.common.dto.AuthUser;
 import com.wearei.finalsamplecode.domain.menu.dto.request.CreateMenuRequest;
 import com.wearei.finalsamplecode.domain.menu.dto.request.DeleteMenuRequest;
@@ -18,15 +19,11 @@ import org.springframework.web.bind.annotation.*;
 public class MenuController {
     private final MenuService menuService;
 
-
-
-
     @PostMapping
     public ApiResponse<CreateMenuResponse> createMenu(@RequestBody CreateMenuRequest request, @AuthenticationPrincipal AuthUser authUser) {
         CreateMenuResponse createMenuResponse = menuService.createMenu(request, authUser);
         return ApiResponse.onSuccess(createMenuResponse);
     }
-
 
     @PatchMapping("/{menuId}")
     public ApiResponse<UpdateMenuResponse> updateMenu(@PathVariable Long menuId, @RequestBody UpdateMenuRequest request, @AuthenticationPrincipal AuthUser authUser){
@@ -35,7 +32,8 @@ public class MenuController {
     }
 
     @DeleteMapping("/{menuId}")
-    public void deleteMenu(@PathVariable Long menuId, @AuthenticationPrincipal AuthUser authUser, @RequestBody DeleteMenuRequest request){
+    public ApiResponse<String> deleteMenu(@PathVariable Long menuId, @AuthenticationPrincipal AuthUser authUser, @RequestBody DeleteMenuRequest request){
         menuService.deleteMenu(menuId, authUser, request);
+        return ApiResponse.onSuccess(SuccessStatus._DELETION_SUCCESS.getMessage());
     }
 }
