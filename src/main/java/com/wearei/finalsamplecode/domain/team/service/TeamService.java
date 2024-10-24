@@ -27,7 +27,6 @@ import java.io.IOException;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class TeamService {
-
     private final TeamRepository teamRepository;
     private final UserRepository userRepository;
     private final S3ClientUtility s3ClientUtility;
