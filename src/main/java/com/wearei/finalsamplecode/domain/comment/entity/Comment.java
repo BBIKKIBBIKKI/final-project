@@ -1,6 +1,6 @@
 package com.wearei.finalsamplecode.domain.comment.entity;
 
-import com.wearei.finalsamplecode.common.entity.Timestamped;
+import com.wearei.finalsamplecode.common.entity.BaseEntityTimestamped;
 import com.wearei.finalsamplecode.domain.board.entity.Board;
 import com.wearei.finalsamplecode.domain.team.entity.Team;
 import com.wearei.finalsamplecode.domain.user.entity.User;
@@ -11,10 +11,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Comment extends Timestamped {
-
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@AttributeOverride(name = "id", column = @Column(name = "comment_id"))
+public class Comment extends BaseEntityTimestamped {
 
     @ManyToOne
     @JoinColumn(name = "board_id")

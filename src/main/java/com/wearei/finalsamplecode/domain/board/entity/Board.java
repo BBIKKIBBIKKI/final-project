@@ -1,6 +1,6 @@
 package com.wearei.finalsamplecode.domain.board.entity;
 
-import com.wearei.finalsamplecode.common.entity.Timestamped;
+import com.wearei.finalsamplecode.common.entity.BaseEntityTimestamped;
 import com.wearei.finalsamplecode.domain.team.entity.Team;
 import com.wearei.finalsamplecode.domain.user.entity.User;
 import jakarta.persistence.*;
@@ -10,10 +10,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Board extends Timestamped {
-
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@AttributeOverride(name = "id", column = @Column(name = "board_id"))
+public class Board extends BaseEntityTimestamped {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
