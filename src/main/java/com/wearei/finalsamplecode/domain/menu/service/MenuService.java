@@ -96,7 +96,7 @@ public class MenuService {
 
     // 가게 사장님 권한 확인
     private void authCheck(AuthUser authUser, Store store) {
-        if(!Objects.equals(store.getUser().getId(), authUser.getId())){
+        if(!Objects.equals(store.getUser().getUserId(), authUser.getId())){
             throw new ApiException(ErrorStatus._BAD_REQUEST_STORE);
         }
     }

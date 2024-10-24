@@ -27,6 +27,10 @@ public class ApiResponse<T> {
         return new ApiResponse<>(true, SuccessStatus._OK.getStatusCode(), SuccessStatus._OK.getMessage(), data);
     }
 
+    public static ApiResponse<String> onSuccess(String message) {
+        return new ApiResponse<>(true, SuccessStatus._OK.getStatusCode(), message, null);
+    }
+
     public static ApiResponse<String> onFailure(BaseCode errorCode) {
         return new ApiResponse<>(false, errorCode.getReasonHttpStatus().getStatusCode(), errorCode.getReasonHttpStatus().getMessage(), "null");
     }

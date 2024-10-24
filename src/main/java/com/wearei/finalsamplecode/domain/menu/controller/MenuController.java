@@ -31,8 +31,7 @@ public class MenuController {
     }
 
     @DeleteMapping("/{menuId}")
-    public ApiResponse<Void> deleteMenu(@PathVariable Long menuId, @AuthenticationPrincipal AuthUser authUser, @RequestBody DeleteMenuRequest request){
+    public void deleteMenu(@PathVariable Long menuId, @AuthenticationPrincipal AuthUser authUser, @RequestBody DeleteMenuRequest request){
         menuService.deleteMenu(menuId, authUser, request);
-        return ApiResponse.onSuccess(null);
     }
 }

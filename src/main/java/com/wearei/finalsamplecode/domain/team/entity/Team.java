@@ -1,22 +1,16 @@
 package com.wearei.finalsamplecode.domain.team.entity;
 
-import com.wearei.finalsamplecode.domain.team.dto.request.TeamRequest;
-import com.wearei.finalsamplecode.domain.team.dto.response.TeamResponse;
+import com.wearei.finalsamplecode.common.entity.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
 @NoArgsConstructor
-@Table(name = "team")
-public class Team {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "team_id")
-    private long teamId;
+@AttributeOverride(name = "id", column = @Column(name = "team_id"))
+@Table(name = "teams")
+public class Team extends BaseEntity {
     @Column(name="team_name", length=50)
     private String teamName;
     @Column(name="uniform_img")
@@ -28,11 +22,11 @@ public class Team {
     @Column(name="theme_song")
     private String themeSong;
 
-    public Team(TeamRequest teamRequest) {
-        this.teamName = teamRequest.getTeamName();
-        this.uniformImg = teamRequest.getUniformImg();
-        this.mascotImg = teamRequest.getMascotImg();
-        this.equipmentImg = teamRequest.getEquipmentImg();
-        this.themeSong = teamRequest.getThemeSong();
+    public Team(String teamName, String uniformImg, String mascotImg, String equipmentImg, String themeSong) {
+        this.teamName = teamName;
+        this.uniformImg = uniformImg;
+        this.mascotImg = mascotImg;
+        this.equipmentImg = equipmentImg;
+        this.themeSong = themeSong;
     }
 }
