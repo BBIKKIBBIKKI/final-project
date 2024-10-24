@@ -15,9 +15,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.UUID;
 
-@RequiredArgsConstructor
-@Component
 @Getter
+@Component
+@RequiredArgsConstructor
 public class S3ClientUtility {
 
     private final AmazonS3Client amazonS3Client;
