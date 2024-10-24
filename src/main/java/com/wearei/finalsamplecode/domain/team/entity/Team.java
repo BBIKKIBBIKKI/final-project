@@ -21,6 +21,7 @@ public class Team extends BaseEntity {
     private String equipmentImg;
     @Column(name="theme_song")
     private String themeSong;
+
     public Team(String teamName, String uniformImg, String mascotImg, String equipmentImg, String themeSong) {
         this.teamName = teamName;
         this.uniformImg = uniformImg;

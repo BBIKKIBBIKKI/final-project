@@ -17,7 +17,6 @@ import org.springframework.security.web.servletapi.SecurityContextHolderAwareReq
 @EnableWebSecurity
 @EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfig {
-
     private final JwtSecurityFilter jwtSecurityFilter;
 
     @Bean
@@ -33,8 +32,8 @@ public class SecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable) // BasicAuthenticationFilter 비활성화
                 .logout(AbstractHttpConfigurer::disable) // LogoutFilter 비활성화
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/signin", "/auth/signup").permitAll()
-                        .requestMatchers("/test").hasAuthority(UserRole.ADMIN.name())
+                        .requestMatchers("/auth/sign-in", "/auth/sign-up").permitAll()
+                        .requestMatchers("/test").hasAuthority(UserRole.ROLE_ADMIN.name())
                         .anyRequest().authenticated()
                 )
                 .build();

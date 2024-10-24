@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 @Getter
 @AllArgsConstructor
 public enum ErrorStatus implements BaseCode {
-
     // auth
     _NOT_FOUND_USER(HttpStatus.NOT_FOUND, "404", "존재하지 않은 유저입니다"),
     _NOT_ADMIN_USER(HttpStatus.BAD_REQUEST, "400", "해당 유저는 관리자 권한이 존재하지 않습니다."),
@@ -22,6 +21,10 @@ public enum ErrorStatus implements BaseCode {
 
     // AWS
     _FILE_UPLOAD_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "500", "내부 서버 오류로 이미지를 업로드 할 수 없습니다."),
+    _BAD_REQUEST_USER(HttpStatus.BAD_REQUEST,"404","이미 존재하는 유저입니다"),
+    _BAD_REQUEST_EMAIL(HttpStatus.BAD_REQUEST, "400", "이미 존재하는 이메일입니다"),
+    _BAD_FOUND_EMAIL(HttpStatus.NOT_FOUND,"404","존재하지 않는 이메일입니다."),
+    _BAD_REQUEST_PASSWORD(HttpStatus.BAD_REQUEST, "400", "비밀번호가 일치하지 않습니다."),
 
     // store
     _BAD_REQUEST_CREATE_STORE(HttpStatus.BAD_REQUEST, "400", "사장님 계정만 가게 생성이 가능합니다."),
@@ -43,7 +46,6 @@ public enum ErrorStatus implements BaseCode {
     _NOT_FOUND_ORDER_LIST(HttpStatus.BAD_REQUEST, "404", "주문 목록이 존재하지 않습니다."),
     _NOT_FOUND_ORDER_MENU_LIST(HttpStatus.BAD_REQUEST, "404", "주문-메뉴 목록이 존재하지 않습니다."),
     _NOT_FOUND_POINT_HISTORY(HttpStatus.BAD_REQUEST, "404", "포인트 기록이 존재하지 않습니다."),
-
 
     // review
     _NOT_FOUND_REVIEW(HttpStatus.NOT_FOUND, "404", "존재하지 않는 리뷰입니다."),
