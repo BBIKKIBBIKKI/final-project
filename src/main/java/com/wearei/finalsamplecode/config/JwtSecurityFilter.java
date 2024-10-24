@@ -1,6 +1,7 @@
 package com.wearei.finalsamplecode.config;
 
 import com.wearei.finalsamplecode.common.dto.AuthUser;
+
 import com.wearei.finalsamplecode.domain.user.enums.UserRole;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
