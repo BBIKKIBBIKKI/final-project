@@ -2,7 +2,6 @@ package com.wearei.finalsamplecode.domain.board.entity;
 
 import com.wearei.finalsamplecode.common.entity.BaseEntityTimestamped;
 import com.wearei.finalsamplecode.domain.team.entity.Team;
-import com.wearei.finalsamplecode.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,11 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AttributeOverride(name = "id", column = @Column(name = "board_id"))
 public class Board extends BaseEntityTimestamped {
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
     @ManyToOne
     @JoinColumn(name = "team_id")
     private Team team;
@@ -29,7 +23,16 @@ public class Board extends BaseEntityTimestamped {
 
     private int likes;
 
-    private Boolean isDeleted = false;
+    private boolean isDeleted = false;
+
+    public Board(Team team, String title, String contents, String backgroundImage, int likes, boolean isDeleted) {
+        this.team = team;
+        this.title = title;
+        this.contents = contents;
+        this.backgroundImage = backgroundImage;
+        this.likes = likes;
+        this.isDeleted = isDeleted;
+    }
 
     public void increaseLike(){
         this.likes++;
@@ -39,5 +42,14 @@ public class Board extends BaseEntityTimestamped {
         if(this.likes>0) {
             this.likes--;
         }
+    }
+
+    public void updateBoard(Team team,String title, String contents, String backgroundImage, int likes, boolean isDeleted) {
+        this.team = team;
+        this.title = title;
+        this.contents = contents;
+        this.backgroundImage = backgroundImage;
+        this.likes = likes;
+        this.isDeleted = isDeleted;
     }
 }
