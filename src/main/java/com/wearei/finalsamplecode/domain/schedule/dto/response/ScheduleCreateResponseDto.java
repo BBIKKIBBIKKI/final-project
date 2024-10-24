@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Getter
-public class ScheduleResponseDto {
+public class ScheduleCreateResponseDto {
     private final Long teamId;
     private final Long id;
     private final String title;
@@ -17,7 +17,7 @@ public class ScheduleResponseDto {
     private final LocalDateTime createAt;
     private final LocalDateTime modifiedAt;
 
-    public ScheduleResponseDto(Long teamId, Long id, String title, String contents, String ground, LocalDate date, LocalTime time, LocalDateTime createAt, LocalDateTime modifiedAt) {
+    public ScheduleCreateResponseDto(Long teamId, Long id, String title, String contents, String ground, LocalDate date, LocalTime time, LocalDateTime createAt, LocalDateTime modifiedAt) {
         this.teamId = teamId;
         this.id = id;
         this.title = title;
