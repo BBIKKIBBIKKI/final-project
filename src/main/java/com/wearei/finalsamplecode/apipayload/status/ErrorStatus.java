@@ -26,6 +26,12 @@ public enum ErrorStatus implements BaseCode {
     _BAD_FOUND_EMAIL(HttpStatus.NOT_FOUND,"404","존재하지 않는 이메일입니다."),
     _BAD_REQUEST_PASSWORD(HttpStatus.BAD_REQUEST, "400", "비밀번호가 일치하지 않습니다."),
 
+    // board
+    _NOT_FOUND_BOARD(HttpStatus.NOT_FOUND, "404", "존재하지 않은 게시물입니다"),
+
+    // comment
+    _NOT_FOUND_COMMENT(HttpStatus.NOT_FOUND, "404", "존재하지 않은 댓글입니다"),
+
     // team
     _NOT_FOUND_TEAM(HttpStatus.NOT_FOUND, "404", "존재하지 않은 구단입니다"),
 
@@ -39,9 +45,6 @@ public enum ErrorStatus implements BaseCode {
 
     // menu
     _NOT_FOUND_MENU(HttpStatus.NOT_FOUND, "404", "존재하지 않는 메뉴입니다."),
-
-    // team
-    _NOT_FOUND_TEAM(HttpStatus.NOT_FOUND, "404", "존재하지 않는 구단입니다."),
 
     // order
     _BAD_REQUEST_ORDER_AMOUNT(HttpStatus.BAD_REQUEST, "400", "최소 주문금액을 넘지 않습니다."),
