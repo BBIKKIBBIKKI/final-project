@@ -1,7 +1,6 @@
 package com.wearei.finalsamplecode.domain.order.dto.response;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 @Getter
 @RequiredArgsConstructor

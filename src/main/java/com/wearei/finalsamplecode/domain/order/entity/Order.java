@@ -23,14 +23,14 @@ public class Order extends BaseEntity {
     @Column(name = "total_price", nullable = false)
     private Long totalPrice; // 총 주문 금액
 
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt; // 주문 생성 시간
-
-    @Column(name = "accepted_at")
-    private LocalDateTime acceptedAt; // 사장님이 주문을 수락한 시간
-
-    @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt; // 주문 수정 시간
+//    @Column(name = "created_at", nullable = false)
+//    private LocalDateTime createdAt; // 주문 생성 시간
+//
+//    @Column(name = "accepted_at")
+//    private LocalDateTime acceptedAt; // 사장님이 주문을 수락한 시간
+//
+//    @Column(name = "updated_at", nullable = false)
+//    private LocalDateTime updatedAt; // 주문 수정 시간
 
     @Enumerated(EnumType.STRING)
     @Column(name = "order_status", nullable = false)
@@ -48,8 +48,9 @@ public class Order extends BaseEntity {
     @JoinColumn(name = "menu_id", nullable = false)
     private Menu menu; // 주문한 메뉴
 
-    public Order(User orderUser, Store store, Menu menu, Long quantity, Long totalPrice) {
+    public Order(User orderUser, OrderStatus orderStatus, Store store, Menu menu, Long quantity, Long totalPrice) {
         this.user = orderUser;
+        this.orderStatus = orderStatus;
         this.store = store;
         this.menu = menu;
         this.quantity = quantity;

@@ -33,7 +33,7 @@ public class OrderService {
 
     // 주문 생성
     public CreateOrderResponse createOrder(CreateOrderRequest request, AuthUser authUser) {
-        User orderUser = findUserByUserId(authUser.getId());
+        User orderUser = findUserByUserId(authUser.getUserId());
 
         Store store = storeService.checkStore(request.getStoreId());
 
@@ -43,14 +43,13 @@ public class OrderService {
 
         Order order = new Order(
                 orderUser,
+                OrderStatus.RESERVED,
                 store,
                 menu,
                 request.getQuantity(),
                 totalPrice
         );
         Order savedOrder = orderRepository.save(order);
-
-        order.updateStatus(OrderStatus.RESERVED);
 
         return new CreateOrderResponse(
                 savedOrder.getId(),
@@ -64,34 +63,32 @@ public class OrderService {
     // 주문 수정
     public UpdateOrderResponse updateOrder(Long orderId, UpdateOrderRequest request) {
         Order order = orderRepository.findByOrderIdOrThrow(orderId);
+        Store store = storeService.checkStore(request.getStoreId());
+        Menu menu = menuService.checkMenu(request.getMenuId());
 
-        // 가게 조회 및 수정
-        if (Objects.nonNull(request.getStoreId())) {
-            Store store = storeService.checkStore(request.getStoreId());
-            order.updateStore(store);
-            {
-                // 가게에 속한 메뉴 조회 및 수정 + 해당 메뉴 갯수에 따른 가격 수정
-                if (Objects.nonNull(request.getMenuId())) {
-                    for (Menu menu : store.getMenus()) {
-                        if (menu.getId().equals(request.getMenuId())) {
-                            menuService.checkMenu(menu.getId());
-                            order.updateMenu(menu);
-                            Long totalPrice = menu.getPrice() * request.getQuantity();
-                            order.updateTotalPrice(totalPrice);
-                            return new UpdateOrderResponse(order.getId(), order.getStore().getStoreName(), order.getMenu().getMenuName(), order.getQuantity(), totalPrice);
-                        }
-                    }
-                    throw new ApiException(ErrorStatus._NOT_FOUND_MENU);
-                }
+        // 상점 업데이트
+        order.updateStore(store);
+
+        // 최종 가격 계산
+        Long totalPrice = menu.getPrice() * request.getQuantity();
+
+        // 나중에 stream 으로 변경
+        for (Menu storeMenu : store.getMenus()) {
+            if (storeMenu.getId().equals(menu.getId())) {
+                menuService.checkMenu(storeMenu.getId());
+                order.updateMenu(storeMenu);
+                order.updateTotalPrice(totalPrice);
             }
         }
-        throw new ApiException(ErrorStatus._NOT_FOUND_ORDER_MENU_LIST);
+
+        return UpdateOrderResponse.builder()
+                .orderId(order.getId())
+                .storeName(order.getStore().getStoreName())
+                .menuName(order.getMenu().getMenuName())
+                .quantity(order.getQuantity())
+                .totalPrice(totalPrice)
+                .build();
     }
-
-//    // 주문 수락
-//    public OrderStatusResponse approveOrder()
-
-
 
     // 사용자 확인
     private User findUserByUserId(Long id) {

@@ -94,7 +94,7 @@ public class StoreService {
         List<Store> stores = storeRepository.searchStoresOrMenu(storeName, menuName);
         List<StoreIntegratedResponse> storeList = new ArrayList<>();
         for (Store store : stores) {
-            StoreIntegratedResponse response = new StoreIntegratedResponse(store.getStoreName(), store.getOpenedAt(), store.getClosedAt(), store.getIsDeleted());
+            StoreIntegratedResponse response = new StoreIntegratedResponse(store.getStoreName(), store.getOpenedAt(), store.getClosedAt(), store.isDeleted());
             storeList.add(response);
         }
         return storeList;
@@ -124,7 +124,7 @@ public class StoreService {
         Store store =  storeRepository.findById(storeId).orElseThrow(()
         -> new ApiException(ErrorStatus._NOT_FOUND_STORE));
 
-        if(!store.getIsDeleted()){
+        if(store.isDeleted()){
             throw new ApiException(ErrorStatus._NOT_FOUND_STORE);
         }
 

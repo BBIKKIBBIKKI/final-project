@@ -26,7 +26,7 @@ public class Store extends BaseEntity {
     private LocalTime closedAt;
 
     @Column(name= "is_deleted")
-    private Boolean isDeleted;
+    private boolean isDeleted = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)

@@ -29,5 +29,10 @@ public class OrderController {
         return ApiResponse.onSuccess(orderService.updateOrder(orderId, request));
     }
 
-    // 주문 수락
+
+    // 주문 조회
+//    @GetMapping("/{orderId}")
+//    public ApiResponse<GetOrderResponse> getOrder(@PathVariable Long orderId){
+//        return ApiResponse.onSuccess(orderService.getOrder(orderId));
+//    }
 }

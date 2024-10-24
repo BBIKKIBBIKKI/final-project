@@ -33,7 +33,7 @@ public class MenuService {
         Store store = storeRepository.findById(request.getStoreId()).orElseThrow(()
                 -> new ApiException(ErrorStatus._NOT_FOUND_STORE));
 
-        if(!store.getIsDeleted()) {
+        if(store.isDeleted()) {
             throw new ApiException(ErrorStatus._NOT_FOUND_STORE);
         }
 
@@ -59,7 +59,7 @@ public class MenuService {
         Store store = storeRepository.findById(request.getStoreId()).orElseThrow(()
                 -> new ApiException(ErrorStatus._NOT_FOUND_STORE));
 
-        if(!store.getIsDeleted()) {
+        if(store.isDeleted()) {
             throw new ApiException(ErrorStatus._NOT_FOUND_STORE);
         }
 
@@ -77,7 +77,7 @@ public class MenuService {
         Store store = storeRepository.findById(request.getStoreId()).orElseThrow(()
                 -> new ApiException(ErrorStatus._NOT_FOUND_STORE));
 
-        if(!store.getIsDeleted()) {
+        if(store.isDeleted()) {
             throw new ApiException(ErrorStatus._NOT_FOUND_STORE);
         }
 

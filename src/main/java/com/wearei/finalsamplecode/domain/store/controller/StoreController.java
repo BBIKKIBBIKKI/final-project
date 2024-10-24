@@ -1,6 +1,7 @@
 package com.wearei.finalsamplecode.domain.store.controller;
 
 import com.wearei.finalsamplecode.apipayload.ApiResponse;
+import com.wearei.finalsamplecode.apipayload.status.SuccessStatus;
 import com.wearei.finalsamplecode.common.dto.AuthUser;
 import com.wearei.finalsamplecode.domain.store.dto.request.StoreCreateRequest;
 import com.wearei.finalsamplecode.domain.store.dto.request.StoreUpdateRequest;
@@ -55,6 +56,6 @@ public class StoreController {
     @DeleteMapping("/{storeId}")
     public ApiResponse<String> deleteStore(@PathVariable Long storeId, @AuthenticationPrincipal AuthUser authUser){
         storeService.deleteStore(storeId, authUser);
-        return ApiResponse.onSuccess("정상 삭제되었습니다.");
+        return ApiResponse.onSuccess(SuccessStatus._DELETION_SUCCESS.getMessage());
     }
 }
