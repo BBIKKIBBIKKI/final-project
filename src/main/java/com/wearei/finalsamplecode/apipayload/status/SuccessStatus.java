@@ -11,7 +11,8 @@ import org.springframework.http.HttpStatus;
 public enum SuccessStatus implements BaseCode {
 
     _OK(HttpStatus.OK, "200", "Ok"),
-    _DELETION_SUCCESS(HttpStatus.OK, "200", "삭제가 완료되었습니다.");
+    _DELETION_SUCCESS(HttpStatus.OK, "200", "삭제가 완료되었습니다."),
+    _LIKE_SUCCESS(HttpStatus.OK, "200","좋아요처리가완료되었습니다.");
 
     private HttpStatus httpStatus;
     private String statusCode;
