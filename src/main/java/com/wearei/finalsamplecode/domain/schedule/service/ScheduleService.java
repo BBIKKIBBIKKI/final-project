@@ -13,13 +13,11 @@ import com.wearei.finalsamplecode.domain.team.repository.TeamRepository;
 import com.wearei.finalsamplecode.exception.ApiException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
     private final TeamRepository teamRepository;
@@ -27,6 +25,7 @@ public class ScheduleService {
     public ScheduleCreateResponseDto createSchedule(ScheduleCreateRequestDto scheduleCreateRequestDto) {
         //구단id확인
        Team team = findByTeamId(scheduleCreateRequestDto.getTeamId());
+
         // 일정 생성하기
         Schedule schedule = new Schedule(team,
                 scheduleCreateRequestDto.getTitle(),
@@ -49,13 +48,14 @@ public class ScheduleService {
         );
     }
 
-    public ScheduleUpdateResponseDto updateSchedule(ScheduleUpdateRequestDto scheduleUpdateRequestDto){
+    public ScheduleUpdateResponseDto updateSchedule(Long scheduleId, ScheduleUpdateRequestDto scheduleUpdateRequestDto) {
         //구단 조회
-        findByTeamId(scheduleUpdateRequestDto.getTeamId());
+       Team team = findByTeamId(scheduleUpdateRequestDto.getTeamId());
         //일정 확인
-        Schedule schedule = scheduleRepository.findById(scheduleUpdateRequestDto.getId()).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_SCHEDULE));
+        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_SCHEDULE));
         //일정 수정
-        schedule.updateSchedule(scheduleUpdateRequestDto.getTitle(),
+        schedule.updateSchedule(team,
+                scheduleUpdateRequestDto.getTitle(),
                 scheduleUpdateRequestDto.getContents(),
                 scheduleUpdateRequestDto.getGround(),
                 scheduleUpdateRequestDto.getDate(),
@@ -75,8 +75,7 @@ public class ScheduleService {
         );
     }
 
-    @Transactional(readOnly = true)
-    public List<ScheduleSearchResponseDto> getSchedules(Long teamId){
+    public List<ScheduleSearchResponseDto> getSchedules(Long teamId) {
         findByTeamId(teamId);
 
         return scheduleRepository.findByTeam_Id(teamId).stream()
@@ -92,15 +91,10 @@ public class ScheduleService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
-    public ScheduleSearchResponseDto getSchedule(Long teamId, Long scheduleId){
-        Team team = findByTeamId(teamId);
+    public ScheduleSearchResponseDto getSchedule(Long teamId, Long scheduleId) {
+        findByTeamId(teamId);
 
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_SCHEDULE));
-        //일정과 팀과의 연관관계 검증
-        if(!schedule.getTeam().getId().equals(team.getId())){
-            throw new ApiException(ErrorStatus._FORBIDDEN);
-        }
 
         return new ScheduleSearchResponseDto(teamId,
                 schedule.getId(),
@@ -113,18 +107,15 @@ public class ScheduleService {
                 schedule.getModifiedAt());
     }
 
-    public void deleteSchedule(Long scheduleId, Long teamId){
-        Team team = findByTeamId(teamId);
+    public void deleteSchedule(Long scheduleId, Long teamId) {
+        findByTeamId(teamId);
 
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_SCHEDULE));
-        //일정과 팀과의 연관관계 검증
-        if(schedule.getTeam() == null || !schedule.getTeam().getId().equals(team.getId())) {
-            throw new ApiException(ErrorStatus._FORBIDDEN);
-        }
+
         scheduleRepository.delete(schedule);
     }
 
-    private Team findByTeamId (Long Id){
+    private Team findByTeamId (Long Id) {
         return teamRepository.findById(Id).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_TEAM));
     }
 }

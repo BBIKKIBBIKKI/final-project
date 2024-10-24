@@ -36,7 +36,8 @@ public class Schedule extends BaseEntityTimestamped {
         this.date = date;
     }
 
-    public void updateSchedule(String title, String contents, String ground, LocalDate date, LocalTime time) {
+    public void updateSchedule(Team team, String title, String contents, String ground, LocalDate date, LocalTime time) {
+        this.team = team;
         this.title = title;
         this.contents = contents;
         this.ground = ground;

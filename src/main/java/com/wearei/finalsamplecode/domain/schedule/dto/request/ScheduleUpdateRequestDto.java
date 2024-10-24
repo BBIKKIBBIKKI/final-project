@@ -7,11 +7,10 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class ScheduleUpdateRequestDto {
         private Long teamId;
-        private Long id;
         private String title;
         private String contents;
         private String ground;
