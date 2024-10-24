@@ -1,11 +1,15 @@
 package com.wearei.finalsamplecode.domain.schedule.dto.request;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Getter
-public class ScheduleRequestDto {
+@AllArgsConstructor
+@NoArgsConstructor
+public class ScheduleCreateRequestDto {
     private Long teamId;
     private String title;
     private String contents;
