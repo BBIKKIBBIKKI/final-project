@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @AttributeOverride(name = "id", column = @Column(name = "team_id"))
-@Table(name = "team")
+@Table(name = "teams")
 public class Team extends BaseEntity {
     @Column(name="team_name", length=50)
     private String teamName;
