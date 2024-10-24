@@ -34,7 +34,7 @@ public class SecurityConfig {
                 .logout(AbstractHttpConfigurer::disable) // LogoutFilter 비활성화
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/signin", "/auth/signup").permitAll()
-                        .requestMatchers("/test").hasAuthority(UserRole.ADMIN.name())
+                        .requestMatchers("/test").hasAuthority(UserRole.ROLE_ADMIN.name())
                         .anyRequest().authenticated()
                 )
                 .build();
