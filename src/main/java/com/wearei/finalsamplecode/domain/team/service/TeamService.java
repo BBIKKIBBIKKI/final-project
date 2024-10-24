@@ -84,7 +84,7 @@ public class TeamService {
     }
 
     public void checkIfAdmin(User user) {
-        if (!user.getUserRole().equals((UserRole.ADMIN))) {
+        if (!user.getUserRole().equals((UserRole.ROLE_ADMIN))) {
             throw new ApiException(ErrorStatus._NOT_ADMIN_USER);
         }
     }

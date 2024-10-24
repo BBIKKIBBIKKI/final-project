@@ -134,7 +134,7 @@ public class StoreService {
 
     // 가게 사장님 권한 확인
     public void authCheck(AuthUser authUser) {
-        if (!authUser.getUserRole().equals(UserRole.OWNER)){
+        if (!authUser.getUserRole().equals(UserRole.ROLE_OWNER)){
             throw new ApiException(ErrorStatus._BAD_REQUEST_STORE);
         }
     }

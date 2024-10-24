@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @AttributeOverride(name = "id", column = @Column(name = "team_id"))
-@Table(name = "team")
+@Table(name = "teams")
 public class Team extends BaseEntity {
     @Column(name="team_name", length=50)
     private String teamName;
@@ -21,6 +21,7 @@ public class Team extends BaseEntity {
     private String equipmentImg;
     @Column(name="theme_song")
     private String themeSong;
+
     public Team(String teamName, String uniformImg, String mascotImg, String equipmentImg, String themeSong) {
         this.teamName = teamName;
         this.uniformImg = uniformImg;
