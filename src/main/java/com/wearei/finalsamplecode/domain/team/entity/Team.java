@@ -1,7 +1,6 @@
 package com.wearei.finalsamplecode.domain.team.entity;
 
 import com.wearei.finalsamplecode.common.entity.BaseEntity;
-import com.wearei.finalsamplecode.domain.team.dto.request.TeamRequest;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +8,8 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 @NoArgsConstructor
-@Table(name = "team")
+@AttributeOverride(name = "id", column = @Column(name = "team_id"))
+@Table(name = "teams")
 public class Team extends BaseEntity {
     @Column(name="team_name", length=50)
     private String teamName;
@@ -22,11 +22,11 @@ public class Team extends BaseEntity {
     @Column(name="theme_song")
     private String themeSong;
 
-    public Team(TeamRequest teamRequest) {
-        this.teamName = teamRequest.getTeamName();
-        this.uniformImg = teamRequest.getUniformImg();
-        this.mascotImg = teamRequest.getMascotImg();
-        this.equipmentImg = teamRequest.getEquipmentImg();
-        this.themeSong = teamRequest.getThemeSong();
+    public Team(String teamName, String uniformImg, String mascotImg, String equipmentImg, String themeSong) {
+        this.teamName = teamName;
+        this.uniformImg = uniformImg;
+        this.mascotImg = mascotImg;
+        this.equipmentImg = equipmentImg;
+        this.themeSong = themeSong;
     }
 }

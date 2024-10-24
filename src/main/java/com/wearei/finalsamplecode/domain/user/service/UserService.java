@@ -26,7 +26,7 @@ public class UserService {
 
         // 비밀번호 확인
         if (!passwordEncoder.matches(userUpdateRequest.getPassword(), user.getPassword())) {
-            throw new ApiException(ErrorStatus._NOT_SAME_PASSWORD);
+            throw new ApiException(ErrorStatus._PASSWORD_MISMATCH);
         }
 
         // 사용자 정보 업데이트
@@ -51,7 +51,7 @@ public class UserService {
 
         // 비밀번호 확인
         if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new ApiException(ErrorStatus._NOT_SAME_PASSWORD);
+            throw new ApiException(ErrorStatus._PASSWORD_MISMATCH);
         }
 
         // 이미 탈퇴된 사용자일 경우
