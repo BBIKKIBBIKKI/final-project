@@ -8,8 +8,6 @@ import com.wearei.finalsamplecode.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -60,5 +58,17 @@ public class Order extends BaseEntity {
 
     public void updateStatus(OrderStatus orderStatus) {
         this.orderStatus = orderStatus;
+    }
+
+    public void updateMenu(Menu menu) {
+        this.menu = menu;
+    }
+
+    public void updateStore(Store store) {
+        this.store = store;
+    }
+
+    public void updateTotalPrice(Long totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }

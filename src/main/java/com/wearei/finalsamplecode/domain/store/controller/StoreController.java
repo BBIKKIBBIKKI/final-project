@@ -9,7 +9,6 @@ import com.wearei.finalsamplecode.domain.store.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -57,6 +56,5 @@ public class StoreController {
     public ApiResponse<String> deleteStore(@PathVariable Long storeId, @AuthenticationPrincipal AuthUser authUser){
         storeService.deleteStore(storeId, authUser);
         return ApiResponse.onSuccess("정상 삭제되었습니다.");
-
     }
 }
