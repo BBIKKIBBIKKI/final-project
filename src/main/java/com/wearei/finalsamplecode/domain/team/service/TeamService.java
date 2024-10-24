@@ -32,7 +32,7 @@ public class TeamService {
     private final S3ClientUtility s3ClientUtility;
 
     public TeamCreateResponse createTeam(TeamCreateRequest request, AuthUser authUser, MultipartFile uniformImg, MultipartFile mascotImg, MultipartFile equipmentImg) throws IOException {
-        User user = userRepository.findById(authUser.getId())
+        User user = userRepository.findById(authUser.getUserId())
                 .orElseThrow(()-> new ApiException(ErrorStatus._NOT_FOUND_USER));
 
         checkIfAdmin(user);
@@ -55,7 +55,7 @@ public class TeamService {
     }
 
     public TeamUpdateResponse updateTeam(Long teamId, AuthUser authUser, TeamUpdateRequest request, MultipartFile uniformImg, MultipartFile mascotImg, MultipartFile equipmentImg) throws IOException {
-        User user = userRepository.findById(authUser.getId())
+        User user = userRepository.findById(authUser.getUserId())
                 .orElseThrow(()-> new ApiException(ErrorStatus._NOT_FOUND_USER));
 
         checkIfAdmin(user);
@@ -71,7 +71,7 @@ public class TeamService {
     }
 
     public void deleteTeam(Long teamId, AuthUser authUser) {
-        User user = userRepository.findById(authUser.getId())
+        User user = userRepository.findById(authUser.getUserId())
                 .orElseThrow(()-> new ApiException(ErrorStatus._NOT_FOUND_USER));
 
         checkIfAdmin(user);
