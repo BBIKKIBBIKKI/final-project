@@ -17,7 +17,7 @@ public class UserController {
 
     private final UserService userService;
 
-    // 비밀번호 변경
+    // 회원정보변경
     @PatchMapping("/users")
     public ApiResponse<UserUpdateResponse> userUpdate(
             @Auth AuthUser authUser,
@@ -28,13 +28,12 @@ public class UserController {
     }
 
     // 회원탈퇴
-    @DeleteMapping("/users/{userId}")
+    @DeleteMapping("/users")
     public ApiResponse<UserDeleteResponse> deleteUser(
-            @PathVariable Long userId,
             @Auth AuthUser authUser,
             @RequestBody UserDeleteRequest userDeleteRequest){
 
-        userService.deleteUser(userId, userDeleteRequest.getPassword());
+        userService.deleteUser(authUser.getId(), userDeleteRequest.getPassword());
         return ApiResponse.onSuccess(new UserDeleteResponse("회원탈퇴 됐습니다."));
     }
 }

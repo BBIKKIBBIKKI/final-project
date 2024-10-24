@@ -37,11 +37,6 @@ public class User extends Timestamped {
         this.password = Password;
         this.userRole = userRole;
     }
-//
-//    // 비밀번호를 변경하는 메서드
-//    public void changePassword(String password) {
-//        this.password = password;
-//    }
 
     // 사용자를 삭제 상태로 변경하는 메서드
     public void markIsDeleted(){

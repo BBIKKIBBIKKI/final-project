@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -49,6 +50,7 @@ public class AuthService {
                 encodedPassword, // 암호화된 비밀번호 저장
                 userRole);
 
+
         // 유저를 DB에 저장
         User savedUser = userRepository.save(newUser);
 
@@ -59,8 +61,7 @@ public class AuthService {
                 savedUser.getUserId(),
                 savedUser.getUsername(),
                 savedUser.getEmail(),
-                savedUser.getUserRole().name(),
-                savedUser.getCreatedAt());
+                savedUser.getUserRole().name());
     }
 
     // 로그인
