@@ -26,6 +26,7 @@ public class ChatHandler extends TextWebSocketHandler {
     public void afterConnectionEstablished(WebSocketSession session) {
         // 세션을 저장합니다.
         sessions.put(session.getId(), session);
+
         log.info("새로운 세션 연결: {}", session.getId());
     }
 
@@ -73,14 +74,15 @@ public class ChatHandler extends TextWebSocketHandler {
         }
     }
 
-    private void joinRoom(WebSocketSession session, String roomId) {
+    private void joinRoom(WebSocketSession session, String roomId) throws IOException {
         ChatRoom room = roomRepository.findRoom(roomId);
         if (room == null) {
-            room = roomRepository.createRoom(roomId);
+            session.sendMessage(new TextMessage("방이 존재하지 않습니다."));
         }
 
         room.join(session.getId());
         sessionRoomMap.put(session.getId(), roomId);
+
         log.info("{} 가 방 {} 에 입장했습니다.", session.getId(), roomId);
     }
 
