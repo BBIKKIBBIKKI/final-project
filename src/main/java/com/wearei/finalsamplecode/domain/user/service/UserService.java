@@ -40,8 +40,7 @@ public class UserService {
                 user.getUserId(),
                 user.getUsername(),
                 user.getEmail(),
-                user.getUserRole().name(),
-                user.getModifiedAt());
+                user.getUserRole().name());
     }
 
     // 회원 탈퇴
