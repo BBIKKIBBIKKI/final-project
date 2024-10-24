@@ -1,6 +1,7 @@
 package com.wearei.finalsamplecode.domain.schedule.entity;
 
 import com.wearei.finalsamplecode.common.entity.Timestamped;
+import com.wearei.finalsamplecode.domain.team.entity.Team;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,10 +21,6 @@ public class Schedule extends Timestamped {
     @ManyToOne
     @JoinColumn(name = "team_id")
     private Team team;
-
-    @OneToOne
-    @JoinColumn(name = "chat_id")
-    private Chat chat;
 
     private String teamname;
     private String title;

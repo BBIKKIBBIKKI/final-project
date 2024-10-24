@@ -1,9 +1,8 @@
 package com.wearei.finalsamplecode.domain.team.entity;
 
+import com.wearei.finalsamplecode.common.entity.BaseEntity;
 import com.wearei.finalsamplecode.domain.team.dto.request.TeamRequest;
-import com.wearei.finalsamplecode.domain.team.dto.response.TeamResponse;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,12 +10,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @Table(name = "team")
-public class Team {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "team_id")
-    private long teamId;
+public class Team extends BaseEntity {
     @Column(name="team_name", length=50)
     private String teamName;
     @Column(name="uniform_img")
