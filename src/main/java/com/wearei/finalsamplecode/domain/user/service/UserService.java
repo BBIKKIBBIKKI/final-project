@@ -21,8 +21,15 @@ public class UserService {
 
     // 회원정보변경
     @Transactional
-    public UserUpdateResponse userUpdate(Long id, UserUpdateRequest userUpdateRequest) {
-        User user = userRepository.findById(id).orElseThrow(()-> new ApiException(ErrorStatus._NOT_FOUND_USER));
+    public UserUpdateResponse userUpdate(Long userId, UserUpdateRequest userUpdateRequest) {
+
+        // userid 가 null인지 확인
+        if (userId == null) {
+            throw new ApiException(ErrorStatus._NOT_FOUND_USER);
+        }
+
+        User user = userRepository.findById(userId).
+                orElseThrow(()-> new ApiException(ErrorStatus._NOT_FOUND_USER));
 
         // 비밀번호 확인
         if (!passwordEncoder.matches(userUpdateRequest.getPassword(), user.getPassword())) {
@@ -45,7 +52,13 @@ public class UserService {
 
     // 회원 탈퇴
     @Transactional
-    public void deleteUser(long userId, String password) {
+    public void deleteUser(Long userId, String password) {
+
+        // userid 가 null인지 확인
+        if (userId == null) {
+            throw new ApiException(ErrorStatus._NOT_FOUND_USER);
+        }
+
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_USER));
 
