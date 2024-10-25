@@ -1,6 +1,6 @@
 package com.wearei.finalsamplecode.domain.schedule.entity;
 
-import com.wearei.finalsamplecode.common.entity.BaseEntityTimestamped;
+import com.wearei.finalsamplecode.common.entity.Timestamped;
 import com.wearei.finalsamplecode.domain.team.entity.Team;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -12,7 +12,7 @@ import java.time.LocalTime;
 @Getter
 @NoArgsConstructor
 @AttributeOverride(name = "id", column = @Column(name = "schedule_id"))
-public class Schedule extends BaseEntityTimestamped {
+public class Schedule extends Timestamped {
     @ManyToOne
     @JoinColumn(name = "team_id")
     private Team team;

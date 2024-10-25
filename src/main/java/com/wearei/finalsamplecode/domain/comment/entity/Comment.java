@@ -1,6 +1,6 @@
 package com.wearei.finalsamplecode.domain.comment.entity;
 
-import com.wearei.finalsamplecode.common.entity.BaseEntityTimestamped;
+import com.wearei.finalsamplecode.common.entity.Timestamped;
 import com.wearei.finalsamplecode.domain.board.entity.Board;
 import com.wearei.finalsamplecode.domain.team.entity.Team;
 import jakarta.persistence.*;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AttributeOverride(name = "id", column = @Column(name = "comment_id"))
-public class Comment extends BaseEntityTimestamped {
+public class Comment extends Timestamped{
     @ManyToOne
     @JoinColumn(name = "board_id")
     private Board board;
