@@ -12,29 +12,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
     // 회원정보변경
-    @Transactional
     public UserUpdateResponse userUpdate(Long userId, UserUpdateRequest userUpdateRequest) {
-
-        // userid 가 null인지 확인
-        if (userId == null) {
-            throw new ApiException(ErrorStatus._NOT_FOUND_USER);
-        }
 
         User user = userRepository.findById(userId).
                 orElseThrow(()-> new ApiException(ErrorStatus._NOT_FOUND_USER));
 
         // 비밀번호 확인
-        if (!passwordEncoder.matches(userUpdateRequest.getPassword(), user.getPassword())) {
-            throw new ApiException(ErrorStatus._PASSWORD_MISMATCH);
-        }
+        validatePassword(userUpdateRequest.getPassword(), user.getPassword());
 
         // 사용자 정보 업데이트
         user.updateUser(
@@ -51,21 +43,13 @@ public class UserService {
     }
 
     // 회원 탈퇴
-    @Transactional
     public void deleteUser(Long userId, String password) {
-
-        // userid 가 null인지 확인
-        if (userId == null) {
-            throw new ApiException(ErrorStatus._NOT_FOUND_USER);
-        }
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_USER));
 
         // 비밀번호 확인
-        if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new ApiException(ErrorStatus._PASSWORD_MISMATCH);
-        }
+        validatePassword(password, user.getPassword());
 
         // 이미 탈퇴된 사용자일 경우
         if (user.isDeleted()) {
@@ -75,5 +59,12 @@ public class UserService {
         // 사용자 삭제 처리
         user.markIsDeleted(); // 삭제 상태로 변경
         userRepository.save(user); // 변경된 상태 저장
+    }
+
+    // 공통 비밀번호 확인 메서드
+    private void validatePassword(String Password, String newPassword) {
+        if (!passwordEncoder.matches(Password, newPassword)) {
+            throw new ApiException(ErrorStatus._PASSWORD_MISMATCH);
+        }
     }
 }

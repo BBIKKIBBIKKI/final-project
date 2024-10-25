@@ -12,8 +12,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SigninRequest {
 
-    private Long userId;
-
     // 이메일은 빈칸이 불가능 올바른 이메일 형식이어야 함
     @NotBlank(message = "빈칸은 입력이 불가능합니다.")
     @Email(message = "이메일 형식을 맞춰주세요.")

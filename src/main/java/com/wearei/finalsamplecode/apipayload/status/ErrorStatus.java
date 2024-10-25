@@ -37,6 +37,9 @@ public enum ErrorStatus implements BaseCode {
     // team
     _NOT_FOUND_TEAM(HttpStatus.NOT_FOUND, "404", "존재하지 않는 구단입니다."),
 
+    // player
+    _NOT_FOUND_PLAYER(HttpStatus.NOT_FOUND,"404","찾는 선수가 없습니다."),
+
     // order
     _BAD_REQUEST_ORDER_AMOUNT(HttpStatus.BAD_REQUEST, "400", "최소 주문금액을 넘지 않습니다."),
     _BAD_REQUEST_ORDER_TIME(HttpStatus.BAD_REQUEST, "400", "가게 주문 시간이 아닙니다."),
@@ -64,6 +67,7 @@ public enum ErrorStatus implements BaseCode {
     // ad
     _FORBIDDEN(HttpStatus.FORBIDDEN, "403", "접근이 금지되었습니다. 접근 권한이 없습니다."),
     _NOT_FOUND_AD(HttpStatus.NOT_FOUND, "404", "광고를 찾을 수 없습니다.");
+
 
     private HttpStatus httpStatus;
     private String statusCode;

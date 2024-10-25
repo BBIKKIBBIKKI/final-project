@@ -2,18 +2,25 @@ package com.wearei.finalsamplecode.domain.user.entity;
 
 import com.wearei.finalsamplecode.common.dto.AuthUser;
 import com.wearei.finalsamplecode.common.entity.Timestamped;
+import com.wearei.finalsamplecode.domain.comment.entity.Comment;
+import com.wearei.finalsamplecode.domain.player.entity.Player;
 import com.wearei.finalsamplecode.domain.user.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Entity
+@MappedSuperclass
 @NoArgsConstructor
 @Table(name = "users")
+@AttributeOverride(name = "id", column = @Column(name = "user_id"))
 public class User extends Timestamped {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @Column(name="user_id")
     private Long userId;
 
     @Column(unique = true, nullable = false)
@@ -24,6 +31,12 @@ public class User extends Timestamped {
 
     @Column(nullable = false)
     private String password;
+
+    @OneToMany(mappedBy = "user")
+    private List<Player> players = new ArrayList<>();
+
+    @OneToMany(mappedBy = "comments")
+    private List<Comment> comments = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
@@ -42,7 +55,7 @@ public class User extends Timestamped {
         this.isDeleted = true;
     }
 
-    public void updateUser(String name, String email, String password){
+    public void updateUser(String name, String email, String password) {
         this.username=name;
         this.email=email;
         this.password=password;
