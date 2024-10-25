@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
     List<Schedule> findByTeam_Id(Long teamId);
-    ScheduleSearchResponseDto findByTeamIdAndSchedulId(Long teamId, Long scheduleId);
+    Schedule findByTeamIdAndSchedulId(Long teamId, Long scheduleId);
 }
 
