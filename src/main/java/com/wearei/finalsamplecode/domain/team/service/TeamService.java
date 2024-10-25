@@ -41,14 +41,14 @@ public class TeamService {
 
         Team team = teamRepository.save(new Team(request.getTeamName(), uniformImageUrl, mascotImageUrl, equipmentImageUrl, request.getThemeSong()));
 
-        return new TeamCreateResponse(team);
+        return new TeamCreateResponse(team.getTeamName(), team.getUniformImg(), team.getMascotImg(), team.getUniformImg(), team.getEquipmentImg());
     }
 
     public TeamSearchResponse searchTeam(AuthUser authUser, String teamName) {
         Team team = teamRepository.findByTeamName(teamName)
                 .orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_TEAM));
 
-        return new TeamSearchResponse(team);
+        return new TeamSearchResponse(team.getTeamName(), team.getUniformImg(), team.getMascotImg(), team.getUniformImg(), team.getEquipmentImg());
     }
 
     public void checkIfAdmin(User user) {
