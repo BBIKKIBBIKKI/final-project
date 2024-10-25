@@ -24,26 +24,22 @@ public class ScheduleController {
 
     @PostMapping()
     public ApiResponse<ScheduleCreateResponseDto> createSchedule(@AuthenticationPrincipal AuthUser authUser, @RequestBody ScheduleCreateRequestDto scheduleCreateRequestDto) {
-        ScheduleCreateResponseDto createSchedule = scheduleService.createSchedule(scheduleCreateRequestDto, authUser);
-        return ApiResponse.onSuccess(createSchedule);
+        return ApiResponse.onSuccess(scheduleService.createSchedule(scheduleCreateRequestDto, authUser));
     }
 
     @PatchMapping("/{scheduleId}")
     public ApiResponse<ScheduleUpdateResponseDto> updateSchedule(@PathVariable Long scheduleId, @RequestBody ScheduleUpdateRequestDto scheduleUpdateRequestDto) {
-        ScheduleUpdateResponseDto updateSchedule = scheduleService.updateSchedule(scheduleId, scheduleUpdateRequestDto);
-        return ApiResponse.onSuccess(updateSchedule);
+        return ApiResponse.onSuccess(scheduleService.updateSchedule(scheduleId, scheduleUpdateRequestDto));
     }
 
     @GetMapping()
     public ApiResponse<List<ScheduleSearchResponseDto>> getSchedules(@RequestBody Long teamId) {
-        List<ScheduleSearchResponseDto> schedules = scheduleService.getSchedules(teamId);
-        return ApiResponse.onSuccess(schedules);
+        return ApiResponse.onSuccess(scheduleService.getSchedules(teamId));
     }
 
     @GetMapping("/{scheduleId}")
     public ApiResponse<ScheduleSearchResponseDto> getSchedule(@PathVariable Long scheduleId, @RequestBody Long teamId) {
-        ScheduleSearchResponseDto schedule = scheduleService.getSchedule(teamId, scheduleId);
-        return ApiResponse.onSuccess(schedule);
+        return ApiResponse.onSuccess(scheduleService.getSchedule(teamId, scheduleId));
     }
 
     @DeleteMapping("/scheduleId")

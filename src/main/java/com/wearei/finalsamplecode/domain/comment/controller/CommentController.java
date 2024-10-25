@@ -22,26 +22,22 @@ public class CommentController {
 
     @PostMapping()
     public ApiResponse<CommentCreateResponseDto> createComment(@RequestBody CommentCreateRequestDto commentCreateRequestDto) {
-        CommentCreateResponseDto createComment = commentService.createComment(commentCreateRequestDto);
-        return ApiResponse.onSuccess(createComment);
+        return ApiResponse.onSuccess(commentService.createComment(commentCreateRequestDto));
     }
 
     @PatchMapping("/{commentId}")
     public ApiResponse<CommentUpdateResponseDto> updateComment(@PathVariable Long commentId, @RequestBody CommentUpdateRequestDto commentUpdateRequestDto) {
-        CommentUpdateResponseDto updateComment = commentService.updateComment(commentId,commentUpdateRequestDto);
-        return ApiResponse.onSuccess(updateComment);
+        return ApiResponse.onSuccess(commentService.updateComment(commentId,commentUpdateRequestDto));
     }
 
     @GetMapping()
     public ApiResponse<List<CommentSearchResponseDto>> getComments(@RequestBody CommentSearchRequestDto commentSearchRequestDto) {
-        List<CommentSearchResponseDto> getComments = commentService.getComments(commentSearchRequestDto.getTeamId(), commentSearchRequestDto.getBoardId());
-        return ApiResponse.onSuccess(getComments);
+        return ApiResponse.onSuccess(commentService.getComments(commentSearchRequestDto.getTeamId(), commentSearchRequestDto.getBoardId()));
     }
 
     @GetMapping("/{commentId}")
     public ApiResponse<CommentSearchResponseDto> getComment(@PathVariable Long commentId, @RequestBody CommentSearchRequestDto commentSearchRequestDto) {
-        CommentSearchResponseDto getComment = commentService.getComment(commentSearchRequestDto.getTeamId(),commentSearchRequestDto.getBoardId(),commentId);
-        return ApiResponse.onSuccess(getComment);
+        return ApiResponse.onSuccess(commentService.getComment(commentSearchRequestDto.getTeamId(),commentSearchRequestDto.getBoardId(),commentId));
     }
 
     @DeleteMapping("/{commentId}")

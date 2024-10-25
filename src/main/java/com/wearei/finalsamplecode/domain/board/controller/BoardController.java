@@ -16,26 +16,22 @@ public class BoardController {
 
     @PostMapping()
     public ApiResponse<BoardCreateResponseDto> createBoard(@RequestBody BoardCreateRequestDto boardCreateRequestDto) {
-        BoardCreateResponseDto createBoard = boardService.createBoard(boardCreateRequestDto);
-        return ApiResponse.onSuccess(createBoard);
+        return ApiResponse.onSuccess(boardService.createBoard(boardCreateRequestDto));
     }
 
     @GetMapping()
     public ApiResponse<List<BoardSearchResponseDto>> getBoards(@RequestBody Long teamId) {
-        List<BoardSearchResponseDto> getBoards = boardService.getBoards(teamId);
-        return ApiResponse.onSuccess(getBoards);
+        return ApiResponse.onSuccess(boardService.getBoards(teamId));
     }
 
     @GetMapping("/{boardId}")
     public ApiResponse<BoardSearchResponseDto> getBoard(@PathVariable Long boardId, @RequestBody Long teamId) {
-        BoardSearchResponseDto getboard = boardService.getBoard(teamId, boardId);
-        return ApiResponse.onSuccess(getboard);
+        return ApiResponse.onSuccess(boardService.getBoard(teamId, boardId));
     }
 
     @PatchMapping("/{boardId}")
     public ApiResponse<BoardUpdateResponseDto> updateBoard(@PathVariable Long boardId, @RequestBody BoardUpdateRequestDto boardUpdateRequestDto) {
-        BoardUpdateResponseDto boardupdateResponseDto = boardService.updateBoard(boardId, boardUpdateRequestDto);
-        return ApiResponse.onSuccess(boardupdateResponseDto);
+        return ApiResponse.onSuccess(boardService.updateBoard(boardId, boardUpdateRequestDto));
     }
 
     @DeleteMapping("/{boardId}")
