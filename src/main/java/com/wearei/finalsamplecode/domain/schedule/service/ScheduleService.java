@@ -1,6 +1,7 @@
 package com.wearei.finalsamplecode.domain.schedule.service;
 
 import com.wearei.finalsamplecode.apipayload.status.ErrorStatus;
+import com.wearei.finalsamplecode.common.dto.AuthUser;
 import com.wearei.finalsamplecode.domain.schedule.dto.request.ScheduleCreateRequestDto;
 import com.wearei.finalsamplecode.domain.schedule.dto.request.ScheduleUpdateRequestDto;
 import com.wearei.finalsamplecode.domain.schedule.dto.response.ScheduleCreateResponseDto;
@@ -10,6 +11,9 @@ import com.wearei.finalsamplecode.domain.schedule.entity.Schedule;
 import com.wearei.finalsamplecode.domain.schedule.repository.ScheduleRepository;
 import com.wearei.finalsamplecode.domain.team.entity.Team;
 import com.wearei.finalsamplecode.domain.team.repository.TeamRepository;
+import com.wearei.finalsamplecode.domain.user.entity.User;
+import com.wearei.finalsamplecode.domain.user.enums.UserRole;
+import com.wearei.finalsamplecode.domain.user.repository.UserRepository;
 import com.wearei.finalsamplecode.exception.ApiException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,9 +24,13 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
+    private final UserRepository userRepository;
     private final TeamRepository teamRepository;
 
-    public ScheduleCreateResponseDto createSchedule(ScheduleCreateRequestDto scheduleCreateRequestDto) {
+    public ScheduleCreateResponseDto createSchedule(ScheduleCreateRequestDto scheduleCreateRequestDto, AuthUser authUser) {
+        User user = userRepository.findById(authUser.getUserId()).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_USER));
+
+        checkIfAdmin(user);
         //구단id확인
        Team team = findByTeamId(scheduleCreateRequestDto.getTeamId());
 
@@ -96,6 +104,11 @@ public class ScheduleService {
 
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_SCHEDULE));
 
+        //일정과 팀과의 연관관계 검증
+        if(!schedule.getTeam().getId().equals(teamId)){
+            throw new ApiException(ErrorStatus._FORBIDDEN);
+        }
+
         return new ScheduleSearchResponseDto(teamId,
                 schedule.getId(),
                 schedule.getTitle(),
@@ -117,5 +130,11 @@ public class ScheduleService {
 
     private Team findByTeamId (Long Id) {
         return teamRepository.findById(Id).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_TEAM));
+    }
+
+    public void checkIfAdmin(User user) {
+        if (!user.getUserRole().equals((UserRole.ROLE_ADMIN))) {
+            throw new ApiException(ErrorStatus._NOT_ADMIN_USER);
+        }
     }
 }
