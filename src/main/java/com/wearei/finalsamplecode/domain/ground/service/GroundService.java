@@ -48,7 +48,7 @@ public class GroundService {
 
         Ground ground = groundRepository.save(new Ground(request.getGroundName(), request.getLocation(), request.getTel(), groundImageUrl, team));
 
-        return new GroundCreateResponse(ground);
+        return new GroundCreateResponse(ground.getTeam().getId(), ground.getGroundName(), ground.getLocation(), ground.getTel(), ground.getGroundImg());
     }
 
     public GroundSearchResponse searchGround(AuthUser authUser, String teamName, String groundName) {
@@ -68,7 +68,7 @@ public class GroundService {
             throw new ApiException(ErrorStatus._INVALID_SEARCH_CRITERIA);
         }
 
-        return new GroundSearchResponse(ground);
+        return new GroundSearchResponse(ground.getTeam().getId(), ground.getGroundName(), ground.getLocation(), ground.getTel(), ground.getGroundImg());
     }
 
     public void checkIfAdmin(User user) {
