@@ -30,7 +30,7 @@ public class GroundService {
     private final S3ClientUtility s3ClientUtility;
 
     @Transactional
-    public GroundCreateResponse createGround(GroundCreateRequest request, AuthUser authUser, MultipartFile groundImg) throws IOException {
+    public GroundCreateResponse createGround(GroundCreateRequest request, AuthUser authUser, MultipartFile groundImg) {
         User user = userRepository.findById(authUser.getUserId())
                 .orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_USER));
 
@@ -39,7 +39,12 @@ public class GroundService {
         Team team = teamRepository.findById(request.getTeamId())
                         .orElseThrow(() -> new ApiException((ErrorStatus._NOT_FOUND_TEAM)));
 
-        String groundImageUrl = s3ClientUtility.uploadImageToS3(groundImg);
+        String groundImageUrl = null;
+        try {
+            groundImageUrl = s3ClientUtility.uploadImageToS3(groundImg);
+        } catch (IOException e) {
+            throw new ApiException(ErrorStatus._FILE_UPLOAD_ERROR);
+        }
 
         Ground ground = groundRepository.save(new Ground(request.getGroundName(), request.getLocation(), request.getTel(), groundImageUrl, team));
 

@@ -29,15 +29,23 @@ public class TeamService {
     private final S3ClientUtility s3ClientUtility;
 
     @Transactional
-    public TeamCreateResponse createTeam(TeamCreateRequest request, AuthUser authUser, MultipartFile uniformImg, MultipartFile mascotImg, MultipartFile equipmentImg) throws IOException {
+    public TeamCreateResponse createTeam(TeamCreateRequest request, AuthUser authUser, MultipartFile uniformImg, MultipartFile mascotImg, MultipartFile equipmentImg) {
         User user = userRepository.findById(authUser.getUserId())
                 .orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_USER));
 
         checkIfAdmin(user);
 
-        String uniformImageUrl = s3ClientUtility.uploadImageToS3(uniformImg);
-        String mascotImageUrl = s3ClientUtility.uploadImageToS3(mascotImg);
-        String equipmentImageUrl = s3ClientUtility.uploadImageToS3(equipmentImg);
+        String uniformImageUrl = null;
+        String mascotImageUrl = null;
+        String equipmentImageUrl = null;
+
+        try {
+            uniformImageUrl = s3ClientUtility.uploadImageToS3(uniformImg);
+            mascotImageUrl = s3ClientUtility.uploadImageToS3(mascotImg);
+            equipmentImageUrl = s3ClientUtility.uploadImageToS3(equipmentImg);
+        } catch (IOException e) {
+            throw new ApiException(ErrorStatus._FILE_UPLOAD_ERROR);
+        }
 
         Team team = teamRepository.save(new Team(request.getTeamName(), uniformImageUrl, mascotImageUrl, equipmentImageUrl, request.getThemeSong()));
 
