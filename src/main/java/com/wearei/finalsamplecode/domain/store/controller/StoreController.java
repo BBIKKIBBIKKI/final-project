@@ -21,15 +21,13 @@ public class StoreController {
     // 가게 생성 (사장님 권한)
     @PostMapping
     public ApiResponse<StoreCreateResponse> createStore(@RequestBody StoreCreateRequest request, @AuthenticationPrincipal AuthUser authUser) {
-        StoreCreateResponse storeCreateResponse = storeService.createStore(request, authUser);
-        return ApiResponse.onSuccess(storeCreateResponse);
+        return ApiResponse.onSuccess(storeService.createStore(request, authUser));
     }
 
     // 가게 수정 (사장님 권한)
     @PatchMapping("/{storeId}")
     public ApiResponse<StoreUpdateResponse> updateStore(@RequestBody StoreUpdateRequest request, @AuthenticationPrincipal AuthUser authUser, @PathVariable Long storeId){
-        StoreUpdateResponse storeUpdateResponse = storeService.updateStore(request, authUser, storeId);
-        return ApiResponse.onSuccess(storeUpdateResponse);
+        return ApiResponse.onSuccess(storeService.updateStore(request, authUser, storeId));
     }
 
     // 가게 다건 조회

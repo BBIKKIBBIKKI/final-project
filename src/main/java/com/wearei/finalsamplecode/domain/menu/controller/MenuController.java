@@ -21,14 +21,12 @@ public class MenuController {
 
     @PostMapping
     public ApiResponse<CreateMenuResponse> createMenu(@RequestBody CreateMenuRequest request, @AuthenticationPrincipal AuthUser authUser) {
-        CreateMenuResponse createMenuResponse = menuService.createMenu(request, authUser);
-        return ApiResponse.onSuccess(createMenuResponse);
+        return ApiResponse.onSuccess(menuService.createMenu(request, authUser));
     }
 
     @PatchMapping("/{menuId}")
     public ApiResponse<UpdateMenuResponse> updateMenu(@PathVariable Long menuId, @RequestBody UpdateMenuRequest request, @AuthenticationPrincipal AuthUser authUser){
-        UpdateMenuResponse updateMenuResponse = menuService.updateMenu(menuId, request, authUser);
-        return ApiResponse.onSuccess(updateMenuResponse);
+        return ApiResponse.onSuccess(menuService.updateMenu(menuId, request, authUser));
     }
 
     @DeleteMapping("/{menuId}")
