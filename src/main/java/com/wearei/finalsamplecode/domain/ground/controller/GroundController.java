@@ -11,8 +11,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-
 @RestController
 @RequestMapping("/grounds")
 @RequiredArgsConstructor
@@ -24,7 +22,7 @@ public class GroundController {
             @AuthenticationPrincipal AuthUser authUser,
             @RequestPart GroundCreateRequest request,
             @RequestPart(required = false) MultipartFile groundImg
-    ) throws IOException {
+    ) {
         return ApiResponse.onSuccess(groundService.createGround(request, authUser,  groundImg));
     }
 

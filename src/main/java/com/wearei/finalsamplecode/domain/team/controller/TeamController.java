@@ -11,8 +11,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-
 @RestController
 @RequestMapping("/teams")
 @RequiredArgsConstructor
@@ -26,7 +24,7 @@ public class TeamController {
             @RequestPart(required = false) MultipartFile uniformImg,
             @RequestPart(required = false) MultipartFile mascotImg,
             @RequestPart(required = false) MultipartFile equipmentImg
-    ) throws IOException {
+    ) {
         return ApiResponse.onSuccess(teamService.createTeam(request, authUser,  uniformImg,  mascotImg, equipmentImg));
     }
 
