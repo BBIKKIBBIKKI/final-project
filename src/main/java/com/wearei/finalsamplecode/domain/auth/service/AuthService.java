@@ -28,7 +28,7 @@ public class AuthService {
     public SignupResponse signup(SignupRequest signupRequest) {
         // 이메일 중복 체크 검증 로직 먼저 올리기
         if (userRepository.existsByEmail(signupRequest.getEmail())) {
-            throw new ApiException(ErrorStatus._BAD_REQUEST_EMAIL);
+            throw new ApiException(ErrorStatus._EMAIL_ALREADY_EXISTS);
         }
         // 사용자 이름 중복 체크
         if (userRepository.existsByUsername(signupRequest.getName())) {

@@ -14,6 +14,7 @@ import java.util.List;
 @Getter
 @Entity
 @NoArgsConstructor
+@AttributeOverride(name = "id", column = @Column(name = "user_id"))
 @Table(name = "users")
 @AttributeOverride(name = "id", column = @Column(name = "user_id"))
 public class User extends Timestamped {
