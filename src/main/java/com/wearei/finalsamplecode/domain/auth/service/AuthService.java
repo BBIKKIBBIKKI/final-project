@@ -55,10 +55,10 @@ public class AuthService {
         User savedUser = userRepository.save(newUser);
 
         // 저장된 유저 정보를 바탕으로 JWT 토큰 생성
-        String bearerToken = jwtUtil.createToken(savedUser.getUserId(), savedUser.getEmail(), savedUser.getUserRole());
+        String bearerToken = jwtUtil.createToken(savedUser.getId(), savedUser.getEmail(), savedUser.getUserRole());
 
         return new SignupResponse(
-                savedUser.getUserId(),
+                savedUser.getId(),
                 savedUser.getUsername(),
                 savedUser.getEmail(),
                 savedUser.getUserRole().name());
@@ -79,7 +79,7 @@ public class AuthService {
 
         // 유저 정보를 바탕으로 JWT 토큰 생성
         String bearerToken = jwtUtil.createToken(
-                user.getUserId(),
+                user.getId(),
                 user.getEmail(),
                 user.getUserRole());
 
