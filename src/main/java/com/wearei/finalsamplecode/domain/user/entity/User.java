@@ -10,11 +10,9 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 @NoArgsConstructor
+@AttributeOverride(name = "id", column = @Column(name = "user_id"))
 @Table(name = "users")
 public class User extends Timestamped {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
 
     @Column(unique = true, nullable = false)
     private String email;
@@ -49,7 +47,7 @@ public class User extends Timestamped {
     }
 
     public User(Long id) {
-        this.userId = id;
+        this.id = id;
     }
 
     public static User fromAuthUser(AuthUser authUser) {
