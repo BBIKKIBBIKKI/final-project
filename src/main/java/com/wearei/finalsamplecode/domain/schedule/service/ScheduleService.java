@@ -100,14 +100,7 @@ public class ScheduleService {
     }
 
     public ScheduleSearchResponseDto getSchedule(Long teamId, Long scheduleId) {
-        findByTeamId(teamId);
-
-        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_SCHEDULE));
-
-        //일정과 팀과의 연관관계 검증
-        if(!schedule.getTeam().getId().equals(teamId)){
-            throw new ApiException(ErrorStatus._FORBIDDEN);
-        }
+        Schedule schedule = scheduleRepository.findByTeamIdAndSchedulId(,teamId,scheduleId).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_SCHEDULE));
 
         return new ScheduleSearchResponseDto(teamId,
                 schedule.getId(),
