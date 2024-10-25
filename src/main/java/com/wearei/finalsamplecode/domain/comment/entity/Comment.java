@@ -24,16 +24,19 @@ public class Comment extends Timestamped{
 
     private boolean isDeleted = false;
 
-    public Comment(Team team, Board board, String contents, boolean isDeleted) {
+    public Comment(Team team, Board board, String contents) {
         this.team = team;
         this.board = board;
         this.contents = contents;
-        this.isDeleted = isDeleted;
     }
 
     public void updateComment(Team team, Board board, String contents) {
         this.team = team;
         this.board = board;
         this.contents = contents;
+    }
+
+    public void Deleted(){
+        this.isDeleted = true;
     }
 }

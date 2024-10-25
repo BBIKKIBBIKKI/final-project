@@ -3,7 +3,6 @@ package com.wearei.finalsamplecode.domain.comment.service;
 import com.wearei.finalsamplecode.apipayload.status.ErrorStatus;
 import com.wearei.finalsamplecode.domain.board.entity.Board;
 import com.wearei.finalsamplecode.domain.board.repository.BoardRepository;
-import com.wearei.finalsamplecode.domain.comment.dto.request.CommentSearchRequestDto;
 import com.wearei.finalsamplecode.domain.comment.dto.request.CommentCreateRequestDto;
 import com.wearei.finalsamplecode.domain.comment.dto.request.CommentUpdateRequestDto;
 import com.wearei.finalsamplecode.domain.comment.dto.response.CommentCreateResponseDto;
@@ -31,8 +30,7 @@ public class CommentService{
        Board board = findByBoardId(commentRequestDto.getBoardId());
 
         Comment comment = new Comment(team,board,
-                commentRequestDto.getContents(),
-                commentRequestDto.isDeleted()
+                commentRequestDto.getContents()
         );
 
         Comment createComment = commentRepository.save(comment);
@@ -40,7 +38,6 @@ public class CommentService{
                 commentRequestDto.getBoardId(),
                 createComment.getId(),
                 createComment.getContents(),
-                createComment.isDeleted(),
                 createComment.getCreatedAt(),
                 createComment.getModifiedAt());
     }
@@ -61,7 +58,6 @@ public class CommentService{
                 commentUpdateRequestDto.getBoardId(),
                 comment.getId(),
                 comment.getContents(),
-                comment.isDeleted(),
                 comment.getCreatedAt(),
                 comment.getModifiedAt());
     }
@@ -98,7 +94,8 @@ public class CommentService{
 
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_COMMENT));
 
-        commentRepository.delete(comment);
+        comment.Deleted();
+        commentRepository.save(comment);
     }
 
     private Board findByBoardId(Long Id){

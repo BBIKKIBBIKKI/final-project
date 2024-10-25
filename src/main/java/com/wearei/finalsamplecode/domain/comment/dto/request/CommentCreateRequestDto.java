@@ -7,5 +7,4 @@ public class CommentCreateRequestDto {
     private Long teamId;
     private Long boardId;
     private String contents;
-    private boolean isDeleted;
 }

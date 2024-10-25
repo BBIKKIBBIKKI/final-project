@@ -9,7 +9,6 @@ import com.wearei.finalsamplecode.domain.schedule.dto.response.ScheduleCreateRes
 import com.wearei.finalsamplecode.domain.schedule.dto.response.ScheduleSearchResponseDto;
 import com.wearei.finalsamplecode.domain.schedule.dto.response.ScheduleUpdateResponseDto;
 import com.wearei.finalsamplecode.domain.schedule.service.ScheduleService;
-import com.wearei.finalsamplecode.domain.team.service.TeamService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +19,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ScheduleController {
     private final ScheduleService scheduleService;
-    private final TeamService teamService;
 
     @PostMapping()
     public ApiResponse<ScheduleCreateResponseDto> createSchedule(@AuthenticationPrincipal AuthUser authUser, @RequestBody ScheduleCreateRequestDto scheduleCreateRequestDto) {
@@ -46,6 +44,5 @@ public class ScheduleController {
     public ApiResponse<String> deleteSchedule(@PathVariable Long scheduleId, @RequestBody Long teamId) {
         scheduleService.deleteSchedule(teamId, scheduleId);
         return ApiResponse.onSuccess(SuccessStatus._DELETION_SUCCESS.getMessage());
-
     }
 }

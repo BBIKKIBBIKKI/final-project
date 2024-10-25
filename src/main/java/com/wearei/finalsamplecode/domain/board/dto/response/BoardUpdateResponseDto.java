@@ -1,4 +1,4 @@
-package com.wearei.finalsamplecode.domain.board.dto;
+package com.wearei.finalsamplecode.domain.board.dto.response;
 
 import lombok.Getter;
 import java.time.LocalDateTime;
@@ -11,18 +11,16 @@ public class BoardUpdateResponseDto {
         private final String contents;
         private final String backgroundImage;
         private final int likes;
-        private final boolean isDeleted;
         private final LocalDateTime createAt;
         private final LocalDateTime modifiedAt;
 
-    public BoardUpdateResponseDto(Long teamId, Long id, String title, String contents, String backgroundImage, int likes, boolean isDeleted, LocalDateTime createAt, LocalDateTime modifiedAt) {
+    public BoardUpdateResponseDto(Long teamId, Long id, String title, String contents, String backgroundImage, int likes, LocalDateTime createAt, LocalDateTime modifiedAt) {
         this.teamId = teamId;
         this.id = id;
         this.title = title;
         this.contents = contents;
         this.backgroundImage = backgroundImage;
         this.likes = likes;
-        this.isDeleted = isDeleted;
         this.createAt = createAt;
         this.modifiedAt = modifiedAt;
     }

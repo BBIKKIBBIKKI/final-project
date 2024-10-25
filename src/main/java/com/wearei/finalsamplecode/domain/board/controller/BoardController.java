@@ -21,8 +21,9 @@ public class BoardController {
     private final BoardService boardService;
 
     @PostMapping()
-    public ApiResponse<BoardCreateResponseDto> createBoard(@RequestPart BoardCreateRequestDto boardCreateRequestDto, @RequestPart(required = false) MultipartFile backgroundImg) {
-        return ApiResponse.onSuccess(boardService.createBoard(boardCreateRequestDto,backgroundImg ));
+    public ApiResponse<BoardCreateResponseDto> createBoard(@RequestPart BoardCreateRequestDto boardCreateRequestDto,
+                                                           @RequestPart(required = false) MultipartFile backgroundImg) {
+        return ApiResponse.onSuccess(boardService.createBoard(boardCreateRequestDto,backgroundImg));
     }
 
     @GetMapping()
@@ -36,7 +37,9 @@ public class BoardController {
     }
 
     @PatchMapping("/{boardId}")
-    public ApiResponse<BoardUpdateResponseDto> updateBoard(@PathVariable Long boardId, @RequestBody BoardUpdateRequestDto boardUpdateRequestDto, @RequestPart(required = false) MultipartFile backgroundImg) {
+    public ApiResponse<BoardUpdateResponseDto> updateBoard(@PathVariable Long boardId,
+                                                           @RequestBody BoardUpdateRequestDto boardUpdateRequestDto,
+                                                           @RequestPart(required = false) MultipartFile backgroundImg) {
         return ApiResponse.onSuccess(boardService.updateBoard(boardId, boardUpdateRequestDto,backgroundImg));
     }
 

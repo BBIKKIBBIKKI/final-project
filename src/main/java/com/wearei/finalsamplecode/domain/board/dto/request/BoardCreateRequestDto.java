@@ -1,9 +1,8 @@
-package com.wearei.finalsamplecode.domain.board.dto;
+package com.wearei.finalsamplecode.domain.board.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
@@ -12,9 +11,4 @@ public class BoardCreateRequestDto {
     private Long teamId;
     private String title;
     private String contents;
-    private String backgroundImage;
-    private int likes;
-    private boolean isDeleted;
-    private LocalDateTime createAt;
-    private LocalDateTime modifiedAt;
 }
