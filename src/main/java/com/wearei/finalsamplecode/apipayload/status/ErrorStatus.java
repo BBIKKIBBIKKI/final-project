@@ -68,7 +68,6 @@ public enum ErrorStatus implements BaseCode {
     _FORBIDDEN(HttpStatus.FORBIDDEN, "403", "접근이 금지되었습니다. 접근 권한이 없습니다."),
     _NOT_FOUND_AD(HttpStatus.NOT_FOUND, "404", "광고를 찾을 수 없습니다.");
 
-
     private HttpStatus httpStatus;
     private String statusCode;
     private String message;
