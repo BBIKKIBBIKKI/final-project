@@ -36,7 +36,7 @@ public class S3ClientUtility {
     }
 
     // S3에서 이미지를 삭제하는 메소드 (필요 시 사용)
-    private void deleteImageFromS3(String imageUrl) {
+    public void deleteImageFromS3(String imageUrl) {
         if (imageUrl == null || imageUrl.isEmpty()) {
             return;
         }

@@ -2,10 +2,16 @@ package com.wearei.finalsamplecode.domain.board.controller;
 
 import com.wearei.finalsamplecode.apipayload.ApiResponse;
 import com.wearei.finalsamplecode.apipayload.status.SuccessStatus;
-import com.wearei.finalsamplecode.domain.board.dto.*;
+import com.wearei.finalsamplecode.domain.board.dto.request.BoardCreateRequestDto;
+import com.wearei.finalsamplecode.domain.board.dto.request.BoardUpdateRequestDto;
+import com.wearei.finalsamplecode.domain.board.dto.response.BoardCreateResponseDto;
+import com.wearei.finalsamplecode.domain.board.dto.response.BoardSearchResponseDto;
+import com.wearei.finalsamplecode.domain.board.dto.response.BoardUpdateResponseDto;
 import com.wearei.finalsamplecode.domain.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 
 @RestController
@@ -15,8 +21,8 @@ public class BoardController {
     private final BoardService boardService;
 
     @PostMapping()
-    public ApiResponse<BoardCreateResponseDto> createBoard(@RequestBody BoardCreateRequestDto boardCreateRequestDto) {
-        return ApiResponse.onSuccess(boardService.createBoard(boardCreateRequestDto));
+    public ApiResponse<BoardCreateResponseDto> createBoard(@RequestPart BoardCreateRequestDto boardCreateRequestDto, @RequestPart(required = false) MultipartFile backgroundImg) {
+        return ApiResponse.onSuccess(boardService.createBoard(boardCreateRequestDto,backgroundImg ));
     }
 
     @GetMapping()
@@ -30,8 +36,8 @@ public class BoardController {
     }
 
     @PatchMapping("/{boardId}")
-    public ApiResponse<BoardUpdateResponseDto> updateBoard(@PathVariable Long boardId, @RequestBody BoardUpdateRequestDto boardUpdateRequestDto) {
-        return ApiResponse.onSuccess(boardService.updateBoard(boardId, boardUpdateRequestDto));
+    public ApiResponse<BoardUpdateResponseDto> updateBoard(@PathVariable Long boardId, @RequestBody BoardUpdateRequestDto boardUpdateRequestDto, @RequestPart(required = false) MultipartFile backgroundImg) {
+        return ApiResponse.onSuccess(boardService.updateBoard(boardId, boardUpdateRequestDto,backgroundImg));
     }
 
     @DeleteMapping("/{boardId}")

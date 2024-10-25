@@ -5,6 +5,7 @@ import com.wearei.finalsamplecode.domain.team.entity.Team;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 @Getter
@@ -19,19 +20,18 @@ public class Board extends Timestamped {
 
     private String contents;
 
+    @Column(name="background_img")
     private String backgroundImage;
 
-    private int likes;
+    private int likes = 0;
 
     private boolean isDeleted = false;
 
-    public Board(Team team, String title, String contents, String backgroundImage, int likes, boolean isDeleted) {
+    public Board(Team team, String title, String contents, String backgroundImg) {
         this.team = team;
         this.title = title;
         this.contents = contents;
-        this.backgroundImage = backgroundImage;
-        this.likes = likes;
-        this.isDeleted = isDeleted;
+        this.backgroundImage = backgroundImg;
     }
 
     public void increaseLike(){
@@ -44,12 +44,14 @@ public class Board extends Timestamped {
         }
     }
 
-    public void updateBoard(Team team,String title, String contents, String backgroundImage, int likes, boolean isDeleted) {
+    public void updateBoard(Team team,String title, String contents, String backgroundImg) {
         this.team = team;
         this.title = title;
         this.contents = contents;
-        this.backgroundImage = backgroundImage;
-        this.likes = likes;
-        this.isDeleted = isDeleted;
+        this.backgroundImage = backgroundImg;
+    }
+
+    public void Deleted(){
+        this.isDeleted = true;
     }
 }
