@@ -50,14 +50,14 @@ public class OrderService {
                 request.getQuantity(),
                 totalPrice
         );
-        Order savedOrder = orderRepository.save(order);
+        orderRepository.save(order);
 
         return new CreateOrderResponse(
-                savedOrder.getId(),
-                savedOrder.getStore().getStoreName(),
-                savedOrder.getMenu().getMenuName(),
-                savedOrder.getQuantity(),
-                savedOrder.getTotalPrice()
+                order.getId(),
+                order.getStore().getStoreName(),
+                order.getMenu().getMenuName(),
+                order.getQuantity(),
+                order.getTotalPrice()
         );
     }
 
