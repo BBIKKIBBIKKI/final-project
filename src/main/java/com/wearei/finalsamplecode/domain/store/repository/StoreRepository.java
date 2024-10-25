@@ -16,4 +16,6 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     List<Store> searchStoresOrMenu(@Param("storeName") String storeName,
                                    @Param("menuName") String menuName);
 
+
+    boolean existsByStoreName(String storeName);
 }

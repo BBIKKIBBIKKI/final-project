@@ -34,6 +34,10 @@ public class StoreService {
 
         authCheck(authUser);
 
+        if(storeRepository.existsByStoreName(request.getStoreName())) {
+            throw new ApiException(ErrorStatus._STORE_ALREADY_EXISTS);
+        }
+
         Store store = new Store(
                 request.getStoreName(),
                 request.getOpenedAt(),
