@@ -13,14 +13,10 @@ import java.util.List;
 
 @Getter
 @Entity
-@MappedSuperclass
 @NoArgsConstructor
 @Table(name = "users")
 @AttributeOverride(name = "id", column = @Column(name = "user_id"))
 public class User extends Timestamped {
-
-    @Column(name="user_id")
-    private Long userId;
 
     @Column(unique = true, nullable = false)
     private String email;
@@ -34,7 +30,7 @@ public class User extends Timestamped {
     @OneToMany(mappedBy = "user")
     private List<Player> players = new ArrayList<>();
 
-    @OneToMany(mappedBy = "comments")
+    @OneToMany(mappedBy = "user")
     private List<Comment> comments = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
@@ -61,7 +57,7 @@ public class User extends Timestamped {
     }
 
     public User(Long id) {
-        this.userId = id;
+        this.id = id;
     }
 
     public static User fromAuthUser(AuthUser authUser) {

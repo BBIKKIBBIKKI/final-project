@@ -25,7 +25,7 @@ public class PlayerService {
 
         // 찾은 Player를 PlayerSearchResponse로 변환
         return new PlayerSearchResponse(
-                player.getPlayerId(),
+                player.getId(),
                 player.getTeamId(),
                 player.getPlayerAge(),
                 player.getFollow(),

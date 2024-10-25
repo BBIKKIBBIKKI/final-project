@@ -34,6 +34,6 @@ public class FollowService {
         Follow follow = new Follow(user,player);
         Follow savedFollow = followRepository.save(follow);
 
-        return new CreateFollowResponse(savedFollow.getFollowId(), player.getPlayerId());
+        return new CreateFollowResponse(savedFollow.getFollowId(), player.getId());
     }
 }

@@ -36,7 +36,7 @@ public class UserService {
 
         // 응답 dto
         return new UserUpdateResponse(
-                user.getUserId(),
+                user.getId(),
                 user.getUsername(),
                 user.getEmail(),
                 user.getUserRole().name());
