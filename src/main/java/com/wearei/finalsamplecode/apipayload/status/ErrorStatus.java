@@ -19,6 +19,9 @@ public enum ErrorStatus implements BaseCode {
     // deletion
     _DELETION_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "500", "삭제에 실패하였습니다."),
 
+    // search
+    _INVALID_SEARCH_CRITERIA(HttpStatus.BAD_REQUEST,"400", "적절한 검색어가 아닙니다."),
+
     // AWS
     _FILE_UPLOAD_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "500", "내부 서버 오류로 이미지를 업로드 할 수 없습니다."),
     _BAD_REQUEST_USER(HttpStatus.BAD_REQUEST,"404","이미 존재하는 유저입니다"),
@@ -37,6 +40,9 @@ public enum ErrorStatus implements BaseCode {
 
     // team
     _NOT_FOUND_TEAM(HttpStatus.NOT_FOUND, "404", "존재하지 않는 구단입니다."),
+
+    // ground
+    _NOT_FOUND_GROUND(HttpStatus.NOT_FOUND, "404", "존재하지 않는 구장입니다."),
 
     // order
     _BAD_REQUEST_ORDER_AMOUNT(HttpStatus.BAD_REQUEST, "400", "최소 주문금액을 넘지 않습니다."),
