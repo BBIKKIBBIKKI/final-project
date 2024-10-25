@@ -104,7 +104,6 @@ public class StoreService {
         return storeList;
     }
 
-
     // 가게 삭제
     public void deleteStore(Long storeId, AuthUser authUser) {
 

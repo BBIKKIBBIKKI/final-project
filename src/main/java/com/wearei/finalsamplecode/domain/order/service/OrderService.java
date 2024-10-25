@@ -1,7 +1,6 @@
 package com.wearei.finalsamplecode.domain.order.service;
 
 import com.wearei.finalsamplecode.apipayload.status.ErrorStatus;
-import com.wearei.finalsamplecode.common.annotation.Auth;
 import com.wearei.finalsamplecode.common.dto.AuthUser;
 import com.wearei.finalsamplecode.domain.menu.entity.Menu;
 import com.wearei.finalsamplecode.domain.menu.service.MenuService;
@@ -18,7 +17,6 @@ import com.wearei.finalsamplecode.domain.order.repository.OrderRepository;
 import com.wearei.finalsamplecode.domain.store.entity.Store;
 import com.wearei.finalsamplecode.domain.store.service.StoreService;
 import com.wearei.finalsamplecode.domain.user.entity.User;
-import com.wearei.finalsamplecode.domain.user.enums.UserRole;
 import com.wearei.finalsamplecode.domain.user.repository.UserRepository;
 import com.wearei.finalsamplecode.exception.ApiException;
 import lombok.RequiredArgsConstructor;

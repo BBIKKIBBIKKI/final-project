@@ -8,7 +8,6 @@ import com.wearei.finalsamplecode.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -22,15 +21,6 @@ public class Order extends BaseEntity {
 
     @Column(name = "total_price", nullable = false)
     private Long totalPrice; // 총 주문 금액
-
-//    @Column(name = "created_at", nullable = false)
-//    private LocalDateTime createdAt; // 주문 생성 시간
-//
-//    @Column(name = "accepted_at")
-//    private LocalDateTime acceptedAt; // 사장님이 주문을 수락한 시간
-//
-//    @Column(name = "updated_at", nullable = false)
-//    private LocalDateTime updatedAt; // 주문 수정 시간
 
     @Enumerated(EnumType.STRING)
     @Column(name = "order_status", nullable = false)

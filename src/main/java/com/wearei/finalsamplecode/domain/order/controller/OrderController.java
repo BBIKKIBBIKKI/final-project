@@ -39,7 +39,6 @@ public class OrderController {
         return ApiResponse.onSuccess(orderService.updateOrderStatus(orderId, request, authUser));
     }
 
-
     // 주문 조회
     @GetMapping("/{orderId}")
     public ApiResponse<GetOrderResponse> getOrder(@PathVariable Long orderId){
