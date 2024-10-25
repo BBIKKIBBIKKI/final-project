@@ -1,10 +1,8 @@
 package com.wearei.finalsamplecode.domain.ground.dto.response;
 
-import com.wearei.finalsamplecode.domain.ground.entity.Ground;
-
 public class GroundCreateResponse extends GroundResponse{
 
-    public GroundCreateResponse(Ground ground) {
-        super(ground);
+    public GroundCreateResponse(Long teamId, String groundName, String location, String tel, String groundImg) {
+        super(teamId, groundName, location, tel, groundImg);
     }
 }
