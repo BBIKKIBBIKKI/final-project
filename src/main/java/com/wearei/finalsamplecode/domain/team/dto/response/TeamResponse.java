@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
-@AllArgsConstructor
 public class TeamResponse {
     private String teamName;
     private String uniformImg;
@@ -13,11 +12,11 @@ public class TeamResponse {
     private String equipmentImg;
     private String themeSong;
 
-    public TeamResponse(Team team) {
-        this.teamName = team.getTeamName();
-        this.uniformImg = team.getUniformImg();
-        this.mascotImg = team.getMascotImg();
-        this.equipmentImg = team.getEquipmentImg();
-        this.themeSong = team.getThemeSong();
+    public TeamResponse(String teamName, String uniformImg, String mascotImg, String equipmentImg, String themeSong) {
+        this.teamName = teamName;
+        this.uniformImg = uniformImg;
+        this.mascotImg = mascotImg;
+        this.equipmentImg = equipmentImg;
+        this.themeSong = themeSong;
     }
 }

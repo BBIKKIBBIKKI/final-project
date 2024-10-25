@@ -1,11 +1,11 @@
 package com.wearei.finalsamplecode.domain.store.entity;
 
+import com.wearei.finalsamplecode.common.entity.BaseEntity;
 import com.wearei.finalsamplecode.domain.menu.entity.Menu;
 import com.wearei.finalsamplecode.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,13 +13,9 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
+@AttributeOverride(name="id", column = @Column(name="store_id"))
 @Table(name="Stores")
-public class Store {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long storeId;
-
+public class Store extends BaseEntity {
     @Column(name="store_name", nullable=false)
     private String storeName;
 
@@ -30,7 +26,7 @@ public class Store {
     private LocalTime closedAt;
 
     @Column(name= "is_deleted")
-    private Boolean isDeleted;
+    private boolean isDeleted = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
