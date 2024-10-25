@@ -62,7 +62,9 @@ public class OrderService {
     }
 
     // 주문 수정
+    @Transactional
     public UpdateOrderResponse updateOrder(Long orderId, UpdateOrderRequest request) {
+        // db 조회
         Order order = orderRepository.findByOrderIdOrThrow(orderId);
         Store store = storeService.checkStore(request.getStoreId());
         Menu menu = menuService.checkMenu(request.getMenuId());
