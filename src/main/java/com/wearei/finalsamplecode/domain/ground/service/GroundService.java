@@ -8,7 +8,6 @@ import com.wearei.finalsamplecode.domain.ground.dto.response.GroundCreateRespons
 import com.wearei.finalsamplecode.domain.ground.dto.response.GroundSearchResponse;
 import com.wearei.finalsamplecode.domain.ground.entity.Ground;
 import com.wearei.finalsamplecode.domain.ground.repository.GroundRepository;
-import com.wearei.finalsamplecode.domain.team.dto.response.TeamSearchResponse;
 import com.wearei.finalsamplecode.domain.team.entity.Team;
 import com.wearei.finalsamplecode.domain.team.repository.TeamRepository;
 import com.wearei.finalsamplecode.domain.user.entity.User;
