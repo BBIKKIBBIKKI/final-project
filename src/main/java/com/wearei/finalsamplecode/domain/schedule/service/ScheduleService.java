@@ -100,7 +100,7 @@ public class ScheduleService {
     }
 
     public ScheduleSearchResponseDto getSchedule(Long teamId, Long scheduleId) {
-        Schedule schedule = scheduleRepository.findByTeamIdAndSchedulId(teamId,scheduleId);
+        Schedule schedule = scheduleRepository.findByTeamIdAndId(teamId,scheduleId);
 
         return new ScheduleSearchResponseDto(teamId,
                 schedule.getId(),
