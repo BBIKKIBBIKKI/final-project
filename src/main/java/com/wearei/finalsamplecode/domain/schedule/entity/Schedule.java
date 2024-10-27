@@ -5,6 +5,7 @@ import com.wearei.finalsamplecode.domain.team.entity.Team;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -43,5 +44,35 @@ public class Schedule extends Timestamped {
         this.ground = ground;
         this.date = date;
         this.time = time;
+    }
+
+    public void setContents(String contents) {
+        if (contents != null) {
+            this.contents = contents;
+        }
+    }
+
+    public void setTitle(String title) {
+        if (title != null) {
+            this.title = title;
+        }
+    }
+
+    public void setGround(String ground) {
+        if (ground != null) {
+            this.ground = ground;
+        }
+    }
+
+    public void setDate(LocalDate date) {
+        if (date != null) {
+            this.date = date;
+        }
+    }
+
+    public void setTime(LocalTime time) {
+        if (time != null) {
+            this.time = time;
+        }
     }
 }
