@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class BoardUpdateRequestDto {
     private Long teamId;
-    private Long id;
     private String title;
     private String contents;
 }
