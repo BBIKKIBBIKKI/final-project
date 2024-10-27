@@ -1,10 +1,13 @@
 package com.wearei.finalsamplecode.domain.board.entity;
 
 import com.wearei.finalsamplecode.common.entity.Timestamped;
+import com.wearei.finalsamplecode.domain.comment.entity.Comment;
 import com.wearei.finalsamplecode.domain.team.entity.Team;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -14,6 +17,9 @@ public class Board extends Timestamped {
     @ManyToOne
     @JoinColumn(name = "team_id")
     private Team team;
+
+    @OneToMany(mappedBy = "board")
+    private List<Comment> comment;
 
     private String title;
 
@@ -50,7 +56,7 @@ public class Board extends Timestamped {
         this.backgroundImage = backgroundImg;
     }
 
-    public void Deleted(){
+    public void deleted(){
         this.isDeleted = true;
     }
 
@@ -61,7 +67,7 @@ public class Board extends Timestamped {
     }
 
     public void setContents(String contents) {
-        if(title != null){
+        if(contents != null){
             this.contents = contents;
         }
     }
