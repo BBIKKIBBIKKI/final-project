@@ -37,6 +37,7 @@ public class GroundServiceTest {
     private User user;
     private AuthUser authUser;
     private Team team;
+
     @BeforeEach
     void setUp() {
         user = userRepository.save(new User("testadmin1@example.com", "정은교", "2573758Aa!", UserRole.ROLE_ADMIN));
