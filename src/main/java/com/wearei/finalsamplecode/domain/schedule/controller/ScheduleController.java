@@ -31,18 +31,18 @@ public class ScheduleController {
     }
 
     @GetMapping()
-    public ApiResponse<List<ScheduleSearchResponseDto>> getSchedules(@RequestBody Long teamId) {
+    public ApiResponse<List<ScheduleSearchResponseDto>> getSchedules(@RequestParam Long teamId) {
         return ApiResponse.onSuccess(scheduleService.getSchedules(teamId));
     }
 
     @GetMapping("/{scheduleId}")
-    public ApiResponse<ScheduleSearchResponseDto> getSchedule(@PathVariable Long scheduleId, @RequestBody Long teamId) {
+    public ApiResponse<ScheduleSearchResponseDto> getSchedule(@PathVariable Long scheduleId, @RequestParam Long teamId) {
         return ApiResponse.onSuccess(scheduleService.getSchedule(teamId, scheduleId));
     }
 
-    @DeleteMapping("/scheduleId")
-    public ApiResponse<String> deleteSchedule(@PathVariable Long scheduleId, @RequestBody Long teamId) {
-        scheduleService.deleteSchedule(teamId, scheduleId);
+    @DeleteMapping("/{scheduleId}")
+    public ApiResponse<String> deleteSchedule(@PathVariable Long scheduleId, @RequestParam Long teamId) {
+        scheduleService.deleteSchedule(scheduleId, teamId);
         return ApiResponse.onSuccess(SuccessStatus._DELETION_SUCCESS.getMessage());
     }
 }
