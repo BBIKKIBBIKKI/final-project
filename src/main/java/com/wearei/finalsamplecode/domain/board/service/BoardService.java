@@ -9,6 +9,7 @@ import com.wearei.finalsamplecode.domain.board.dto.response.BoardSearchResponseD
 import com.wearei.finalsamplecode.domain.board.dto.response.BoardUpdateResponseDto;
 import com.wearei.finalsamplecode.domain.board.entity.Board;
 import com.wearei.finalsamplecode.domain.board.repository.BoardRepository;
+import com.wearei.finalsamplecode.domain.comment.dto.CommentResponseDto;
 import com.wearei.finalsamplecode.domain.team.entity.Team;
 import com.wearei.finalsamplecode.domain.team.repository.TeamRepository;
 import com.wearei.finalsamplecode.exception.ApiException;
@@ -53,29 +54,43 @@ public class BoardService {
     public List<BoardSearchResponseDto> getBoards(Long teamId) {
         findByTeamId(teamId);
 
-        return boardRepository.findById(teamId).stream()
-                .map(board -> new BoardSearchResponseDto(teamId,
+        return boardRepository.findByTeamIdAndIsDeletedFalse(teamId).stream()
+                .map(board -> {List<CommentResponseDto> comments = board.getComment().stream().map(
+                                comment -> new CommentResponseDto(comment.getId(), comment.getContents()))
+                        .collect(Collectors.toList());
+
+                       return new BoardSearchResponseDto(teamId,
                         board.getId(),
+                        board.getTitle(),
                         board.getContents(),
                         board.getBackgroundImage(),
                         board.getLikes(),
                         board.getCreatedAt(),
-                        board.getModifiedAt()))
+                        board.getModifiedAt(),
+                       comments);
+                })
                 .collect(Collectors.toList());
     }
 
     public BoardSearchResponseDto getBoard(Long teamId, Long boardId) {
         findByTeamId(teamId);
 
-        Board board = boardRepository.findById(boardId).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_BOARD));
+        Board board = boardRepository.findByIdAndIsDeletedFalse(boardId).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_BOARD));
+
+        List<CommentResponseDto> comments = board.getComment().stream().map(
+                comment -> new CommentResponseDto(comment.getId(), comment.getContents()))
+                .collect(Collectors.toList());
 
         return new BoardSearchResponseDto(teamId,
                 board.getId(),
+                board.getTitle(),
                 board.getContents(),
                 board.getBackgroundImage(),
                 board.getLikes(),
                 board.getCreatedAt(),
-                board.getModifiedAt());
+                board.getModifiedAt(),
+                comments
+        );
     }
 
     public BoardUpdateResponseDto updateBoard(Long boardId, BoardUpdateRequestDto boardUpdateRequestDto, MultipartFile backgroundImg) {
@@ -126,18 +141,18 @@ public class BoardService {
 
         s3ClientUtility.deleteImageFromS3(board.getBackgroundImage());
 
-        board.Deleted();
+        board.deleted();
         boardRepository.save(board);
     }
 
     public void increaseLike(Long boardId) {
-        Board board = boardRepository.findById(boardId).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_BOARD));
+        Board board = boardRepository.findByIdAndIsDeletedFalse(boardId).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_BOARD));
         board.increaseLike();
         boardRepository.save(board);
     }
 
     public void decreaseLike(Long boardId) {
-        Board board = boardRepository.findById(boardId).orElseThrow(()-> new ApiException(ErrorStatus._NOT_FOUND_BOARD));
+        Board board = boardRepository.findByIdAndIsDeletedFalse(boardId).orElseThrow(()-> new ApiException(ErrorStatus._NOT_FOUND_BOARD));
         board.decreaseLike();
         boardRepository.save(board);
     }
