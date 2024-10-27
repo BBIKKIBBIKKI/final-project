@@ -43,16 +43,17 @@ public class ScheduleService {
                 scheduleCreateRequestDto.getTime()
         );
         //생성한 일정 저장
-        Schedule createSchedule = scheduleRepository.save(schedule);
+        scheduleRepository.save(schedule);
+
         return new ScheduleCreateResponseDto(scheduleCreateRequestDto.getTeamId(),
-                createSchedule.getId(),
-                createSchedule.getTitle(),
-                createSchedule.getContents(),
-                createSchedule.getGround(),
-                createSchedule.getDate(),
-                createSchedule.getTime(),
-                createSchedule.getCreatedAt(),
-                createSchedule.getModifiedAt()
+                schedule.getId(),
+                schedule.getTitle(),
+                schedule.getContents(),
+                schedule.getGround(),
+                schedule.getDate(),
+                schedule.getTime(),
+                schedule.getCreatedAt(),
+                schedule.getModifiedAt()
         );
     }
 
@@ -61,13 +62,33 @@ public class ScheduleService {
        Team team = findByTeamId(scheduleUpdateRequestDto.getTeamId());
         //일정 확인
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_SCHEDULE));
+
+        if(scheduleUpdateRequestDto.getTitle() != null){
+            schedule.setTitle(scheduleUpdateRequestDto.getTitle());
+        }
+
+        if(scheduleUpdateRequestDto.getContents() != null){
+            schedule.setContents(scheduleUpdateRequestDto.getContents());
+        }
+
+        if(scheduleUpdateRequestDto.getGround() != null){
+            schedule.setGround(scheduleUpdateRequestDto.getGround());
+        }
+
+        if(scheduleUpdateRequestDto.getDate() != null){
+            schedule.setDate(scheduleUpdateRequestDto.getDate());
+        }
+
+        if(scheduleUpdateRequestDto.getTime() != null){
+            schedule.setTime(scheduleUpdateRequestDto.getTime());
+        }
         //일정 수정
         schedule.updateSchedule(team,
-                scheduleUpdateRequestDto.getTitle(),
-                scheduleUpdateRequestDto.getContents(),
-                scheduleUpdateRequestDto.getGround(),
-                scheduleUpdateRequestDto.getDate(),
-                scheduleUpdateRequestDto.getTime()
+                schedule.getTitle(),
+                schedule.getContents(),
+                schedule.getGround(),
+                schedule.getDate(),
+                schedule.getTime()
         );
         //일정 저장
         scheduleRepository.save(schedule);
