@@ -84,16 +84,26 @@ public class BoardService {
         Board board = boardRepository.findById(boardId).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_BOARD));
 
         String groundImageUrl = board.getBackgroundImage();
-        if(backgroundImg != null && backgroundImg.isEmpty()){
+
+        if(boardUpdateRequestDto.getTitle() != null){
+            board.setTitle(boardUpdateRequestDto.getTitle());
+        }
+
+        if(boardUpdateRequestDto.getContents() != null){
+            board.setContents(boardUpdateRequestDto.getContents());
+        }
+
+        if(backgroundImg != null && !backgroundImg.isEmpty()){
             try{
                 groundImageUrl = s3ClientUtility.updateImageInS3(groundImageUrl, backgroundImg);
             } catch (IOException e){
                 throw new ApiException(ErrorStatus._FILE_UPLOAD_ERROR);
             }
         }
+
         board.updateBoard(team,
-                boardUpdateRequestDto.getTitle(),
-                boardUpdateRequestDto.getContents(),
+                board.getTitle(),
+                board.getContents(),
                 groundImageUrl
         );
 

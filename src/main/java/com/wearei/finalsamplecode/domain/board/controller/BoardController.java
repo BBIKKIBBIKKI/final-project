@@ -8,6 +8,8 @@ import com.wearei.finalsamplecode.domain.board.dto.response.BoardCreateResponseD
 import com.wearei.finalsamplecode.domain.board.dto.response.BoardSearchResponseDto;
 import com.wearei.finalsamplecode.domain.board.dto.response.BoardUpdateResponseDto;
 import com.wearei.finalsamplecode.domain.board.service.BoardService;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,18 +29,18 @@ public class BoardController {
     }
 
     @GetMapping()
-    public ApiResponse<List<BoardSearchResponseDto>> getBoards(@RequestBody Long teamId) {
+    public ApiResponse<List<BoardSearchResponseDto>> getBoards(@RequestParam Long teamId) {
         return ApiResponse.onSuccess(boardService.getBoards(teamId));
     }
 
     @GetMapping("/{boardId}")
-    public ApiResponse<BoardSearchResponseDto> getBoard(@PathVariable Long boardId, @RequestBody Long teamId) {
+    public ApiResponse<BoardSearchResponseDto> getBoard(@PathVariable Long boardId, @RequestParam Long teamId) {
         return ApiResponse.onSuccess(boardService.getBoard(teamId, boardId));
     }
 
     @PatchMapping("/{boardId}")
     public ApiResponse<BoardUpdateResponseDto> updateBoard(@PathVariable Long boardId,
-                                                           @RequestBody BoardUpdateRequestDto boardUpdateRequestDto,
+                                                           @RequestPart BoardUpdateRequestDto boardUpdateRequestDto,
                                                            @RequestPart(required = false) MultipartFile backgroundImg) {
         return ApiResponse.onSuccess(boardService.updateBoard(boardId, boardUpdateRequestDto,backgroundImg));
     }

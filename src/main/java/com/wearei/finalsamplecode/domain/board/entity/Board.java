@@ -5,7 +5,6 @@ import com.wearei.finalsamplecode.domain.team.entity.Team;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 @Getter
@@ -53,5 +52,17 @@ public class Board extends Timestamped {
 
     public void Deleted(){
         this.isDeleted = true;
+    }
+
+    public void setTitle(String title) {
+        if(title != null){
+            this.title = title;
+        }
+    }
+
+    public void setContents(String contents) {
+        if(title != null){
+            this.contents = contents;
+        }
     }
 }
