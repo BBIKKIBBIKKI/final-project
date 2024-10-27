@@ -41,7 +41,7 @@ public class CommentController {
     }
 
     @DeleteMapping("/{commentId}")
-    public ApiResponse<String> deleteComment(@PathVariable Long commentId, @RequestBody Long teamId, Long boardId) {
+    public ApiResponse<String> deleteComment(@PathVariable Long commentId, @RequestParam Long teamId, Long boardId) {
         commentService.deleteComment(teamId,boardId,commentId);
         return ApiResponse.onSuccess(SuccessStatus._DELETION_SUCCESS.getMessage());
     }
