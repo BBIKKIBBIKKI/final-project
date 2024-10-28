@@ -20,7 +20,7 @@ public class AuthController {
     @PostMapping("/auth/sign-up")
     public ApiResponse<SignupResponse> signup(
             @Valid
-            @RequestBody SignupRequest signupRequest){
+            @RequestBody SignupRequest signupRequest) {
         SignupResponse signupResponse = authService.signup(signupRequest);
         return ApiResponse.onSuccess(signupResponse);
     }
@@ -29,7 +29,7 @@ public class AuthController {
     @PostMapping("/auth/sign-in")
     public ApiResponse<SigninResponse> signin(
             @Valid
-            @RequestBody SigninRequest signinRequest){
+            @RequestBody SigninRequest signinRequest) {
         SigninResponse signinResponse = authService.signin(signinRequest);
         return ApiResponse.onSuccess(signinResponse);
     }

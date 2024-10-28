@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "users")
 @AttributeOverride(name = "id", column = @Column(name = "user_id"))
-public class User extends Timestamped{
+public class User extends Timestamped {
     @Column(unique = true, nullable = false)
     private String email;
 

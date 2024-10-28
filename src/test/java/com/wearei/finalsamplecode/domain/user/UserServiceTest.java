@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @Transactional
 @SpringBootTest
-public class UserServiceTest{
+public class UserServiceTest {
 
     @Autowired
     private UserService userService;
@@ -29,12 +29,12 @@ public class UserServiceTest{
     private User existingUser;
 
     @BeforeEach
-    public void setUp(){
+    public void setUp() {
         existingUser = userRepository.save(new User("existing@example.com", "ExistingUser", passwordEncoder.encode("Existing@123"), UserRole.ROLE_USER));
     }
 
     @Test
-    public void 유저정보변경_성공(){
+    public void 유저정보변경_성공() {
         // given : 유저 업데이트 요청 생성
         UserUpdateRequest updateRequest = new UserUpdateRequest("UpdatedUser", "existing@example.com", "Existing@123", "New@123");
 
@@ -49,7 +49,7 @@ public class UserServiceTest{
     }
 
     @Test
-    public void 유저정보변경_실패_비밀번호불일치(){
+    public void 유저정보변경_실패_비밀번호불일치() {
         // given : 잘못된 비밀번호로 유저 업데이트 요청 생성
         UserUpdateRequest updateRequest = new UserUpdateRequest("UpdatedUser", "existing@example.com", "WrongPassword", "New@123");
 
@@ -62,7 +62,7 @@ public class UserServiceTest{
     }
 
     @Test
-    public void 유저삭제_성공(){
+    public void 유저삭제_성공() {
         // given : 유저 삭제 요청
         String password = "Existing@123";
 
@@ -76,7 +76,7 @@ public class UserServiceTest{
     }
 
     @Test
-    public void 유저삭제_실패_비밀번호불일치(){
+    public void 유저삭제_실패_비밀번호불일치() {
         // given : 잘못된 비밀번호로 유저 삭제 요청
         String wrongPassword = "WrongPassword";
 
@@ -89,7 +89,7 @@ public class UserServiceTest{
     }
 
     @Test
-    public void 유저삭제_실패_이미삭제된유저(){
+    public void 유저삭제_실패_이미삭제된유저() {
         // given : 이미 삭제된 유저
         existingUser.markIsDeleted();
         userRepository.save(existingUser);

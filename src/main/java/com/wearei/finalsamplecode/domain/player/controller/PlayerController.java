@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-public class PlayerController{
+public class PlayerController {
     private final PlayerService playerService;
 
     @GetMapping("/player")

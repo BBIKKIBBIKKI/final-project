@@ -15,17 +15,24 @@ import lombok.NoArgsConstructor;
 public class Player extends BaseEntity{
     @Column(name = "team_id")
     private Long teamId;
+
     @Column(name = "player_age")
     private Long playerAge;
+
     @Column(name ="player_name")
     private String playerName;
+
     @Column(name = "team_name")
     private String teamName;
+
     private String position;
+
     @Column(name = "player_song")
     private String playerSong;
+
     @Column(name = "player_body_check")
     private String playerBodyCheck;
+
     private Long follow;
 
     @ManyToOne(fetch = FetchType.LAZY)

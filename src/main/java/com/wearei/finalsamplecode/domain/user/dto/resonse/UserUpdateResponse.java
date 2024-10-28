@@ -3,7 +3,7 @@ package com.wearei.finalsamplecode.domain.user.dto.resonse;
 import lombok.Getter;
 
 @Getter
-public class UserUpdateResponse{
+public class UserUpdateResponse {
 
     private final Long userId;
     private final String name;

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SignupRequest{
+public class SignupRequest {
     // 사용자 이름은 빈칸이 불가능
     @NotBlank(message = "빈칸은 입력이 불가능합니다.")
     private String name;

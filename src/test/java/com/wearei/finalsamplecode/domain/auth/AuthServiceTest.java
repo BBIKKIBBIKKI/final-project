@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @Transactional
 @SpringBootTest
-public class AuthServiceTest{
+public class AuthServiceTest {
 
     @Autowired
     private AuthService authService;
@@ -35,7 +35,7 @@ public class AuthServiceTest{
     private SigninRequest signinRequest;
 
     @BeforeEach
-    public void setUp(){
+    public void setUp() {
         // given
         // 회원가입과 로그인 요청 생성
         signupRequest = new SignupRequest("testUser", "test@example.com", "Test@123", "ROLE_USER");
@@ -43,7 +43,7 @@ public class AuthServiceTest{
     }
 
     @Test
-    public void 회원가입_성공(){
+    public void 회원가입_성공() {
         // when : 회원가입 성공
         SignupResponse signupResponse = authService.signup(signupRequest);
         // then : 회원가입 시 입력한 정보 확인
@@ -54,7 +54,7 @@ public class AuthServiceTest{
     }
 
     @Test
-    public void 회원가입_실패_이메일중복(){
+    public void 회원가입_실패_이메일중복() {
         // given : 중복된 이메일로 사용자 추가
         userRepository.save(new User("test@example.com", "testUser", passwordEncoder.encode("Password@123"), UserRole.ROLE_USER));
         SignupRequest signupRequest = new SignupRequest("newUser","test@example.com","Password@123",UserRole.ROLE_USER.name());
@@ -67,7 +67,7 @@ public class AuthServiceTest{
     }
 
     @Test
-    public void 회원가입_실패_사용자이름중복(){
+    public void 회원가입_실패_사용자이름중복() {
         // given : 중복된 사용자 이름으로 사용자 추가
         userRepository.save(new User("other@example.com", "testUser", passwordEncoder.encode("Password@123"), UserRole.ROLE_USER));
         // when : 중복된 사용자 이름으로 회원가입 시도
@@ -78,7 +78,7 @@ public class AuthServiceTest{
     }
 
     @Test
-    public void 로그인_성공(){
+    public void 로그인_성공() {
         // given : 회원가입
         authService.signup(signupRequest);
         // when : 로그인 성공
@@ -89,7 +89,7 @@ public class AuthServiceTest{
     }
 
     @Test
-    public void 로그인_실패_이메일없음(){
+    public void 로그인_실패_이메일없음() {
         // when : 로그인 시도
         ApiException exception = assertThrows(ApiException.class, () -> {
             authService.signin(signinRequest);});
@@ -98,7 +98,7 @@ public class AuthServiceTest{
     }
 
     @Test
-    public void 로그인_실패_비밀번호불일치(){
+    public void 로그인_실패_비밀번호불일치() {
         // given : 회원가입
         authService.signup(signupRequest);
         // when : 비밀번호 불일치 로그인 시도
