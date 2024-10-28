@@ -2,6 +2,7 @@ package com.wearei.finalsamplecode.domain.team.service;
 
 import com.wearei.finalsamplecode.apipayload.status.ErrorStatus;
 import com.wearei.finalsamplecode.common.dto.AuthUser;
+import com.wearei.finalsamplecode.config.S3ClientUtility;
 import com.wearei.finalsamplecode.domain.team.dto.request.TeamCreateRequest;
 import com.wearei.finalsamplecode.domain.team.dto.response.TeamCreateResponse;
 import com.wearei.finalsamplecode.domain.team.dto.response.TeamSearchResponse;
@@ -11,15 +12,13 @@ import com.wearei.finalsamplecode.domain.user.entity.User;
 import com.wearei.finalsamplecode.domain.user.enums.UserRole;
 import com.wearei.finalsamplecode.domain.user.repository.UserRepository;
 import com.wearei.finalsamplecode.exception.ApiException;
-import com.wearei.finalsamplecode.config.S3ClientUtility;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class TeamService {
