@@ -15,12 +15,16 @@ import lombok.NoArgsConstructor;
 public class Ground extends BaseEntity {
     @Column(name = "ground_name", length = 50)
     private String groundName;
+
     @Column(length = 50)
     private String location;
+
     @Column(length = 15)
     private String tel;
+
     @Column(name="ground_img")
     private String groundImg;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id", nullable = false)
     private Team team;
