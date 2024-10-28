@@ -13,12 +13,16 @@ import lombok.NoArgsConstructor;
 public class Team extends BaseEntity {
     @Column(name="team_name", length=50)
     private String teamName;
+
     @Column(name="uniform_img")
     private String uniformImg;
+
     @Column(name="mascot_img")
     private String mascotImg;
+
     @Column(name="equipment_img")
     private String equipmentImg;
+
     @Column(name="theme_song")
     private String themeSong;
 
