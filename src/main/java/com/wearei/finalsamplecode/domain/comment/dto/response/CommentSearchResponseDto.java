@@ -1,7 +1,6 @@
 package com.wearei.finalsamplecode.domain.comment.dto.response;
 
 import lombok.Getter;
-
 import java.time.LocalDateTime;
 
 @Getter

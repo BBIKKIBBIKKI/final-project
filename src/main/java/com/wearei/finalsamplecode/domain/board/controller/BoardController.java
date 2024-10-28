@@ -8,12 +8,9 @@ import com.wearei.finalsamplecode.domain.board.dto.response.BoardCreateResponseD
 import com.wearei.finalsamplecode.domain.board.dto.response.BoardSearchResponseDto;
 import com.wearei.finalsamplecode.domain.board.dto.response.BoardUpdateResponseDto;
 import com.wearei.finalsamplecode.domain.board.service.BoardService;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.util.List;
 
 @RestController

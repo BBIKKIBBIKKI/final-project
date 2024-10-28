@@ -1,6 +1,6 @@
 package com.wearei.finalsamplecode.domain.board.dto.response;
 
-import com.wearei.finalsamplecode.domain.comment.dto.CommentResponseDto;
+import com.wearei.finalsamplecode.domain.comment.dto.response.CommentResponseDto;
 import lombok.Getter;
 import java.time.LocalDateTime;
 import java.util.List;

@@ -9,7 +9,7 @@ import com.wearei.finalsamplecode.domain.board.dto.response.BoardSearchResponseD
 import com.wearei.finalsamplecode.domain.board.dto.response.BoardUpdateResponseDto;
 import com.wearei.finalsamplecode.domain.board.entity.Board;
 import com.wearei.finalsamplecode.domain.board.repository.BoardRepository;
-import com.wearei.finalsamplecode.domain.comment.dto.CommentResponseDto;
+import com.wearei.finalsamplecode.domain.comment.dto.response.CommentResponseDto;
 import com.wearei.finalsamplecode.domain.team.entity.Team;
 import com.wearei.finalsamplecode.domain.team.repository.TeamRepository;
 import com.wearei.finalsamplecode.exception.ApiException;

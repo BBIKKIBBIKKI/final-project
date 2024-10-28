@@ -11,7 +11,6 @@ import com.wearei.finalsamplecode.domain.comment.dto.response.CommentUpdateRespo
 import com.wearei.finalsamplecode.domain.comment.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController

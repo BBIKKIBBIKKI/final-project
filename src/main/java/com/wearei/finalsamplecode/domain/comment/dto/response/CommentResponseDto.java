@@ -1,4 +1,4 @@
-package com.wearei.finalsamplecode.domain.comment.dto;
+package com.wearei.finalsamplecode.domain.comment.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
