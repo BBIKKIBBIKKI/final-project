@@ -29,9 +29,6 @@ public class User extends Timestamped {
     @OneToMany(mappedBy = "user")
     private List<Player> players = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
-    private List<Comment> comments = new ArrayList<>();
-
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
 
