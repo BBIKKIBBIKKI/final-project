@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class FollowController{
+public class FollowController {
     private final FollowService followService;
 
     @PostMapping("/asfollows")
-    public ApiResponse<CreateFollowResponse> createFollow(@RequestBody CreateFollowRequest createFollowRequest){
+    public ApiResponse<CreateFollowResponse> createFollow(@RequestBody CreateFollowRequest createFollowRequest) {
         return ApiResponse.onSuccess(followService.createFollow(createFollowRequest));
     }
 }

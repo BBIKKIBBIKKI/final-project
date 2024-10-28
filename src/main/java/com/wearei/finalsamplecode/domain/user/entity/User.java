@@ -60,7 +60,6 @@ public class User extends Timestamped {
     }
 
     public static User fromAuthUser(AuthUser authUser) {
-
         return new User(authUser.getUserId());
     }
 }

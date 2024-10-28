@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Table(name = "players")
 @AttributeOverride(name = "id", column = @Column(name = "player_id"))
-public class Player extends BaseEntity{
+public class Player extends BaseEntity {
     @Column(name = "team_id")
     private Long teamId;
 
@@ -43,7 +43,7 @@ public class Player extends BaseEntity{
     @JoinColumn(name = "team_id", insertable = false, updatable = false,  referencedColumnName="team_id")
     private Team team;
 
-    public Player(Long playerId, Long teamId, Long playerAge, String playerName, String teamName, String position, String playerSong, String playerBodyCheck, Long follow){
+    public Player(Long playerId, Long teamId, Long playerAge, String playerName, String teamName, String position, String playerSong, String playerBodyCheck, Long follow) {
         this.id=playerId;
         this.teamId=teamId;
         this.playerAge=playerAge;

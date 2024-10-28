@@ -17,12 +17,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class FollowService{
+public class FollowService {
     private final FollowRepository followRepository;
     private final UserRepository userRepository;
     private final PlayerRepository playerRepository;
 
-    public CreateFollowResponse createFollow(CreateFollowRequest createFollowRequest){
+    public CreateFollowResponse createFollow(CreateFollowRequest createFollowRequest) {
         User user = userRepository.findById(
                 createFollowRequest.getUserId()).orElseThrow(
                         ()-> new ApiException(ErrorStatus._NOT_FOUND_USER));

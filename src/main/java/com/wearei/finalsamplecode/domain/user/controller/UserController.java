@@ -20,7 +20,7 @@ public class UserController {
     @PatchMapping("/users")
     public ApiResponse<UserUpdateResponse> userUpdate(
             @AuthenticationPrincipal AuthUser authUser,
-            @RequestBody UserUpdateRequest userUpdateRequest){
+            @RequestBody UserUpdateRequest userUpdateRequest) {
 
         return ApiResponse.onSuccess(userService.userUpdate(authUser.getUserId(), userUpdateRequest));
     }
@@ -29,7 +29,7 @@ public class UserController {
     @DeleteMapping("/users")
     public ApiResponse<String> deleteUser(
             @AuthenticationPrincipal AuthUser authUser,
-            @RequestBody UserDeleteRequest userDeleteRequest){
+            @RequestBody UserDeleteRequest userDeleteRequest) {
 
         userService.deleteUser(authUser.getUserId(), userDeleteRequest.getPassword());
         return ApiResponse.onSuccess(SuccessStatus._DELETION_SUCCESS.getMessage());

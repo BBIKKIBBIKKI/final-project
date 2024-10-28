@@ -26,11 +26,11 @@ public class AuthService {
     // 회원가입
     public SignupResponse signup(SignupRequest signupRequest) {
         // 이메일 중복 체크 검증 로직 먼저 올리기
-        if (userRepository.existsByEmail(signupRequest.getEmail())){
+        if (userRepository.existsByEmail(signupRequest.getEmail())) {
             throw new ApiException(ErrorStatus._EMAIL_ALREADY_EXISTS);
         }
         // 사용자 이름 중복 체크
-        if (userRepository.existsByUsername(signupRequest.getName())){
+        if (userRepository.existsByUsername(signupRequest.getName())) {
             throw new ApiException(ErrorStatus._BAD_REQUEST_USER);
         }
         // 사용자가 입력한 역할을 enum으로 변환

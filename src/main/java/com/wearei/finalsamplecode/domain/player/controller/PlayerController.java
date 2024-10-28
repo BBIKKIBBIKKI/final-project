@@ -12,7 +12,7 @@ public class PlayerController {
     private final PlayerService playerService;
 
     @GetMapping("/player")
-    public ApiResponse<PlayerSearchResponse> getSearchPlayerName(@RequestParam String playerName){
+    public ApiResponse<PlayerSearchResponse> getSearchPlayerName(@RequestParam String playerName) {
         PlayerSearchResponse playerSearchResponse = playerService.getPlayerByName(playerName);
         return ApiResponse.onSuccess(playerSearchResponse);
     }

@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Table(name="asfollows")
 @AttributeOverride(name = "id", column = @Column(name = "team_id"))
-public class Follow extends BaseEntity{
+public class Follow extends BaseEntity {
     @Column(name = "follow_Id")
     private Long followId;
 
