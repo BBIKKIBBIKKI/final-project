@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @MappedSuperclass
-public abstract class BaseEntity {
+public class BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

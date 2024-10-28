@@ -41,6 +41,9 @@ public enum ErrorStatus implements BaseCode {
     // team
     _NOT_FOUND_TEAM(HttpStatus.NOT_FOUND, "404", "존재하지 않는 구단입니다."),
 
+    // player
+    _NOT_FOUND_PLAYER(HttpStatus.NOT_FOUND,"404","찾는 선수가 없습니다."),
+
     // ground
     _NOT_FOUND_GROUND(HttpStatus.NOT_FOUND, "404", "존재하지 않는 구장입니다."),
 
