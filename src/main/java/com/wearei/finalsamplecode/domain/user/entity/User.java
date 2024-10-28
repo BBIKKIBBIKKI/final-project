@@ -2,7 +2,6 @@ package com.wearei.finalsamplecode.domain.user.entity;
 
 import com.wearei.finalsamplecode.common.dto.AuthUser;
 import com.wearei.finalsamplecode.common.entity.Timestamped;
-import com.wearei.finalsamplecode.domain.comment.entity.Comment;
 import com.wearei.finalsamplecode.domain.player.entity.Player;
 import com.wearei.finalsamplecode.domain.user.enums.UserRole;
 import jakarta.persistence.*;
