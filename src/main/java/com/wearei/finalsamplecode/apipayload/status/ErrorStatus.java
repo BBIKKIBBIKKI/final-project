@@ -41,14 +41,8 @@ public enum ErrorStatus implements BaseCode {
     // team
     _NOT_FOUND_TEAM(HttpStatus.NOT_FOUND, "404", "존재하지 않는 구단입니다."),
 
-    // board
-    _NOT_FOUND_BOARD(HttpStatus.NOT_FOUND, "404", "존재하지 않은 게시물입니다"),
-
-    // comment
-    _NOT_FOUND_COMMENT(HttpStatus.NOT_FOUND, "404", "존재하지 않은 댓글입니다"),
-
-    // schedule
-    _NOT_FOUND_SCHEDULE(HttpStatus.NOT_FOUND, "404", "존재하지 않은 일정입니다"),
+    // player
+    _NOT_FOUND_PLAYER(HttpStatus.NOT_FOUND,"404","찾는 선수가 없습니다."),
 
     // ground
     _NOT_FOUND_GROUND(HttpStatus.NOT_FOUND, "404", "존재하지 않는 구장입니다."),
@@ -79,7 +73,16 @@ public enum ErrorStatus implements BaseCode {
 
     // ad
     _FORBIDDEN(HttpStatus.FORBIDDEN, "403", "접근이 금지되었습니다. 접근 권한이 없습니다."),
-    _NOT_FOUND_AD(HttpStatus.NOT_FOUND, "404", "광고를 찾을 수 없습니다.");
+    _NOT_FOUND_AD(HttpStatus.NOT_FOUND, "404", "광고를 찾을 수 없습니다."),
+
+    // schedule
+    _NOT_FOUND_SCHEDULE(HttpStatus.NOT_FOUND, "404", "존재하지 않는 일정입니다."),
+
+    // comment
+    _NOT_FOUND_COMMENT(HttpStatus.NOT_FOUND, "404", "존재하지 않는 댓글입니다."),
+
+    // board
+    _NOT_FOUND_BOARD(HttpStatus.NOT_FOUND, "404", "존재하지 않는 댓글입니다.");
 
     private HttpStatus httpStatus;
     private String statusCode;
