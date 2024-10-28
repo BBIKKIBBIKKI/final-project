@@ -11,6 +11,7 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StoreUpdateRequest {
+    private Long groundId;
     private String storeName;
     private LocalTime openedAt;
     private LocalTime closedAt;

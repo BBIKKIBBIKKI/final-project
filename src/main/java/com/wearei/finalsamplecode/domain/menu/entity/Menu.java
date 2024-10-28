@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AttributeOverride(name="id", column = @Column(name="menu_id"))
-@Table(name = "menu")
+@Table(name = "menus")
 public class Menu extends BaseEntity {
     @Column(name = "menu_name", nullable = false)
     private String menuName;

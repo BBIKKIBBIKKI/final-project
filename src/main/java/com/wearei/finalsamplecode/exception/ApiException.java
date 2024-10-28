@@ -1,6 +1,7 @@
 package com.wearei.finalsamplecode.exception;
 
 import com.wearei.finalsamplecode.apipayload.BaseCode;
+import com.wearei.finalsamplecode.apipayload.dto.ReasonDto;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
