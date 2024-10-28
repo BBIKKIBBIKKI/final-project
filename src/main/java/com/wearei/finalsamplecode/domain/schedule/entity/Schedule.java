@@ -11,6 +11,7 @@ import java.time.LocalTime;
 @Entity
 @Getter
 @NoArgsConstructor
+@Table(name = "schedules")
 @AttributeOverride(name = "id", column = @Column(name = "schedule_id"))
 public class Schedule extends Timestamped {
     @ManyToOne

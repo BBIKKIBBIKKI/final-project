@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor
+@Table(name = "comments")
 @AttributeOverride(name = "id", column = @Column(name = "comment_id"))
 public class Comment extends Timestamped {
     @ManyToOne
