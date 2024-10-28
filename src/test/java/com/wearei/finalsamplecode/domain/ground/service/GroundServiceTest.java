@@ -4,6 +4,7 @@ import com.wearei.finalsamplecode.apipayload.status.ErrorStatus;
 import com.wearei.finalsamplecode.common.dto.AuthUser;
 import com.wearei.finalsamplecode.domain.ground.dto.request.GroundCreateRequest;
 import com.wearei.finalsamplecode.domain.ground.dto.response.GroundCreateResponse;
+import com.wearei.finalsamplecode.domain.ground.dto.response.GroundSearchResponse;
 import com.wearei.finalsamplecode.domain.ground.entity.Ground;
 import com.wearei.finalsamplecode.domain.ground.repository.GroundRepository;
 import com.wearei.finalsamplecode.domain.team.entity.Team;
@@ -19,7 +20,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @Transactional
@@ -37,12 +37,13 @@ public class GroundServiceTest {
     private User user;
     private AuthUser authUser;
     private Team team;
+    private Ground ground;
 
     @BeforeEach
     void setUp() {
-        user = userRepository.save(new User("testadmin1@example.com", "정은교", "2573758Aa!", UserRole.ROLE_ADMIN));
+        user = userRepository.save(new User("admin@example.com", "관리자", "password123", UserRole.ROLE_ADMIN));
         authUser = new AuthUser(user.getId(), user.getEmail(), user.getUserRole());
-        team = teamRepository.save(new Team("두산", "url1", "url2", "url3", "url4"));
+        team = teamRepository.save(new Team("두산베어스", "url1", "url2", "url3", "url4"));
     }
 
     @Test
@@ -93,6 +94,74 @@ public class GroundServiceTest {
 
         // 예외 메시지 검증
         assertEquals(ErrorStatus._NOT_FOUND_TEAM.getMessage(), exception.getMessage());
+    }
+
+    @Test
+    void 팀이름으로_구장_검색_정상_테스트() {
+        // given
+        ground = groundRepository.save(new Ground("잠실주경기장", "서울", "02-1234-5678", "groundImageUrl", team));
+
+        // when
+        GroundSearchResponse response = groundService.searchGround(authUser, "두산베어스", null);
+
+        // then
+        assertEquals(ground.getGroundName(), response.getGroundName());
+        assertEquals(ground.getLocation(), response.getLocation());
+        assertEquals(ground.getTel(), response.getTel());
+        assertEquals(ground.getGroundImg(), response.getGroundImg());
+    }
+
+    @Test
+    void 구장이름으로_구장_검색_정상_테스트() {
+        // given
+        ground = groundRepository.save(new Ground("잠실주경기장", "서울", "02-1234-5678", "groundImageUrl", team));
+        // when
+        GroundSearchResponse response = groundService.searchGround(authUser, null, "잠실주경기장");
+
+        // then
+        assertEquals(ground.getGroundName(), response.getGroundName());
+        assertEquals(ground.getLocation(), response.getLocation());
+        assertEquals(ground.getTel(), response.getTel());
+        assertEquals(ground.getGroundImg(), response.getGroundImg());
+    }
+
+    @Test
+    void 존재하지_않는_팀_검색_예외_테스트() {
+        // given
+        ground = groundRepository.save(new Ground("잠실주경기장", "서울", "02-1234-5678", "groundImageUrl", team));
+        // when/then
+        ApiException exception = assertThrows(ApiException.class, () -> {
+            groundService.searchGround(authUser, "없는팀", null);
+        });
+
+        // 예외 메시지 검증
+        assertEquals(ErrorStatus._NOT_FOUND_TEAM.getMessage(), exception.getMessage());
+    }
+
+    @Test
+    void 존재하지_않는_구장_검색_예외_테스트() {
+        // given
+        ground = groundRepository.save(new Ground("잠실주경기장", "서울", "02-1234-5678", "groundImageUrl", team));
+        // when/then
+        ApiException exception = assertThrows(ApiException.class, () -> {
+            groundService.searchGround(authUser, null, "없는구장");
+        });
+
+        // 예외 메시지 검증
+        assertEquals(ErrorStatus._NOT_FOUND_GROUND.getMessage(), exception.getMessage());
+    }
+
+    @Test
+    void 검색_조건_부적합_예외_테스트() {
+        // given
+        ground = groundRepository.save(new Ground("잠실주경기장", "서울", "02-1234-5678", "groundImageUrl", team));
+        // when/then
+        ApiException exception = assertThrows(ApiException.class, () -> {
+            groundService.searchGround(authUser, null, null);  // 검색 조건 없음
+        });
+
+        // 예외 메시지 검증
+        assertEquals(ErrorStatus._INVALID_SEARCH_CRITERIA.getMessage(), exception.getMessage());
     }
 }
 
