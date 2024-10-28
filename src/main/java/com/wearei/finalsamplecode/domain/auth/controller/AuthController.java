@@ -15,9 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 public class AuthController {
-
     private final AuthService authService;
-
     // 회원가입
     @PostMapping("/auth/sign-up")
     public ApiResponse<SignupResponse> signup(

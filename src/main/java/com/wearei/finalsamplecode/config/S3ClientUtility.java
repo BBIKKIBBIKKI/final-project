@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 
 @Service
@@ -36,7 +35,7 @@ public class S3ClientUtility {
     }
 
     // S3에서 이미지를 삭제하는 메소드 (필요 시 사용)
-    private void deleteImageFromS3(String imageUrl) {
+    public void deleteImageFromS3(String imageUrl) {
         if (imageUrl == null || imageUrl.isEmpty()) {
             return;
         }

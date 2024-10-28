@@ -1,7 +1,5 @@
 package com.wearei.finalsamplecode.domain.team.dto.response;
 
-import com.wearei.finalsamplecode.domain.team.entity.Team;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter

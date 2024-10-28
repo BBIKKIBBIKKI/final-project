@@ -56,7 +56,7 @@ public class TeamService {
         Team team = teamRepository.findByTeamName(teamName)
                 .orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_TEAM));
 
-        return new TeamSearchResponse(team.getTeamName(), team.getUniformImg(), team.getMascotImg(), team.getUniformImg(), team.getEquipmentImg());
+        return new TeamSearchResponse(team.getTeamName(), team.getUniformImg(), team.getMascotImg(), team.getEquipmentImg(), team.getThemeSong());
     }
 
     public void checkIfAdmin(User user) {
