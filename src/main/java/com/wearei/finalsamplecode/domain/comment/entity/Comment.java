@@ -4,14 +4,13 @@ import com.wearei.finalsamplecode.common.entity.Timestamped;
 import com.wearei.finalsamplecode.domain.board.entity.Board;
 import com.wearei.finalsamplecode.domain.team.entity.Team;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
+@Table(name = "comments")
 @AttributeOverride(name = "id", column = @Column(name = "comment_id"))
 public class Comment extends Timestamped {
     @ManyToOne
