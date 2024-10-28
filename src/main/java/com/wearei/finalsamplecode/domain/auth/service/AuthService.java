@@ -56,7 +56,8 @@ public class AuthService {
                 savedUser.getId(),
                 savedUser.getUsername(),
                 savedUser.getEmail(),
-                savedUser.getUserRole().name());
+                savedUser.getUserRole().name(),
+                savedUser.getCreatedAt());
     }
 
     // 로그인

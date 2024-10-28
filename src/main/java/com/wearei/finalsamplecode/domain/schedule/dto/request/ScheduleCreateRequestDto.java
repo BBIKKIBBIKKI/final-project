@@ -8,7 +8,6 @@ import java.time.LocalTime;
 
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 public class ScheduleCreateRequestDto {
     private Long teamId;
     private String title;

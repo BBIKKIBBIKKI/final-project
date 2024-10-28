@@ -1,5 +1,6 @@
 package com.wearei.finalsamplecode.domain.store.repository;
 
+import com.wearei.finalsamplecode.domain.ground.entity.Ground;
 import com.wearei.finalsamplecode.domain.store.entity.Store;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,5 +17,5 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     List<Store> searchStoresOrMenu(@Param("storeName") String storeName,
                                    @Param("menuName") String menuName);
 
-    boolean existsByStoreName(String storeName);
+    boolean existsByStoreNameAndGround(String storeName, Ground ground);
 }

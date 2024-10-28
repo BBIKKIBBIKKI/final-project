@@ -11,6 +11,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
+@Table(name = "boards")
 @AttributeOverride(name = "id", column = @Column(name = "board_id"))
 public class Board extends Timestamped {
     @ManyToOne

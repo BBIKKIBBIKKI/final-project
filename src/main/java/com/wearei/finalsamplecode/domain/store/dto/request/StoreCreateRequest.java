@@ -10,6 +10,7 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StoreCreateRequest {
+    private Long groundId;
     private String storeName;
     private LocalTime openedAt;
     private LocalTime closedAt;

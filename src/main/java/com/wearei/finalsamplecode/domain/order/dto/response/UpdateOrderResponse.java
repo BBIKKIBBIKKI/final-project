@@ -3,7 +3,6 @@ package com.wearei.finalsamplecode.domain.order.dto.response;
 import lombok.*;
 
 @Getter
-@Builder
 @RequiredArgsConstructor
 public class UpdateOrderResponse {
     private final Long orderId;
