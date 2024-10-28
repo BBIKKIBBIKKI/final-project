@@ -1,6 +1,5 @@
 package com.wearei.finalsamplecode.domain.store.dto.request;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
