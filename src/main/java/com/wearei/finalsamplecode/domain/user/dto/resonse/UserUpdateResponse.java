@@ -12,7 +12,7 @@ public class UserUpdateResponse {
     private final String userRole;
     private final LocalDateTime modifiedAt;
 
-    public UserUpdateResponse(Long userId, String name, String email, String userRole, LocalDateTime modifiedAt){
+    public UserUpdateResponse(Long userId, String name, String email, String userRole, LocalDateTime modifiedAt) {
         this.userId = userId;
         this.name = name;
         this.email = email;
