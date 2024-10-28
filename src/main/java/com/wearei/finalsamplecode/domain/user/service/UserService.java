@@ -14,13 +14,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class UserService {
+public class UserService{
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
     // 회원정보변경
-    public UserUpdateResponse userUpdate(Long userId, UserUpdateRequest userUpdateRequest) {
+    public UserUpdateResponse userUpdate(Long userId, UserUpdateRequest userUpdateRequest){
 
         User user = userRepository.findById(userId).
                 orElseThrow(()-> new ApiException(ErrorStatus._NOT_FOUND_USER));
@@ -43,7 +43,7 @@ public class UserService {
     }
 
     // 회원 탈퇴
-    public void deleteUser(Long userId, String password) {
+    public void deleteUser(Long userId, String password){
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_USER));
@@ -62,8 +62,8 @@ public class UserService {
     }
 
     // 공통 비밀번호 확인 메서드
-    private void validatePassword(String Password, String newPassword) {
-        if (!passwordEncoder.matches(Password, newPassword)) {
+    private void validatePassword(String Password, String newPassword){
+        if (!passwordEncoder.matches(Password, newPassword)){
             throw new ApiException(ErrorStatus._PASSWORD_MISMATCH);
         }
     }

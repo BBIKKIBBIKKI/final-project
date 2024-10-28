@@ -14,11 +14,9 @@ import java.util.List;
 @Getter
 @Entity
 @NoArgsConstructor
-@AttributeOverride(name = "id", column = @Column(name = "user_id"))
 @Table(name = "users")
 @AttributeOverride(name = "id", column = @Column(name = "user_id"))
-public class User extends Timestamped {
-
+public class User extends Timestamped{
     @Column(unique = true, nullable = false)
     private String email;
 
@@ -39,7 +37,7 @@ public class User extends Timestamped {
 
     private boolean isDeleted = false;
 
-    public User(String email,String username, String Password, UserRole userRole) {
+    public User(String email,String username, String Password, UserRole userRole){
         this.email = email;
         this.username = username;
         this.password = Password;
@@ -51,7 +49,7 @@ public class User extends Timestamped {
         this.isDeleted = true;
     }
 
-    public void updateUser(String name, String email, String password) {
+    public void updateUser(String name, String email, String password){
         this.username=name;
         this.email=email;
         this.password=password;

@@ -3,7 +3,7 @@ package com.wearei.finalsamplecode.domain.player.dto.response;
 import lombok.Getter;
 
 @Getter
-public class PlayerSearchResponse {
+public class PlayerSearchResponse{
     private final Long playerId;
     private final Long teamId;
     private final Long playerAge;

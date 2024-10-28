@@ -12,8 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Table(name = "players")
 @AttributeOverride(name = "id", column = @Column(name = "player_id"))
-public class Player extends BaseEntity {
-
+public class Player extends BaseEntity{
     @Column(name = "team_id")
     private Long teamId;
     @Column(name = "player_age")

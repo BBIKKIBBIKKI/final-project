@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 @Getter
 @RequiredArgsConstructor
-public enum UserRole {
+public enum UserRole{
 
     ROLE_USER(Authority.USER),
     ROLE_ADMIN(Authority.ADMIN),
@@ -17,14 +17,14 @@ public enum UserRole {
 
     private final String userRole;
 
-    public static UserRole of(String role) {
+    public static UserRole of(String role){
         return Arrays.stream(UserRole.values())
                 .filter(r -> r.name().equalsIgnoreCase(role))
                 .findFirst()
                 .orElseThrow(() -> new ApiException(ErrorStatus._INVALID_USER_ROLE));
     }
 
-    public static class Authority {
+    public static class Authority{
         public static final String USER = "ROLE_USER";
         public static final String ADMIN = "ROLE_ADMIN";
         public static final String OWNER = "ROLE_OWNER";

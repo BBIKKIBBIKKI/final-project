@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class FollowController {
+public class FollowController{
     private final FollowService followService;
 
     @PostMapping("/asfollows")

@@ -18,20 +18,19 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class AuthService {
-
+public class AuthService{
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
     // 회원가입
-    public SignupResponse signup(SignupRequest signupRequest) {
+    public SignupResponse signup(SignupRequest signupRequest){
         // 이메일 중복 체크 검증 로직 먼저 올리기
-        if (userRepository.existsByEmail(signupRequest.getEmail())) {
+        if (userRepository.existsByEmail(signupRequest.getEmail())){
             throw new ApiException(ErrorStatus._EMAIL_ALREADY_EXISTS);
         }
         // 사용자 이름 중복 체크
-        if (userRepository.existsByUsername(signupRequest.getName())) {
+        if (userRepository.existsByUsername(signupRequest.getName())){
             throw new ApiException(ErrorStatus._BAD_REQUEST_USER);
         }
         // 사용자가 입력한 역할을 enum으로 변환
@@ -61,14 +60,14 @@ public class AuthService {
     }
 
     // 로그인
-    public SigninResponse signin(SigninRequest signinRequest) {
+    public SigninResponse signin(SigninRequest signinRequest){
         // 이메일로 유저 찾기
         User user = userRepository.findByEmail(signinRequest.getEmail())
                 .orElseThrow(
                         ()-> new ApiException(ErrorStatus._BAD_FOUND_EMAIL));
 
         // 입력된 비밀번호가 저장된 비밀번호와 일치하는지 확인
-        if (!passwordEncoder.matches(signinRequest.getPassword(), user.getPassword())) {
+        if (!passwordEncoder.matches(signinRequest.getPassword(), user.getPassword())){
             throw new ApiException(ErrorStatus._BAD_REQUEST_PASSWORD);
         }
 

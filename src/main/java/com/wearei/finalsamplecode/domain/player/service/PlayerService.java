@@ -10,15 +10,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@RequiredArgsConstructor
 @Transactional
+@RequiredArgsConstructor
 public class PlayerService {
     private final PlayerRepository playerRepository;
 
     // 선수 단건 조회
     @Transactional(readOnly = true)
-    public PlayerSearchResponse getPlayerByName(String playerName) {
-
+    public PlayerSearchResponse getPlayerByName(String playerName){
         // 선수이름으로 선수찾기
         Player player = playerRepository.findByPlayerName(playerName)
                 .orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_PLAYER));
