@@ -24,8 +24,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@RequiredArgsConstructor
 @Transactional
+@RequiredArgsConstructor
 public class OrderService {
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
@@ -84,13 +84,12 @@ public class OrderService {
             }
         }
 
-        return UpdateOrderResponse.builder()
-                .orderId(order.getId())
-                .storeName(order.getStore().getStoreName())
-                .menuName(order.getMenu().getMenuName())
-                .quantity(order.getQuantity())
-                .totalPrice(totalPrice)
-                .build();
+        return new UpdateOrderResponse(
+                order.getId(),
+                order.getStore().getStoreName(),
+                order.getMenu().getMenuName(),
+                order.getQuantity(),
+                totalPrice);
     }
 
     // 주문 상태 수정
@@ -114,14 +113,14 @@ public class OrderService {
     public GetOrderResponse getOrder(Long orderId) {
         Order order = orderRepository.findByOrderIdOrThrow(orderId);
 
-        return GetOrderResponse.builder()
-                .orderId(order.getId())
-                .storeName(order.getStore().getStoreName())
-                .menuName(order.getMenu().getMenuName())
-                .totalPrice(order.getTotalPrice())
-                .quantity(order.getQuantity())
-                .status(order.getOrderStatus())
-                .build();
+        return new GetOrderResponse(
+                order.getId(),
+                order.getStore().getStoreName(),
+                order.getMenu().getMenuName(),
+                order.getTotalPrice(),
+                order.getQuantity(),
+                order.getOrderStatus()
+        );
     }
 
     // 주문 삭제
