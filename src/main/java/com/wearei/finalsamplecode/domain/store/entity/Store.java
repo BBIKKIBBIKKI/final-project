@@ -15,7 +15,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AttributeOverride(name="id", column = @Column(name="store_id"))
-@Table(name="Stores")
+@Table(name="stores")
 public class Store extends BaseEntity {
     @Column(name="store_name", nullable=false)
     private String storeName;

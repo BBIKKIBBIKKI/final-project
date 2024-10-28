@@ -45,14 +45,13 @@ public class StoreService {
             throw new ApiException(ErrorStatus._STORE_ALREADY_EXISTS);
         }
 
-        Store store = new Store(
+        Store savedStore = storeRepository.save(new Store(
                 ground,
                 request.getStoreName(),
                 request.getOpenedAt(),
                 request.getClosedAt(),
                 user
-        );
-        Store savedStore = storeRepository.save(store);
+        ));
 
         return new StoreCreateResponse(
                 savedStore.getStoreName(),

@@ -1,11 +1,9 @@
 package com.wearei.finalsamplecode.domain.store.service;
 
-import com.wearei.finalsamplecode.apipayload.ApiResponse;
 import com.wearei.finalsamplecode.apipayload.status.ErrorStatus;
 import com.wearei.finalsamplecode.common.dto.AuthUser;
 import com.wearei.finalsamplecode.domain.ground.entity.Ground;
 import com.wearei.finalsamplecode.domain.ground.repository.GroundRepository;
-import com.wearei.finalsamplecode.domain.menu.dto.response.CreateMenuResponse;
 import com.wearei.finalsamplecode.domain.menu.entity.Menu;
 import com.wearei.finalsamplecode.domain.menu.repository.MenuRepository;
 import com.wearei.finalsamplecode.domain.store.dto.request.StoreCreateRequest;
@@ -25,11 +23,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.ActiveProfiles;
-
 import java.time.LocalTime;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest

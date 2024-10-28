@@ -14,5 +14,4 @@ public class StoreCreateRequest {
     private String storeName;
     private LocalTime openedAt;
     private LocalTime closedAt;
-
 }
