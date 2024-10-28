@@ -4,14 +4,16 @@ import com.wearei.finalsamplecode.common.entity.Timestamped;
 import com.wearei.finalsamplecode.domain.board.entity.Board;
 import com.wearei.finalsamplecode.domain.team.entity.Team;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 @AttributeOverride(name = "id", column = @Column(name = "comment_id"))
-public class Comment extends Timestamped{
+public class Comment extends Timestamped {
     @ManyToOne
     @JoinColumn(name = "board_id")
     private Board board;
@@ -36,7 +38,7 @@ public class Comment extends Timestamped{
         this.contents = contents;
     }
 
-    public void Deleted(){
+    public void Deleted() {
         this.isDeleted = true;
     }
 }

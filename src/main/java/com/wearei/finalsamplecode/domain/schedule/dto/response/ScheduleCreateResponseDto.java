@@ -17,7 +17,7 @@ public class ScheduleCreateResponseDto {
     private final LocalDateTime createAt;
     private final LocalDateTime modifiedAt;
 
-    public ScheduleCreateResponseDto(Long teamId, Long id, String title, String contents, String ground, LocalDate date, LocalTime time, LocalDateTime createAt, LocalDateTime modifiedAt){
+    public ScheduleCreateResponseDto (Long teamId, Long id, String title, String contents, String ground, LocalDate date, LocalTime time, LocalDateTime createAt, LocalDateTime modifiedAt){
         this.teamId = teamId;
         this.id = id;
         this.title = title;

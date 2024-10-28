@@ -38,11 +38,11 @@ public class Board extends Timestamped {
         this.backgroundImage = backgroundImg;
     }
 
-    public void increaseLike(){
+    public void increaseLike() {
         this.likes++;
     }
 
-    public void decreaseLike(){
+    public void decreaseLike() {
         if(this.likes>0) {
             this.likes--;
         }
@@ -55,7 +55,7 @@ public class Board extends Timestamped {
         this.backgroundImage = backgroundImg;
     }
 
-    public void deleted(){
+    public void deleted() {
         this.isDeleted = true;
     }
 

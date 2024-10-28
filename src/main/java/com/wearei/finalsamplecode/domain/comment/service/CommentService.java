@@ -63,7 +63,7 @@ public class CommentService{
                 comment.getModifiedAt());
     }
 
-    public List<CommentSearchResponseDto> getComments(Long teamId, Long boardId){
+    public List<CommentSearchResponseDto> getComments(Long teamId, Long boardId) {
         findByTeamId(teamId);
         boardRepository.findByIdAndIsDeletedFalse(boardId).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_BOARD));
 
@@ -76,7 +76,7 @@ public class CommentService{
                 .collect(Collectors.toList());
     }
 
-    public CommentSearchResponseDto getComment(Long teamId, Long boardId, Long commentId){
+    public CommentSearchResponseDto getComment(Long teamId, Long boardId, Long commentId) {
         findByTeamId(teamId);
         boardRepository.findByIdAndIsDeletedFalse(boardId).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_BOARD));
 
@@ -89,7 +89,7 @@ public class CommentService{
                 comment.getModifiedAt());
     }
 
-    public void deleteComment(Long teamId, Long boardId, Long commentId){
+    public void deleteComment(Long teamId, Long boardId, Long commentId) {
         findByTeamId(teamId);
         boardRepository.findByIdAndIsDeletedFalse(boardId).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_BOARD));
 
