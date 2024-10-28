@@ -1,7 +1,6 @@
 package com.wearei.finalsamplecode.domain.ground.entity;
 
 import com.wearei.finalsamplecode.common.entity.BaseEntity;
-import com.wearei.finalsamplecode.domain.ground.dto.request.GroundRequest;
 import com.wearei.finalsamplecode.domain.team.entity.Team;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -11,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @AttributeOverride(name = "id", column = @Column(name = "ground_id"))
-@Table(name = "ground")
+@Table(name = "grounds")
 public class Ground extends BaseEntity {
     @Column(name = "ground_name", length = 50)
     private String groundName;
