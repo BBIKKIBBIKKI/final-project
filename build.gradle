@@ -73,6 +73,10 @@ dependencies {
 
     // websocket
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
+    // AWS SQS
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-aws-messaging', version: '2.2.6.RELEASE'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-aws-autoconfigure', version: '2.2.6.RELEASE'
 }
 
 tasks.named('test') {
