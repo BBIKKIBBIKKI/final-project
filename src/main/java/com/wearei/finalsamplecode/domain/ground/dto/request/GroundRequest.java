@@ -1,13 +1,18 @@
 package com.wearei.finalsamplecode.domain.ground.dto.request;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
-@AllArgsConstructor
 public class GroundRequest {
-    private Long teamId;
-    private String groundName;
-    private String location;
-    private String tel;
+    private final Long teamId;
+    private final String groundName;
+    private final String location;
+    private final String tel;
+
+    public GroundRequest (Long teamId, String groundName, String location, String tel) {
+        this.teamId = teamId;
+        this.groundName = groundName;
+        this.location = location;
+        this.tel = tel;
+    }
 }
