@@ -100,11 +100,16 @@ public class OrderService {
         storeService.authCheck(authUser);
 
         order.updateStatus(request.getOrderStatus());
-        orderRepository.save(order);
+//        orderRepository.save(order);
 
-        return UpdateOrderStatusResponse.builder()
-                .orderStatus(order.getOrderStatus())
-                .build();
+        if (OrderStatus.isComplete(request.getOrderStatus())) {
+            String message = String.format("%s 님 조리 완료되었으니 받으러 오세요.", order.getUser().getUsername());
+            eventPublisher.publishEvent(new OrderStatusChangeEvent(message));
+        }
+
+        return new UpdateOrderStatusResponse(
+                order.getOrderStatus()
+        );
     }
 
     // 주문 조회
