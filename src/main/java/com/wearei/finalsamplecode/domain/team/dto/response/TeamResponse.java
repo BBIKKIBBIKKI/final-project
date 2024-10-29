@@ -4,11 +4,11 @@ import lombok.Getter;
 
 @Getter
 public class TeamResponse {
-    private String teamName;
-    private String uniformImg;
-    private String mascotImg;
-    private String equipmentImg;
-    private String themeSong;
+    private final String teamName;
+    private final String uniformImg;
+    private final String mascotImg;
+    private final String equipmentImg;
+    private final String themeSong;
 
     public TeamResponse(String teamName, String uniformImg, String mascotImg, String equipmentImg, String themeSong) {
         this.teamName = teamName;
