@@ -1,6 +1,7 @@
 package com.wearei.finalsamplecode.domain.board.entity;
 
 import com.wearei.finalsamplecode.common.entity.Timestamped;
+import com.wearei.finalsamplecode.domain.board.dto.request.BoardUpdateRequestDto;
 import com.wearei.finalsamplecode.domain.comment.entity.Comment;
 import com.wearei.finalsamplecode.domain.team.entity.Team;
 import jakarta.persistence.*;
@@ -30,8 +31,6 @@ public class Board extends Timestamped {
 
     private int likes = 0;
 
-    private boolean isDeleted = false;
-
     public Board(Team team, String title, String contents, String backgroundImg) {
         this.team = team;
         this.title = title;
@@ -49,26 +48,19 @@ public class Board extends Timestamped {
         }
     }
 
-    public void updateBoard(Team team,String title, String contents, String backgroundImg) {
-        this.team = team;
-        this.title = title;
-        this.contents = contents;
-        this.backgroundImage = backgroundImg;
-    }
+    public void updateBoard(Team team, String title, String contents, String backgroundImage) {
+            this.team = team;
 
-    public void deleted() {
-        this.isDeleted = true;
-    }
+            if(title != null){
+                this.title = title;
+            }
 
-    public void setTitle(String title) {
-        if(title != null){
-            this.title = title;
-        }
-    }
+            if(contents != null){
+                this.contents = contents;
+            }
 
-    public void setContents(String contents) {
-        if(contents != null){
-            this.contents = contents;
-        }
+            if(backgroundImage != null){
+                this.backgroundImage = backgroundImage;
+            }
     }
 }
