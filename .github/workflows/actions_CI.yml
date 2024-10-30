@@ -37,7 +37,10 @@ jobs:
 
       - name: Set up MySQL
         run: |
-          sudo /etc/init.d/mysql start
+          sudo apt-get update
+          sudo apt-get install -y mysql-server
+          sudo service mysql start
+          mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${{ secrets.DB_PASSWORD }}';"
           mysql -e 'CREATE DATABASE baseball;' -uroot -p${{ secrets.DB_PASSWORD }}
 
 
