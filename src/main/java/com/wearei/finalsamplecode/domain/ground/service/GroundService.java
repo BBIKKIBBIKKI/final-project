@@ -15,6 +15,7 @@ import com.wearei.finalsamplecode.domain.user.enums.UserRole;
 import com.wearei.finalsamplecode.domain.user.repository.UserRepository;
 import com.wearei.finalsamplecode.exception.ApiException;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -51,16 +52,15 @@ public class GroundService {
     }
 
     public GroundSearchResponse searchGround(AuthUser authUser, String teamName, String groundName) {
-        Ground ground = null;
+        Ground ground;
 
-        if (teamName != null && !teamName.isEmpty()) {
+        if (!Strings.isBlank(teamName)) {
             Team team = teamRepository.findByTeamName(teamName)
                     .orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_TEAM));
 
             ground = groundRepository.findByTeam(team)
                     .orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_GROUND));
-        }
-        else if (groundName != null && !groundName.isEmpty()) {
+        } else if (!Strings.isBlank(groundName)) {
             ground = groundRepository.findByGroundName(groundName)
                     .orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_GROUND));
         } else {

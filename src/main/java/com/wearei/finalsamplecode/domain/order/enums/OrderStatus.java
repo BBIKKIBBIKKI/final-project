@@ -10,5 +10,9 @@ public enum OrderStatus {
     COOKING("조리중"),
     COMPLETED("조리 완료");
 
-    private String orderStatus;
+    private final String orderStatus;
+
+    public static boolean isComplete(OrderStatus status) {
+        return status.equals(OrderStatus.COMPLETED);
+    }
 }
