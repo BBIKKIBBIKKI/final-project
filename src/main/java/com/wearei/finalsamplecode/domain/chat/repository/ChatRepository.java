@@ -5,8 +5,8 @@ import org.springframework.stereotype.Repository;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Repository
 @Getter
+@Repository
 public class ChatRepository {
     private final Map<String, ChatRoom> chatRooms = new ConcurrentHashMap<>();
 
