@@ -1,5 +1,5 @@
 env:
-  DB_PASSWORD: root
+  DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
 # Actions 이름 github 페이지에서 볼 수 있다.
 name: actions_ci
 
