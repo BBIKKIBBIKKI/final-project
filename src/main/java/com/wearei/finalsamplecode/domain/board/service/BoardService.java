@@ -24,7 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
-
+import java.util.Objects;
 import static java.util.stream.Collectors.toList;
 
 @Service
@@ -36,18 +36,24 @@ public class BoardService {
 
     @Transactional
     public BoardCreateResponseDto createBoard(BoardCreateRequestDto boardCreateRequestDto, MultipartFile backgroundImg) {
-        Team team = teamRepository.findById(boardCreateRequestDto.getTeamId()).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_TEAM));
+        Team team = teamRepository.findByTeamId(boardCreateRequestDto.getTeamId());
 
         String groundImageUrl = null;
+
         try {
             groundImageUrl = s3ClientUtility.uploadImageToS3(backgroundImg);
         } catch (IOException e) {
             throw new ApiException(ErrorStatus._FILE_UPLOAD_ERROR);
         }
-        Board board = boardRepository.save(new Board(team,
-                boardCreateRequestDto.getTitle(),
-                boardCreateRequestDto.getContents(),
-                groundImageUrl));
+
+        Board board = boardRepository.save(
+                new Board(
+                        team,
+                        boardCreateRequestDto.getTitle(),
+                        boardCreateRequestDto.getContents(),
+                        groundImageUrl)
+        );
+
         return new BoardCreateResponseDto(boardCreateRequestDto.getTeamId(),
                 board.getId(),
                 board.getTitle(),
@@ -60,7 +66,7 @@ public class BoardService {
     }
 
     public Page<BoardSearchResponseDto> getBoards(Long teamId, Pageable pageable) {
-        teamRepository.findById(teamId).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_TEAM));
+        teamRepository.findByTeamId(teamId);
 
         Page<Board> boardPage = boardRepository.findByTeamId(teamId, pageable);
 
@@ -80,9 +86,9 @@ public class BoardService {
     }
 
     public BoardSearchDetailResponseDto getBoard(Long teamId, Long boardId) {
-        teamRepository.findById(teamId).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_TEAM));
+        teamRepository.findByTeamId(teamId);
 
-        Board board = boardRepository.findById(boardId).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_BOARD));
+        Board board = boardRepository.findByBoardId(boardId);
 
         List<CommentResponseDto> comments = board.getComment().stream().map(
                         comment -> new CommentResponseDto(comment.getId(), comment.getContents()))
@@ -102,13 +108,23 @@ public class BoardService {
 
     @Transactional
     public BoardUpdateResponseDto updateBoard(Long boardId, BoardUpdateRequestDto boardUpdateRequestDto, MultipartFile backgroundImg) {
-        Team team = teamRepository.findById(boardUpdateRequestDto.getTeamId()).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_TEAM));
+        Team team = teamRepository.findByTeamId(boardUpdateRequestDto.getTeamId());
 
-        Board board = boardRepository.findById(boardId).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_BOARD));
+        Board board = boardRepository.findByBoardId(boardId);
 
+        String title = board.getTitle();
+        String contents = board.getContents();
         String groundImageUrl = board.getBackgroundImage();
 
-        if (backgroundImg != null && !backgroundImg.isEmpty()) {
+        if (!Objects.isNull(title)) {
+            title = boardUpdateRequestDto.getTitle();
+        }
+
+        if (!Objects.isNull(contents)) {
+            contents = boardUpdateRequestDto.getContents();
+        }
+
+        if (!Objects.isNull(groundImageUrl)) {
             try {
                 groundImageUrl = s3ClientUtility.updateImageInS3(groundImageUrl, backgroundImg);
             } catch (IOException e) {
@@ -116,9 +132,9 @@ public class BoardService {
             }
         }
 
-        board.updateBoard(team,
-                boardUpdateRequestDto.getTitle() != null ? boardUpdateRequestDto.getTitle() : board.getTitle(),
-                boardUpdateRequestDto.getContents() != null ? boardUpdateRequestDto.getContents() : board.getContents(),
+        board.update(team,
+                title,
+                contents,
                 groundImageUrl
         );
 
@@ -136,9 +152,9 @@ public class BoardService {
 
     @Transactional
     public void deleteBoard(Long boardId, Long teamId) {
-        teamRepository.findById(teamId).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_TEAM));
+        teamRepository.findByTeamId(teamId);
 
-        Board board = boardRepository.findById(boardId).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_BOARD));
+        Board board = boardRepository.findByBoardId(boardId);
 
         s3ClientUtility.deleteImageFromS3(board.getBackgroundImage());
 
@@ -147,19 +163,23 @@ public class BoardService {
 
     @Transactional
     public void increaseLike(Long boardId) {
-        Board board = boardRepository.findById(boardId).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_BOARD));
+        Board board = boardRepository.findByBoardId(boardId);
+
         board.increaseLike();
+
         boardRepository.save(board);
     }
 
     @Transactional
     public void decreaseLike(Long boardId) {
-        Board board = boardRepository.findById(boardId).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_BOARD));
+        Board board = boardRepository.findByBoardId(boardId);
 
-        if(board.getLikes() <=0){
+        if (board.getLikes() <= 0) {
             throw new ApiException(ErrorStatus._LIKES_DONT_ZERO);
         }
+
         board.decreaseLike();
+
         boardRepository.save(board);
     }
 }

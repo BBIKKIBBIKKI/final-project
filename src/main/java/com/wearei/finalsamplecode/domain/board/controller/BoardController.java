@@ -35,9 +35,7 @@ public class BoardController {
     public ApiResponse<Page<BoardSearchResponseDto>> getBoards(@RequestParam Long teamId,
                                                                @RequestParam(defaultValue = "0")int page,
                                                                @RequestParam(defaultValue = "10")int size) {
-        Page<BoardSearchResponseDto> boards = boardService.getBoards(teamId, PageRequest.of(page,size));
-
-        return ApiResponse.onSuccess(boards);
+        return ApiResponse.onSuccess(boardService.getBoards(teamId, PageRequest.of(page,size)));
     }
 
     @GetMapping("/{boardId}")

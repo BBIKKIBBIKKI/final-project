@@ -1,13 +1,13 @@
 package com.wearei.finalsamplecode.domain.board.entity;
 
 import com.wearei.finalsamplecode.common.entity.Timestamped;
-import com.wearei.finalsamplecode.domain.board.dto.request.BoardUpdateRequestDto;
 import com.wearei.finalsamplecode.domain.comment.entity.Comment;
 import com.wearei.finalsamplecode.domain.team.entity.Team;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -26,7 +26,7 @@ public class Board extends Timestamped {
 
     private String contents;
 
-    @Column(name="background_img")
+    @Column(name = "background_img")
     private String backgroundImage;
 
     private int likes = 0;
@@ -43,24 +43,21 @@ public class Board extends Timestamped {
     }
 
     public void decreaseLike() {
-        if(this.likes>0) {
+        if (this.likes > 0) {
             this.likes--;
         }
     }
 
-    public void updateBoard(Team team, String title, String contents, String backgroundImage) {
-            this.team = team;
-
-            if(title != null){
-                this.title = title;
-            }
-
-            if(contents != null){
-                this.contents = contents;
-            }
-
-            if(backgroundImage != null){
-                this.backgroundImage = backgroundImage;
-            }
+    public void update(Team team, String title, String contents, String backgroundImage) {
+        this.team = team;
+        if (!Objects.isNull(title)) {
+            this.title = title;
+        }
+        if (!Objects.isNull(contents)) {
+            this.contents = contents;
+        }
+        if (!Objects.isNull(backgroundImage)) {
+            this.backgroundImage = backgroundImage;
+        }
     }
 }
