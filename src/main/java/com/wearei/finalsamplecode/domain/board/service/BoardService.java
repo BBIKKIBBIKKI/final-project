@@ -124,7 +124,7 @@ public class BoardService {
             contents = boardUpdateRequestDto.getContents();
         }
 
-        if (!Objects.isNull(groundImageUrl)) {
+        if (!Objects.isNull(backgroundImg)) {
             try {
                 groundImageUrl = s3ClientUtility.updateImageInS3(groundImageUrl, backgroundImg);
             } catch (IOException e) {
