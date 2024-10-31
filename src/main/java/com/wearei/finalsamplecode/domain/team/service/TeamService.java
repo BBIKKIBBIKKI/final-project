@@ -2,7 +2,6 @@ package com.wearei.finalsamplecode.domain.team.service;
 
 import com.wearei.finalsamplecode.apipayload.status.ErrorStatus;
 import com.wearei.finalsamplecode.common.dto.AuthUser;
-import com.wearei.finalsamplecode.config.S3ClientUtility;
 import com.wearei.finalsamplecode.domain.team.dto.request.TeamCreateRequest;
 import com.wearei.finalsamplecode.domain.team.dto.response.TeamCreateResponse;
 import com.wearei.finalsamplecode.domain.team.dto.response.TeamSearchResponse;
@@ -12,6 +11,7 @@ import com.wearei.finalsamplecode.domain.user.entity.User;
 import com.wearei.finalsamplecode.domain.user.enums.UserRole;
 import com.wearei.finalsamplecode.domain.user.repository.UserRepository;
 import com.wearei.finalsamplecode.exception.ApiException;
+import com.wearei.finalsamplecode.integration.s3.S3Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +23,7 @@ import java.io.IOException;
 public class TeamService {
     private final TeamRepository teamRepository;
     private final UserRepository userRepository;
-    private final S3ClientUtility s3ClientUtility;
+    private final S3Api s3Api;
 
     @Transactional
     public TeamCreateResponse createTeam(TeamCreateRequest request, AuthUser authUser, MultipartFile uniformImg, MultipartFile mascotImg, MultipartFile equipmentImg) {
@@ -37,9 +37,9 @@ public class TeamService {
         String equipmentImageUrl = null;
 
         try {
-            uniformImageUrl = s3ClientUtility.uploadImageToS3(uniformImg);
-            mascotImageUrl = s3ClientUtility.uploadImageToS3(mascotImg);
-            equipmentImageUrl = s3ClientUtility.uploadImageToS3(equipmentImg);
+            uniformImageUrl = s3Api.uploadImageToS3(uniformImg);
+            mascotImageUrl = s3Api.uploadImageToS3(mascotImg);
+            equipmentImageUrl = s3Api.uploadImageToS3(equipmentImg);
         } catch (IOException e) {
             throw new ApiException(ErrorStatus._FILE_UPLOAD_ERROR);
         }

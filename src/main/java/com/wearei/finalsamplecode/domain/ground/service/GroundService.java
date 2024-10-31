@@ -2,7 +2,6 @@ package com.wearei.finalsamplecode.domain.ground.service;
 
 import com.wearei.finalsamplecode.apipayload.status.ErrorStatus;
 import com.wearei.finalsamplecode.common.dto.AuthUser;
-import com.wearei.finalsamplecode.config.S3ClientUtility;
 import com.wearei.finalsamplecode.domain.ground.dto.request.GroundCreateRequest;
 import com.wearei.finalsamplecode.domain.ground.dto.response.GroundCreateResponse;
 import com.wearei.finalsamplecode.domain.ground.dto.response.GroundSearchResponse;
@@ -14,6 +13,7 @@ import com.wearei.finalsamplecode.domain.user.entity.User;
 import com.wearei.finalsamplecode.domain.user.enums.UserRole;
 import com.wearei.finalsamplecode.domain.user.repository.UserRepository;
 import com.wearei.finalsamplecode.exception.ApiException;
+import com.wearei.finalsamplecode.integration.s3.S3Api;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
@@ -27,7 +27,7 @@ public class GroundService {
     private final TeamRepository teamRepository;
     private final GroundRepository groundRepository;
     private final UserRepository userRepository;
-    private final S3ClientUtility s3ClientUtility;
+    private final S3Api s3Api;
 
     @Transactional
     public GroundCreateResponse createGround(GroundCreateRequest request, AuthUser authUser, MultipartFile groundImg) {
@@ -41,7 +41,7 @@ public class GroundService {
 
         String groundImageUrl = null;
         try {
-            groundImageUrl = s3ClientUtility.uploadImageToS3(groundImg);
+            groundImageUrl = s3Api.uploadImageToS3(groundImg);
         } catch (IOException e) {
             throw new ApiException(ErrorStatus._FILE_UPLOAD_ERROR);
         }
