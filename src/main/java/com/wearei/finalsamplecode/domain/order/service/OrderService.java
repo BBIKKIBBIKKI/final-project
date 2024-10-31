@@ -13,6 +13,7 @@ import com.wearei.finalsamplecode.domain.order.dto.response.UpdateOrderResponse;
 import com.wearei.finalsamplecode.domain.order.dto.response.UpdateOrderStatusResponse;
 import com.wearei.finalsamplecode.domain.order.entity.Order;
 import com.wearei.finalsamplecode.domain.order.enums.OrderStatus;
+import com.wearei.finalsamplecode.domain.order.event.OrderStatusChangeEvent;
 import com.wearei.finalsamplecode.domain.order.repository.OrderRepository;
 import com.wearei.finalsamplecode.domain.store.entity.Store;
 import com.wearei.finalsamplecode.domain.store.service.StoreService;
@@ -20,6 +21,7 @@ import com.wearei.finalsamplecode.domain.user.entity.User;
 import com.wearei.finalsamplecode.domain.user.repository.UserRepository;
 import com.wearei.finalsamplecode.exception.ApiException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +33,7 @@ public class OrderService {
     private final UserRepository userRepository;
     private final StoreService storeService;
     private final MenuService menuService;
+    private final ApplicationEventPublisher eventPublisher;
 
     // 주문 생성
     public CreateOrderResponse createOrder(CreateOrderRequest request, AuthUser authUser) {
