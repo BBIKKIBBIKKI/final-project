@@ -3,7 +3,6 @@ package com.wearei.finalsamplecode.integration.sqs;
 import com.wearei.finalsamplecode.common.annotation.AppProfile;
 import io.awspring.cloud.sqs.operations.SqsTemplate;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import software.amazon.awssdk.services.sqs.SqsAsyncClient;
 

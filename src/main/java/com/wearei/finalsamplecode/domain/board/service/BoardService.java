@@ -129,7 +129,7 @@ public class BoardService {
 
         if (!Objects.isNull(backgroundImg)) {
             try {
-                groundImageUrl = s3ClientUtility.updateImageInS3(groundImageUrl, backgroundImg);
+                groundImageUrl = s3Api.updateImageInS3(groundImageUrl, backgroundImg);
             } catch (IOException e) {
                 throw new ApiException(ErrorStatus._FILE_UPLOAD_ERROR);
             }

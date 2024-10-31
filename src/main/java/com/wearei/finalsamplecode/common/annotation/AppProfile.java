@@ -6,7 +6,7 @@ import java.lang.annotation.Retention;
 import org.springframework.context.annotation.Profile;
 
 @Retention(RUNTIME)
-@Profile({"dev", "prod"})
+@Profile({"dev", "prod", "local"})
 public @interface AppProfile {
 
 }
