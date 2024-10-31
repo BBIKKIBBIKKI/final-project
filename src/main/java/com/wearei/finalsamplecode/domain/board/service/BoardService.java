@@ -1,10 +1,12 @@
 package com.wearei.finalsamplecode.domain.board.service;
 
 import com.wearei.finalsamplecode.apipayload.status.ErrorStatus;
-import com.wearei.finalsamplecode.domain.board.dto.request.BoardCreateRequestDto;
+
 import com.wearei.finalsamplecode.domain.board.dto.request.BoardUpdateRequestDto;
-import com.wearei.finalsamplecode.domain.board.dto.response.BoardCreateResponseDto;
 import com.wearei.finalsamplecode.domain.board.dto.response.BoardSearchResponseDto;
+import com.wearei.finalsamplecode.domain.board.dto.request.BoardCreateRequestDto;
+import com.wearei.finalsamplecode.domain.board.dto.response.BoardCreateResponseDto;
+import com.wearei.finalsamplecode.domain.board.dto.response.BoardSearchDetailResponseDto;
 import com.wearei.finalsamplecode.domain.board.dto.response.BoardUpdateResponseDto;
 import com.wearei.finalsamplecode.domain.board.entity.Board;
 import com.wearei.finalsamplecode.domain.board.repository.BoardRepository;
@@ -14,11 +16,17 @@ import com.wearei.finalsamplecode.domain.team.repository.TeamRepository;
 import com.wearei.finalsamplecode.exception.ApiException;
 import com.wearei.finalsamplecode.integration.s3.S3Api;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Objects;
+import static java.util.stream.Collectors.toList;
 
 @Service
 @RequiredArgsConstructor
@@ -27,19 +35,26 @@ public class BoardService {
     private final TeamRepository teamRepository;
     private final S3Api s3Api;
 
+    @Transactional
     public BoardCreateResponseDto createBoard(BoardCreateRequestDto boardCreateRequestDto, MultipartFile backgroundImg) {
-       Team team = findByTeamId(boardCreateRequestDto.getTeamId());
+        Team team = teamRepository.findByTeamId(boardCreateRequestDto.getTeamId());
 
         String groundImageUrl = null;
+      
         try{
             groundImageUrl = s3Api.uploadImageToS3(backgroundImg);
         } catch (IOException e) {
             throw new ApiException(ErrorStatus._FILE_UPLOAD_ERROR);
         }
-        Board board = boardRepository.save(new Board(team,
-                boardCreateRequestDto.getTitle(),
-                boardCreateRequestDto.getContents(),
-                groundImageUrl));
+
+        Board board = boardRepository.save(
+                new Board(
+                        team,
+                        boardCreateRequestDto.getTitle(),
+                        boardCreateRequestDto.getContents(),
+                        groundImageUrl)
+        );
+
         return new BoardCreateResponseDto(boardCreateRequestDto.getTeamId(),
                 board.getId(),
                 board.getTitle(),
@@ -51,37 +66,38 @@ public class BoardService {
         );
     }
 
-    public List<BoardSearchResponseDto> getBoards(Long teamId) {
-        findByTeamId(teamId);
+    public Page<BoardSearchResponseDto> getBoards(Long teamId, Pageable pageable) {
+        teamRepository.findByTeamId(teamId);
 
-        return boardRepository.findByTeamIdAndIsDeletedFalse(teamId).stream()
-                .map(board -> {List<CommentResponseDto> comments = board.getComment().stream().map(
-                                comment -> new CommentResponseDto(comment.getId(), comment.getContents()))
-                        .collect(Collectors.toList());
+        Page<Board> boardPage = boardRepository.findByTeamId(teamId, pageable);
 
-                       return new BoardSearchResponseDto(teamId,
-                        board.getId(),
-                        board.getTitle(),
-                        board.getContents(),
-                        board.getBackgroundImage(),
-                        board.getLikes(),
-                        board.getCreatedAt(),
-                        board.getModifiedAt(),
-                       comments);
-                })
-                .collect(Collectors.toList());
+        if (boardPage.isEmpty()) {
+            return new PageImpl<>(Collections.emptyList(), pageable, 0); // 빈 리스트와 함께 페이지 정보 반환
+        }
+
+        return boardPage.map(board -> new BoardSearchResponseDto(
+                teamId,
+                board.getId(),
+                board.getTitle(),
+                board.getContents(),
+                board.getBackgroundImage(),
+                board.getLikes(),
+                board.getCreatedAt(),
+                board.getModifiedAt()
+        ));
     }
 
-    public BoardSearchResponseDto getBoard(Long teamId, Long boardId) {
-        findByTeamId(teamId);
+    public BoardSearchDetailResponseDto getBoard(Long teamId, Long boardId) {
+        teamRepository.findByTeamId(teamId);
 
-        Board board = boardRepository.findByIdAndIsDeletedFalse(boardId).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_BOARD));
+        Board board = boardRepository.findByBoardId(boardId);
 
         List<CommentResponseDto> comments = board.getComment().stream().map(
-                comment -> new CommentResponseDto(comment.getId(), comment.getContents()))
-                .collect(Collectors.toList());
+                        comment -> new CommentResponseDto(comment.getId(), comment.getContents()))
+                .collect(toList());
 
-        return new BoardSearchResponseDto(teamId,
+        return new BoardSearchDetailResponseDto(
+                teamId,
                 board.getId(),
                 board.getTitle(),
                 board.getContents(),
@@ -93,32 +109,35 @@ public class BoardService {
         );
     }
 
+    @Transactional
     public BoardUpdateResponseDto updateBoard(Long boardId, BoardUpdateRequestDto boardUpdateRequestDto, MultipartFile backgroundImg) {
-        Team team = findByTeamId(boardUpdateRequestDto.getTeamId());
+        Team team = teamRepository.findByTeamId(boardUpdateRequestDto.getTeamId());
 
-        Board board = boardRepository.findById(boardId).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_BOARD));
+        Board board = boardRepository.findByBoardId(boardId);
 
+        String title = board.getTitle();
+        String contents = board.getContents();
         String groundImageUrl = board.getBackgroundImage();
 
-        if(boardUpdateRequestDto.getTitle() != null){
-            board.setTitle(boardUpdateRequestDto.getTitle());
+        if (!Objects.isNull(title)) {
+            title = boardUpdateRequestDto.getTitle();
         }
 
-        if(boardUpdateRequestDto.getContents() != null){
-            board.setContents(boardUpdateRequestDto.getContents());
+        if (!Objects.isNull(contents)) {
+            contents = boardUpdateRequestDto.getContents();
         }
 
-        if(backgroundImg != null && !backgroundImg.isEmpty()){
-            try{
-                groundImageUrl = s3Api.updateImageInS3(groundImageUrl, backgroundImg);
-            } catch (IOException e){
+        if (!Objects.isNull(backgroundImg)) {
+            try {
+                groundImageUrl = s3ClientUtility.updateImageInS3(groundImageUrl, backgroundImg);
+            } catch (IOException e) {
                 throw new ApiException(ErrorStatus._FILE_UPLOAD_ERROR);
             }
         }
 
-        board.updateBoard(team,
-                board.getTitle(),
-                board.getContents(),
+        board.update(team,
+                title,
+                contents,
                 groundImageUrl
         );
 
@@ -134,30 +153,36 @@ public class BoardService {
                 board.getModifiedAt());
     }
 
+    @Transactional
     public void deleteBoard(Long boardId, Long teamId) {
-        findByTeamId(teamId);
+        teamRepository.findByTeamId(teamId);
 
-        Board board = boardRepository.findById(boardId).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_BOARD));
+        Board board = boardRepository.findByBoardId(boardId);
 
         s3Api.deleteImageFromS3(board.getBackgroundImage());
 
-        board.deleted();
-        boardRepository.save(board);
+        boardRepository.delete(board);
     }
 
+    @Transactional
     public void increaseLike(Long boardId) {
-        Board board = boardRepository.findByIdAndIsDeletedFalse(boardId).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_BOARD));
+        Board board = boardRepository.findByBoardId(boardId);
+
         board.increaseLike();
+
         boardRepository.save(board);
     }
 
+    @Transactional
     public void decreaseLike(Long boardId) {
-        Board board = boardRepository.findByIdAndIsDeletedFalse(boardId).orElseThrow(()-> new ApiException(ErrorStatus._NOT_FOUND_BOARD));
-        board.decreaseLike();
-        boardRepository.save(board);
-    }
+        Board board = boardRepository.findByBoardId(boardId);
 
-    private Team findByTeamId(Long Id) {
-        return teamRepository.findById(Id).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_TEAM));
+        if (board.getLikes() <= 0) {
+            throw new ApiException(ErrorStatus._LIKES_DONT_ZERO);
+        }
+
+        board.decreaseLike();
+
+        boardRepository.save(board);
     }
 }
