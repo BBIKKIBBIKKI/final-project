@@ -82,7 +82,10 @@ public enum ErrorStatus implements BaseCode {
     _NOT_FOUND_COMMENT(HttpStatus.NOT_FOUND, "404", "존재하지 않는 댓글입니다."),
 
     // board
-    _NOT_FOUND_BOARD(HttpStatus.NOT_FOUND, "404", "존재하지 않는 게시물입니다.");
+    _NOT_FOUND_BOARD(HttpStatus.NOT_FOUND, "404", "존재하지 않는 게시물입니다."),
+
+    //like
+    _LIKES_DONT_ZERO(HttpStatus.BAD_REQUEST, "400", "0이하로 감소시킬수 없습니다.");
 
     private HttpStatus httpStatus;
     private String statusCode;
