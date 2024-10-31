@@ -46,7 +46,7 @@ jobs:
       - name: Set up MySQL
         run: |
           sudo /etc/init.d/mysql start
-          mysql -e 'CREATE DATABASE baseball;' -uroot -p${{ secrets.DB_PASSWORD }}
+          mysql -e 'CREATE DATABASE baseball;' -uroot -p${{ secrets.GIT_DB_PASSWORD }}
 
       # Gradle 빌드 실행 및 JAR 파일 생성
       - name: Build with Gradle
