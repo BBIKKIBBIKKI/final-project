@@ -1,7 +1,7 @@
 package com.wearei.finalsamplecode.domain.board.service;
 
 import com.wearei.finalsamplecode.apipayload.status.ErrorStatus;
-import com.wearei.finalsamplecode.config.S3ClientUtility;
+
 import com.wearei.finalsamplecode.domain.board.dto.request.BoardUpdateRequestDto;
 import com.wearei.finalsamplecode.domain.board.dto.response.BoardSearchResponseDto;
 import com.wearei.finalsamplecode.domain.board.dto.request.BoardCreateRequestDto;
@@ -14,6 +14,7 @@ import com.wearei.finalsamplecode.domain.comment.dto.response.CommentResponseDto
 import com.wearei.finalsamplecode.domain.team.entity.Team;
 import com.wearei.finalsamplecode.domain.team.repository.TeamRepository;
 import com.wearei.finalsamplecode.exception.ApiException;
+import com.wearei.finalsamplecode.integration.s3.S3Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -32,16 +33,16 @@ import static java.util.stream.Collectors.toList;
 public class BoardService {
     private final BoardRepository boardRepository;
     private final TeamRepository teamRepository;
-    private final S3ClientUtility s3ClientUtility;
+    private final S3Api s3Api;
 
     @Transactional
     public BoardCreateResponseDto createBoard(BoardCreateRequestDto boardCreateRequestDto, MultipartFile backgroundImg) {
         Team team = teamRepository.findByTeamId(boardCreateRequestDto.getTeamId());
 
         String groundImageUrl = null;
-
-        try {
-            groundImageUrl = s3ClientUtility.uploadImageToS3(backgroundImg);
+      
+        try{
+            groundImageUrl = s3Api.uploadImageToS3(backgroundImg);
         } catch (IOException e) {
             throw new ApiException(ErrorStatus._FILE_UPLOAD_ERROR);
         }
@@ -158,7 +159,7 @@ public class BoardService {
 
         Board board = boardRepository.findByBoardId(boardId);
 
-        s3ClientUtility.deleteImageFromS3(board.getBackgroundImage());
+        s3Api.deleteImageFromS3(board.getBackgroundImage());
 
         boardRepository.delete(board);
     }

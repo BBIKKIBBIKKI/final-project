@@ -1,5 +1,6 @@
 package com.wearei.finalsamplecode.integration.sqs;
 
+import com.wearei.finalsamplecode.common.annotation.AppProfile;
 import io.awspring.cloud.sqs.operations.SqsTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
@@ -7,14 +8,14 @@ import org.springframework.stereotype.Component;
 import software.amazon.awssdk.services.sqs.SqsAsyncClient;
 
 @Component
-@Profile({"dev", "prod", "local"})
-public class DefaultSQSSender implements SQSSender {
+@AppProfile
+public class DefaultSQSApi implements SQSApi {
     private final SqsTemplate sqsTemplate;
 
     @Value("${cloud.aws.sqs.queue-name.queue}")
     private String queue;
 
-    public DefaultSQSSender(SqsAsyncClient sqsAsyncClient) {
+    public DefaultSQSApi(SqsAsyncClient sqsAsyncClient) {
         this.sqsTemplate = SqsTemplate.newTemplate(sqsAsyncClient);
     }
 

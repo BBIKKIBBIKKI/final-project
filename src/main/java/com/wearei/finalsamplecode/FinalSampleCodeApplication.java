@@ -1,6 +1,6 @@
 package com.wearei.finalsamplecode;
 
-import com.wearei.finalsamplecode.integration.sqs.DefaultSQSSender;
+import com.wearei.finalsamplecode.integration.sqs.SQSApi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,11 +12,11 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @SpringBootApplication
 @RequiredArgsConstructor
 public class FinalSampleCodeApplication {
-    private final DefaultSQSSender defaultSQSSender;
+    private final SQSApi sqsApi;
 
     @EventListener(ApplicationReadyEvent.class)
     public void init() {
-        defaultSQSSender.send("성공적으로 서버가 실행됨");
+        sqsApi.send("성공적으로 서버가 실행됨");
     }
 
     public static void main(String[] args) {

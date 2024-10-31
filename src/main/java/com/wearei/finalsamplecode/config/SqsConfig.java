@@ -1,5 +1,6 @@
 package com.wearei.finalsamplecode.config;
 
+import com.wearei.finalsamplecode.common.annotation.AppProfile;
 import io.awspring.cloud.sqs.config.SqsMessageListenerContainerFactory;
 import io.awspring.cloud.sqs.operations.SqsTemplate;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,12 +10,9 @@ import software.amazon.awssdk.auth.credentials.AwsCredentials;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.sqs.SqsAsyncClient;
 
+@AppProfile
 @Configuration
 public class SqsConfig extends AwsConfig {
-
-    @Value("${cloud.aws.sqs.queue-name.queue}")
-    private String queueName;
-
     /*
     * 0. 클라이언트 key, region 설정
     * 1. SQS 클라이언트를 비동기 방식으로 사용할 수 있게 해주는 메서드

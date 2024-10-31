@@ -1,5 +1,5 @@
 package com.wearei.finalsamplecode.integration.sqs;
 
-public interface SQSSender {
+public interface SQSApi {
     void send(String message);
 }

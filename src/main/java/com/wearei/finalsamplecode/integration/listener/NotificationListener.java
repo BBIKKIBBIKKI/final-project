@@ -1,7 +1,7 @@
 package com.wearei.finalsamplecode.integration.listener;
 
 import com.wearei.finalsamplecode.common.event.SQSEvent;
-import com.wearei.finalsamplecode.integration.sqs.SQSSender;
+import com.wearei.finalsamplecode.integration.sqs.SQSApi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -10,10 +10,10 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class NotificationListener {
 
-    private final SQSSender sqsSender;
+    private final SQSApi sqsApi;
 
     @EventListener(SQSEvent.class)
     public void send(SQSEvent event) {
-        sqsSender.send(event.getMessage());
+        sqsApi.send(event.getMessage());
     }
 }
