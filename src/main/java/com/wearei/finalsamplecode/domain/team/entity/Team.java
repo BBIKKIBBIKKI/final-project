@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AttributeOverride(name = "id", column = @Column(name = "team_id"))
 @Table(name = "teams")
 public class Team extends BaseEntity {
-    @Column(name="team_name", length=50)
+    @Column(name="team_name", length=50, unique = true)
     private String teamName;
 
     @Column(name="uniform_img")

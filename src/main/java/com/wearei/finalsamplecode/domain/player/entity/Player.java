@@ -10,12 +10,11 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 @NoArgsConstructor
-@Table(name = "players")
+@Table(name = "players", indexes = {
+        @Index(name = "idx_player_name_team_name", columnList = "player_name, team_name")
+})
 @AttributeOverride(name = "id", column = @Column(name = "player_id"))
 public class Player extends BaseEntity {
-    @Column(name = "team_id")
-    private Long teamId;
-
     @Column(name = "player_age")
     private Long playerAge;
 
@@ -43,9 +42,8 @@ public class Player extends BaseEntity {
     @JoinColumn(name = "team_id", insertable = false, updatable = false,  referencedColumnName="team_id")
     private Team team;
 
-    public Player(Long playerId, Long teamId, Long playerAge, String playerName, String teamName, String position, String playerSong, String playerBodyCheck, Long follow) {
+    public Player(Long playerId, Long playerAge, String playerName, String teamName, String position, String playerSong, String playerBodyCheck, Long follow) {
         this.id=playerId;
-        this.teamId=teamId;
         this.playerAge=playerAge;
         this.playerName=playerName;
         this.teamName = teamName;

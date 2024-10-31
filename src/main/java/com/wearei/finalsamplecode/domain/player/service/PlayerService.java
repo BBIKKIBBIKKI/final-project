@@ -8,6 +8,7 @@ import com.wearei.finalsamplecode.exception.ApiException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -17,21 +18,24 @@ public class PlayerService {
 
     // 선수 단건 조회
     @Transactional(readOnly = true)
-    public PlayerSearchResponse getPlayerByName(String playerName) {
-        // 선수이름으로 선수찾기
-        Player player = playerRepository.findByPlayerName(playerName)
-                .orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_PLAYER));
+    public List<PlayerSearchResponse> getPlayerByNameAndTeamName(String playerName, String teamName) {
+        // JPQL 쿼리로 선수 검색 (teamName이 없으면 playerName만으로 검색)
+        List<Player> players = playerRepository.findByPlayerNameAndOptionalTeamName(playerName, teamName);
 
-        // 찾은 Player를 PlayerSearchResponse로 변환
-        return new PlayerSearchResponse(
-                player.getId(),
-                player.getTeamId(),
-                player.getPlayerAge(),
-                player.getFollow(),
-                player.getPlayerName(),
-                player.getTeamName(),
-                player.getPosition(),
-                player.getPlayerSong(),
-                player.getPlayerBodyCheck());
+        if (players.isEmpty()) {
+            throw new ApiException(ErrorStatus._NOT_FOUND_PLAYER);
+        }
+
+        return players.stream()
+                .map(player -> new PlayerSearchResponse(
+                        player.getId(),
+                        player.getPlayerAge(),
+                        player.getFollow(),
+                        player.getPlayerName(),
+                        player.getTeamName(),
+                        player.getPosition(),
+                        player.getPlayerSong(),
+                        player.getPlayerBodyCheck()))
+                .toList();
     }
 }
