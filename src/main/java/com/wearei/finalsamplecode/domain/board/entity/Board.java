@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -25,12 +26,10 @@ public class Board extends Timestamped {
 
     private String contents;
 
-    @Column(name="background_img")
+    @Column(name = "background_img")
     private String backgroundImage;
 
     private int likes = 0;
-
-    private boolean isDeleted = false;
 
     public Board(Team team, String title, String contents, String backgroundImg) {
         this.team = team;
@@ -44,31 +43,21 @@ public class Board extends Timestamped {
     }
 
     public void decreaseLike() {
-        if(this.likes>0) {
+        if (this.likes > 0) {
             this.likes--;
         }
     }
 
-    public void updateBoard(Team team,String title, String contents, String backgroundImg) {
+    public void update(Team team, String title, String contents, String backgroundImage) {
         this.team = team;
-        this.title = title;
-        this.contents = contents;
-        this.backgroundImage = backgroundImg;
-    }
-
-    public void deleted() {
-        this.isDeleted = true;
-    }
-
-    public void setTitle(String title) {
-        if(title != null){
+        if (!Objects.isNull(title)) {
             this.title = title;
         }
-    }
-
-    public void setContents(String contents) {
-        if(contents != null){
+        if (!Objects.isNull(contents)) {
             this.contents = contents;
+        }
+        if (!Objects.isNull(backgroundImage)) {
+            this.backgroundImage = backgroundImage;
         }
     }
 }

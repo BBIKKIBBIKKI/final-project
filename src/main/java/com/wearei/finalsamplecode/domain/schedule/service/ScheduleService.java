@@ -32,7 +32,7 @@ public class ScheduleService {
 
         checkIfAdmin(user);
         //구단id확인
-       Team team = findByTeamId(scheduleCreateRequestDto.getTeamId());
+       Team team = teamRepository.findByTeamId(scheduleCreateRequestDto.getTeamId());
 
         // 일정 생성하기
         Schedule schedule = new Schedule(team,
@@ -59,7 +59,7 @@ public class ScheduleService {
 
     public ScheduleUpdateResponseDto updateSchedule(Long scheduleId, ScheduleUpdateRequestDto scheduleUpdateRequestDto) {
         //구단 조회
-       Team team = findByTeamId(scheduleUpdateRequestDto.getTeamId());
+       Team team = teamRepository.findByTeamId(scheduleUpdateRequestDto.getTeamId());
         //일정 확인
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_SCHEDULE));
 
@@ -105,7 +105,7 @@ public class ScheduleService {
     }
 
     public List<ScheduleSearchResponseDto> getSchedules(Long teamId) {
-        findByTeamId(teamId);
+        teamRepository.findByTeamId(teamId);
 
         return scheduleRepository.findByTeam_Id(teamId).stream()
                 .map(schedule -> new ScheduleSearchResponseDto(teamId,
@@ -135,15 +135,11 @@ public class ScheduleService {
     }
 
     public void deleteSchedule(Long scheduleId, Long teamId) {
-        findByTeamId(teamId);
+        teamRepository.findByTeamId(teamId);
 
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_SCHEDULE));
 
         scheduleRepository.delete(schedule);
-    }
-
-    private Team findByTeamId (Long Id) {
-        return teamRepository.findById(Id).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_TEAM));
     }
 
     public void checkIfAdmin(User user) {
