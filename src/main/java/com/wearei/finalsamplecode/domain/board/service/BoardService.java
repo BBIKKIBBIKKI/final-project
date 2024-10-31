@@ -1,7 +1,6 @@
 package com.wearei.finalsamplecode.domain.board.service;
 
 import com.wearei.finalsamplecode.apipayload.status.ErrorStatus;
-import com.wearei.finalsamplecode.config.S3ClientUtility;
 import com.wearei.finalsamplecode.domain.board.dto.request.BoardCreateRequestDto;
 import com.wearei.finalsamplecode.domain.board.dto.request.BoardUpdateRequestDto;
 import com.wearei.finalsamplecode.domain.board.dto.response.BoardCreateResponseDto;
@@ -13,6 +12,7 @@ import com.wearei.finalsamplecode.domain.comment.dto.response.CommentResponseDto
 import com.wearei.finalsamplecode.domain.team.entity.Team;
 import com.wearei.finalsamplecode.domain.team.repository.TeamRepository;
 import com.wearei.finalsamplecode.exception.ApiException;
+import com.wearei.finalsamplecode.integration.s3.S3Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,14 +25,14 @@ import java.util.stream.Collectors;
 public class BoardService {
     private final BoardRepository boardRepository;
     private final TeamRepository teamRepository;
-    private final S3ClientUtility s3ClientUtility;
+    private final S3Api s3Api;
 
     public BoardCreateResponseDto createBoard(BoardCreateRequestDto boardCreateRequestDto, MultipartFile backgroundImg) {
        Team team = findByTeamId(boardCreateRequestDto.getTeamId());
 
         String groundImageUrl = null;
         try{
-            groundImageUrl = s3ClientUtility.uploadImageToS3(backgroundImg);
+            groundImageUrl = s3Api.uploadImageToS3(backgroundImg);
         } catch (IOException e) {
             throw new ApiException(ErrorStatus._FILE_UPLOAD_ERROR);
         }
@@ -110,7 +110,7 @@ public class BoardService {
 
         if(backgroundImg != null && !backgroundImg.isEmpty()){
             try{
-                groundImageUrl = s3ClientUtility.updateImageInS3(groundImageUrl, backgroundImg);
+                groundImageUrl = s3Api.updateImageInS3(groundImageUrl, backgroundImg);
             } catch (IOException e){
                 throw new ApiException(ErrorStatus._FILE_UPLOAD_ERROR);
             }
@@ -139,7 +139,7 @@ public class BoardService {
 
         Board board = boardRepository.findById(boardId).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_BOARD));
 
-        s3ClientUtility.deleteImageFromS3(board.getBackgroundImage());
+        s3Api.deleteImageFromS3(board.getBackgroundImage());
 
         board.deleted();
         boardRepository.save(board);
