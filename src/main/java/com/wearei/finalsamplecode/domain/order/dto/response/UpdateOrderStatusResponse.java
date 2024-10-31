@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
-@Builder
 @RequiredArgsConstructor
 public class UpdateOrderStatusResponse {
     private final OrderStatus orderStatus;

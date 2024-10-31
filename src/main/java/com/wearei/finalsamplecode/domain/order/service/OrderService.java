@@ -13,6 +13,7 @@ import com.wearei.finalsamplecode.domain.order.dto.response.UpdateOrderResponse;
 import com.wearei.finalsamplecode.domain.order.dto.response.UpdateOrderStatusResponse;
 import com.wearei.finalsamplecode.domain.order.entity.Order;
 import com.wearei.finalsamplecode.domain.order.enums.OrderStatus;
+import com.wearei.finalsamplecode.domain.order.event.OrderStatusChangeEvent;
 import com.wearei.finalsamplecode.domain.order.repository.OrderRepository;
 import com.wearei.finalsamplecode.domain.store.entity.Store;
 import com.wearei.finalsamplecode.domain.store.service.StoreService;
@@ -20,6 +21,7 @@ import com.wearei.finalsamplecode.domain.user.entity.User;
 import com.wearei.finalsamplecode.domain.user.repository.UserRepository;
 import com.wearei.finalsamplecode.exception.ApiException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +33,7 @@ public class OrderService {
     private final UserRepository userRepository;
     private final StoreService storeService;
     private final MenuService menuService;
+    private final ApplicationEventPublisher eventPublisher;
 
     // 주문 생성
     public CreateOrderResponse createOrder(CreateOrderRequest request, AuthUser authUser) {
@@ -62,8 +65,7 @@ public class OrderService {
     }
 
     // 주문 수정
-    @Transactional
-    public UpdateOrderResponse updateOrder(Long orderId, UpdateOrderRequest request) {
+     public UpdateOrderResponse updateOrder(Long orderId, UpdateOrderRequest request) {
         // db 조회
         Order order = orderRepository.findByOrderIdOrThrow(orderId);
         Store store = storeService.checkStore(request.getStoreId());
@@ -101,11 +103,16 @@ public class OrderService {
         storeService.authCheck(authUser);
 
         order.updateStatus(request.getOrderStatus());
-        orderRepository.save(order);
+//        orderRepository.save(order);
 
-        return UpdateOrderStatusResponse.builder()
-                .orderStatus(order.getOrderStatus())
-                .build();
+        if (OrderStatus.isComplete(request.getOrderStatus())) {
+            String message = String.format("%s 님 조리 완료되었으니 받으러 오세요.", order.getUser().getUsername());
+            eventPublisher.publishEvent(new OrderStatusChangeEvent(message));
+        }
+
+        return new UpdateOrderStatusResponse(
+                order.getOrderStatus()
+        );
     }
 
     // 주문 조회

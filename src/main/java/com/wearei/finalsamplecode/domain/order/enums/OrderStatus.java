@@ -2,13 +2,18 @@ package com.wearei.finalsamplecode.domain.order.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public enum OrderStatus {
     RESERVED("주문예약"),
     COOKING("조리중"),
     COMPLETED("조리 완료");
 
-    private String orderStatus;
+    private final String orderStatus;
+
+    public static boolean isComplete(OrderStatus status) {
+        return status.equals(OrderStatus.COMPLETED);
+    }
 }
