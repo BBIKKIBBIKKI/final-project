@@ -80,10 +80,9 @@ public class PlayerIndexingTest {
     public void testGetPlayerByName() {
         // Given
         String playerName = "박서연";
-        String teamName = "키움 히어로즈";
 
         // When
-        List<PlayerSearchResponse> players = playerService.getPlayerByNameAndTeamName(playerName, teamName);
+        List<PlayerSearchResponse> players = playerService.getPlayerByNameAndTeamName(playerName, null);
 
         // Then
         assertFalse(players.isEmpty(), "선수 정보가 조회되어야 합니다.");
