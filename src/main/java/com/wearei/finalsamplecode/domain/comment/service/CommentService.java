@@ -26,9 +26,9 @@ public class CommentService{
     private final TeamRepository teamRepository;
 
     public CommentCreateResponseDto createComment(CommentCreateRequestDto commentCreateRequestDto) {
-      Team team = findByTeamId(commentCreateRequestDto.getTeamId());
+      Team team = teamRepository.findByTeamId(commentCreateRequestDto.getTeamId());
 
-       Board board = boardRepository.findByIdAndIsDeletedFalse(commentCreateRequestDto.getBoardId()).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_BOARD));
+       Board board = boardRepository.findByBoardId(commentCreateRequestDto.getBoardId());
 
         Comment comment = new Comment(team, board,
                 commentCreateRequestDto.getContents()
@@ -44,9 +44,9 @@ public class CommentService{
     }
 
     public CommentUpdateResponseDto updateComment(Long commentId, CommentUpdateRequestDto commentUpdateRequestDto) {
-        Team team = findByTeamId(commentUpdateRequestDto.getTeamId());
+        Team team = teamRepository.findByTeamId(commentUpdateRequestDto.getTeamId());
 
-        Board board = boardRepository.findByIdAndIsDeletedFalse(commentUpdateRequestDto.getBoardId()).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_BOARD));
+        Board board = boardRepository.findByBoardId(commentUpdateRequestDto.getBoardId());
 
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_COMMENT));
 
@@ -64,8 +64,9 @@ public class CommentService{
     }
 
     public List<CommentSearchResponseDto> getComments(Long teamId, Long boardId) {
-        findByTeamId(teamId);
-        boardRepository.findByIdAndIsDeletedFalse(boardId).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_BOARD));
+        teamRepository.findByTeamId(teamId);
+
+        boardRepository.findByBoardId(boardId);
 
         return commentRepository.findByTeamIdAndBoardIdAndIsDeletedFalse(teamId,boardId).stream()
                 .map(comment -> new CommentSearchResponseDto(teamId, boardId,
@@ -77,8 +78,9 @@ public class CommentService{
     }
 
     public CommentSearchResponseDto getComment(Long teamId, Long boardId, Long commentId) {
-        findByTeamId(teamId);
-        boardRepository.findByIdAndIsDeletedFalse(boardId).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_BOARD));
+        teamRepository.findByTeamId(teamId);
+
+        boardRepository.findByBoardId(boardId);
 
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_COMMENT));
 
@@ -90,8 +92,9 @@ public class CommentService{
     }
 
     public void deleteComment(Long teamId, Long boardId, Long commentId) {
-        findByTeamId(teamId);
-        boardRepository.findByIdAndIsDeletedFalse(boardId).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_BOARD));
+        teamRepository.findByTeamId(teamId);
+
+        boardRepository.findByBoardId(boardId);
 
         Comment comment = commentRepository.findByIdAndIsDeletedFalse(commentId).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_COMMENT));
 
@@ -99,7 +102,4 @@ public class CommentService{
         commentRepository.save(comment);
     }
 
-    private Team findByTeamId(Long Id) {
-        return teamRepository.findById(Id).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_TEAM));
-    }
 }
