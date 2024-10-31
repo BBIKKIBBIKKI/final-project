@@ -69,4 +69,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: oht/bbikkibbikki:latest
+          tags: oht2050/bbikkibbikki:latest
