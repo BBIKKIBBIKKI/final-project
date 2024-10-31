@@ -74,7 +74,8 @@ public class BoardService {
             return new PageImpl<>(Collections.emptyList(), pageable, 0); // 빈 리스트와 함께 페이지 정보 반환
         }
 
-        return boardPage.map(board -> new BoardSearchResponseDto(teamId,
+        return boardPage.map(board -> new BoardSearchResponseDto(
+                teamId,
                 board.getId(),
                 board.getTitle(),
                 board.getContents(),
@@ -94,7 +95,8 @@ public class BoardService {
                         comment -> new CommentResponseDto(comment.getId(), comment.getContents()))
                 .collect(toList());
 
-        return new BoardSearchDetailResponseDto(teamId,
+        return new BoardSearchDetailResponseDto(
+                teamId,
                 board.getId(),
                 board.getTitle(),
                 board.getContents(),

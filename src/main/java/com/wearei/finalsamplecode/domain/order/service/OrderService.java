@@ -33,7 +33,6 @@ public class OrderService {
     private final UserRepository userRepository;
     private final StoreService storeService;
     private final MenuService menuService;
-    private final ApplicationEventPublisher eventPublisher;
 
     // 주문 생성
     public CreateOrderResponse createOrder(CreateOrderRequest request, AuthUser authUser) {
