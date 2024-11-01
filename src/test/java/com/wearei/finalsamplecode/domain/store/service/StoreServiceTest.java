@@ -18,7 +18,9 @@ import com.wearei.finalsamplecode.domain.team.entity.Team;
 import com.wearei.finalsamplecode.domain.team.repository.TeamRepository;
 import com.wearei.finalsamplecode.domain.user.entity.User;
 import com.wearei.finalsamplecode.domain.user.enums.UserRole;
+import com.wearei.finalsamplecode.domain.user.repository.UserRepository;
 import com.wearei.finalsamplecode.exception.ApiException;
+import jakarta.annotation.PostConstruct;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -37,6 +39,9 @@ class StoreServiceTest {
     private StoreRepository storeRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private GroundRepository groundRepository;
 
     @Autowired
@@ -47,9 +52,12 @@ class StoreServiceTest {
     // 가게 생성 3개
     @Test
     void 가게_정상_생성() {
+        User user = new User("gusrnr51531@naver.com", "오현택", "qwer123", UserRole.ROLE_OWNER);
+        userRepository.save(user);
+
         // given
         AuthUser authUser = new AuthUser(1L, "gusrnr5153@naver.com", UserRole.ROLE_OWNER);
-        User user = User.fromAuthUser(authUser);
+//        User user = User.fromAuthUser(authUser);
 
         Team team = new Team("두산", "a", "s","s","s");
         teamRepository.save(team);
@@ -68,11 +76,13 @@ class StoreServiceTest {
 
     @Test
     void 동일한_가게_생성시_예외처리() {
+        User user = new User("gusrnr51532@naver.com", "오현택", "qwer123", UserRole.ROLE_OWNER);
+        userRepository.save(user);
         // given
         AuthUser authUser = new AuthUser(1L, "gusrnr5153@naver.com", UserRole.ROLE_OWNER);
-        User user = User.fromAuthUser(authUser);
+//        User user = User.fromAuthUser(authUser);
 
-        Team team = new Team("두산", "a", "s","s","s");
+        Team team = new Team("두산1", "a", "s","s","s");
         teamRepository.save(team);
         Ground ground = new Ground("잠실구장", "서울", "010010", "a", team);
         groundRepository.save(ground);
@@ -92,8 +102,11 @@ class StoreServiceTest {
 
     @Test
     void 구장_없을_시_예외처리() {
+        User user = new User("gusrnr51533@naver.com", "오현택", "qwer123", UserRole.ROLE_OWNER);
+        userRepository.save(user);
+
         AuthUser authUser = new AuthUser(1L, "gusrnr5153@naver.com", UserRole.ROLE_OWNER);
-        User user = User.fromAuthUser(authUser);
+//        User user = User.fromAuthUser(authUser);
 
         StoreCreateRequest request = new StoreCreateRequest(-1L, "피자가게", LocalTime.now().plusHours(5), LocalTime.now().plusHours(10));
 
@@ -106,11 +119,13 @@ class StoreServiceTest {
     // 가게 수정
     @Test
     void 가게_수정_성공() {
+        User user = new User("gusrnr51534@naver.com", "오현택", "qwer123", UserRole.ROLE_OWNER);
+        userRepository.save(user);
         // given
         AuthUser authUser = new AuthUser(1L, "gusrnr5153@naver.com", UserRole.ROLE_OWNER);
-        User user = User.fromAuthUser(authUser);
+//        User user = User.fromAuthUser(authUser);
 
-        Team team = new Team("두산", "a", "s","s","s");
+        Team team = new Team("두산2", "a", "s","s","s");
         teamRepository.save(team);
         Ground ground = new Ground("잠실구장", "서울", "010010", "a", team);
         groundRepository.save(ground);
@@ -129,10 +144,14 @@ class StoreServiceTest {
 
     @Test
     void 가게_다건_조회() {
+
+        User newuser = new User("gusrnr51535@naver.com", "오현택", "qwer123", UserRole.ROLE_OWNER);
+        userRepository.save(newuser);
+
         AuthUser authUser = new AuthUser(1L, "gusrnr5153@naver.com", UserRole.ROLE_OWNER);
         User user = User.fromAuthUser(authUser);
 
-        Team team = new Team("두산", "a", "s","s","s");
+        Team team = new Team("두산3", "a", "s","s","s");
         teamRepository.save(team);
 
         Ground ground = new Ground("잠실구장", "서울", "010010", "a", team);
@@ -152,10 +171,14 @@ class StoreServiceTest {
 
     @Test
     void 가게_단건_조회_성공() {
+
+        User newuser = new User("gusrnr51536@naver.com", "오현택", "qwer123", UserRole.ROLE_OWNER);
+        userRepository.save(newuser);
+
         AuthUser authUser = new AuthUser(1L, "gusrnr5153@naver.com", UserRole.ROLE_OWNER);
         User user = User.fromAuthUser(authUser);
 
-        Team team = new Team("두산", "a", "s","s","s");
+        Team team = new Team("두산4", "a", "s","s","s");
         teamRepository.save(team);
 
         Ground ground = new Ground("잠실구장", "서울", "010010", "a", team);
