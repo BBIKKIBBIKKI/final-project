@@ -1,1 +1,8 @@
 rootProject.name = 'final-sample-code'
+include 'core'
+include 'api'
+include 'integration'
+include 'common'
+include 'batch'
+include 'chat'
+
