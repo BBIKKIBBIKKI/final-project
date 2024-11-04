@@ -4,7 +4,8 @@ on:
   push:
     # 배열로 여러 브랜치를 넣을 수 있다.
     # 해당 브랜치들이 push 를 했을 때 CI 가 실행된다.
-    branches: [ main, dev, "*-*" ]
+#    branches: [ main, dev, "*-*" ]
+    branches: [ main, dev ]
 
   # github pull request 생성 시 CI 실행
   pull_request:

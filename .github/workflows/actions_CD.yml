@@ -14,6 +14,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # 도커허브에 로그인
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # Dockerrun.aws.json 파일 압축
+      - name: Create Dockerrun.zip
+        run: zip -r deploy.zip Dockerrun.aws.json
+
+      # Elastic Beanstalk에 배포
       - name: Deploy to EB
         uses: einaregilsson/beanstalk-deploy@v14
         with:
@@ -21,6 +33,8 @@ jobs:
           aws_secret_key: ${{ secrets.S3_SECRET_KEY }}
           application_name: bbikkibbikki
           environment_name: Bbikkibbikki-env-2
-          version_label: ${{ github.sha }}  # 동적으로 GitHub SHA를 version label로 설정
+          version_label: ${{ github.sha }}
           region: ap-northeast-2
           deployment_package: deploy.zip
+
+
