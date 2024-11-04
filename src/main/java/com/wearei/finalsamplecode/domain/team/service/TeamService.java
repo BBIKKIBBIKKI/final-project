@@ -8,8 +8,8 @@ import com.wearei.finalsamplecode.domain.team.dto.response.TeamSearchResponse;
 import com.wearei.finalsamplecode.domain.team.entity.Team;
 import com.wearei.finalsamplecode.domain.team.repository.TeamRepository;
 import com.wearei.finalsamplecode.domain.user.entity.User;
-import com.wearei.finalsamplecode.domain.user.enums.UserRole;
 import com.wearei.finalsamplecode.domain.user.repository.UserRepository;
+import com.wearei.finalsamplecode.domain.user.service.CustomUserDetailsService;
 import com.wearei.finalsamplecode.exception.ApiException;
 import com.wearei.finalsamplecode.integration.s3.S3Api;
 import lombok.RequiredArgsConstructor;
@@ -22,15 +22,14 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class TeamService {
     private final TeamRepository teamRepository;
-    private final UserRepository userRepository;
+    private final CustomUserDetailsService userDetailsService;
     private final S3Api s3Api;
 
     @Transactional
     public TeamCreateResponse createTeam(TeamCreateRequest request, AuthUser authUser, MultipartFile uniformImg, MultipartFile mascotImg, MultipartFile equipmentImg) {
-        User user = userRepository.findById(authUser.getUserId())
-                .orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_USER));
+        User user = userDetailsService.findUserById(authUser.getUserId());
 
-        checkIfAdmin(user);
+        userDetailsService.checkIfAdmin(user);
 
         String uniformImageUrl = null;
         String mascotImageUrl = null;
@@ -55,11 +54,5 @@ public class TeamService {
                 .orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_TEAM));
 
         return new TeamSearchResponse(team.getTeamName(), team.getUniformImg(), team.getMascotImg(), team.getEquipmentImg(), team.getThemeSong());
-    }
-
-    public void checkIfAdmin(User user) {
-        if (!user.getUserRole().equals((UserRole.ROLE_ADMIN))) {
-            throw new ApiException(ErrorStatus._NOT_ADMIN_USER);
-        }
     }
 }

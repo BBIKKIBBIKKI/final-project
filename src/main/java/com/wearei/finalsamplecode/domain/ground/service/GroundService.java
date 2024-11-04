@@ -10,14 +10,14 @@ import com.wearei.finalsamplecode.domain.ground.repository.GroundRepository;
 import com.wearei.finalsamplecode.domain.team.entity.Team;
 import com.wearei.finalsamplecode.domain.team.repository.TeamRepository;
 import com.wearei.finalsamplecode.domain.user.entity.User;
-import com.wearei.finalsamplecode.domain.user.enums.UserRole;
-import com.wearei.finalsamplecode.domain.user.repository.UserRepository;
+import com.wearei.finalsamplecode.domain.user.service.CustomUserDetailsService;
 import com.wearei.finalsamplecode.exception.ApiException;
 import com.wearei.finalsamplecode.integration.s3.S3Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
 import java.util.Optional;
 
@@ -26,15 +26,14 @@ import java.util.Optional;
 public class GroundService {
     private final TeamRepository teamRepository;
     private final GroundRepository groundRepository;
-    private final UserRepository userRepository;
+    private final CustomUserDetailsService userDetailsService;
     private final S3Api s3Api;
 
     @Transactional
     public GroundCreateResponse createGround(GroundCreateRequest request, AuthUser authUser, MultipartFile groundImg) {
-        User user = userRepository.findById(authUser.getUserId())
-                .orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_USER));
+        User user = userDetailsService.findUserById(authUser.getUserId());
 
-        checkIfAdmin(user);
+        userDetailsService.checkIfAdmin(user);
 
         Team team = teamRepository.findById(request.getTeamId())
                         .orElseThrow(() -> new ApiException((ErrorStatus._NOT_FOUND_TEAM)));
@@ -63,11 +62,5 @@ public class GroundService {
                 ground.getTel(),
                 ground.getGroundImg()
         )).orElse(null);
-    }
-
-    public void checkIfAdmin(User user) {
-        if (!user.getUserRole().equals((UserRole.ROLE_ADMIN))) {
-            throw new ApiException(ErrorStatus._NOT_ADMIN_USER);
-        }
     }
 }
