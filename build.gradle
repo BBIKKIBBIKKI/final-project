@@ -4,18 +4,56 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.6'
 }
 
-group = 'com.wearei'
-version = '0.0.1-SNAPSHOT'
-
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
     }
 }
 
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
+subprojects {
+    group = 'com.wearei'
+    version = '0.0.1-SNAPSHOT'
+
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        // Spring Boot JPA
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+        // Spring Boot Web
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+
+        // Lombok
+        implementation 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
+
+        // MySQL 커넥터
+        runtimeOnly 'com.mysql:mysql-connector-j'
+
+        // Hypersistence Utils
+        implementation 'io.hypersistence:hypersistence-utils-hibernate-60:3.3.1'
+
+        // 테스트 라이브러리
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+        testImplementation 'com.navercorp.fixturemonkey:fixture-monkey-starter:1.0.27'
+
+        //Querydsl 추가
+        implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+        annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
+        annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+        annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+    }
+
+    configurations {
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
     }
 }
 
@@ -23,67 +61,68 @@ repositories {
     mavenCentral()
 }
 
-dependencies {
-    // Spring Boot JPA
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
-    // Spring Boot Web
-    implementation 'org.springframework.boot:spring-boot-starter-web'
+project(":api") {
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-security'
+        implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-    // Spring security
-    implementation 'org.springframework.boot:spring-boot-starter-security'
+        compileOnly 'io.jsonwebtoken:jjwt-api:0.11.5'
+        runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+        runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 
-    // Lombok
-    implementation 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
+        testImplementation 'org.springframework.security:spring-security-test'
 
-    // MySQL 커넥터
-    runtimeOnly 'com.mysql:mysql-connector-j'
+        implementation project(":core")
+        implementation project(":common")
+        implementation project(":integration")
+    }
 
-    // AWS S3 연동
-    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+}
 
-    // Redis
-    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+project(":batch") {
+    dependencies {
+        implementation project(":core")
+        implementation project(":common")
+        implementation project(":integration")
+    }
+}
 
-    // Hypersistence Utils
-    implementation 'io.hypersistence:hypersistence-utils-hibernate-60:3.3.1'
+project(":chat") {
+    dependencies {
+        implementation project(":core")
+        implementation project(":common")
+        implementation project(":integration")
+    }
 
-    // 테스트 라이브러리
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-    testImplementation 'org.springframework.security:spring-security-test'
-    testImplementation 'com.navercorp.fixturemonkey:fixture-monkey-starter:1.0.27'
+}
 
-    // Bcrypt
-    implementation 'at.favre.lib:bcrypt:0.10.2'
+project(":core") {
+    dependencies {
+        implementation project(":common")
+    }
+}
 
-    // JWT
-    compileOnly 'io.jsonwebtoken:jjwt-api:0.11.5'
-    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
-    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+project(":common") {
 
-    // Bean Validation
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
+}
 
-    // JAXB API
-    implementation 'javax.xml.bind:jaxb-api:2.3.1'
+project(":integration") {
+    dependencies {
+        // AWS S3 연동
+        implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
-    // Jackson
-    implementation 'com.fasterxml.jackson.module:jackson-module-jakarta-xmlbind-annotations'
+        // Redis
+        implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+        // websocket
+        implementation 'org.springframework.boot:spring-boot-starter-websocket'
 
-    // websocket
-    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+        // AWS SQS
+        implementation platform("io.awspring.cloud:spring-cloud-aws-dependencies:3.0.1")
+        implementation 'io.awspring.cloud:spring-cloud-aws-starter-sqs'
 
-    // AWS SQS
-    implementation platform("io.awspring.cloud:spring-cloud-aws-dependencies:3.0.1")
-    implementation 'io.awspring.cloud:spring-cloud-aws-starter-sqs'
+    }
 
-    //Querydsl 추가
-    implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
-    annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
-    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
-    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 }
 
 tasks.named('test') {
