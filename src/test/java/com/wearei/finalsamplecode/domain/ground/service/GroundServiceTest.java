@@ -63,8 +63,8 @@ public class GroundServiceTest {
         GroundCreateResponse groundCreateResponse = groundService.createGround(groundCreateRequest, authUser, file);
 
         // then: 구장 정상 생성 확인
-        Ground savedGround = groundRepository.findByGroundName(groundCreateResponse.getGroundName())
-                .orElseThrow(() -> new IllegalArgumentException("생성된 구장이 존재하지 않습니다."));
+        Ground savedGround = groundRepository.searchGroundByTeamOrGroundName(team.getTeamName(), groundCreateResponse.getGroundName())
+                .orElse(null);
 
         // 검증
         assertEquals("잠실주경기장", savedGround.getGroundName());
@@ -102,7 +102,7 @@ public class GroundServiceTest {
         ground = groundRepository.save(new Ground("잠실주경기장", "서울", "02-1234-5678", "groundImageUrl", team));
 
         // when
-        GroundSearchResponse response = groundService.searchGround(authUser, "두산베어스", null);
+        GroundSearchResponse response = groundService.searchGround("두산베어스", null);
 
         // then
         assertEquals(ground.getGroundName(), response.getGroundName());
@@ -116,7 +116,7 @@ public class GroundServiceTest {
         // given
         ground = groundRepository.save(new Ground("잠실주경기장", "서울", "02-1234-5678", "groundImageUrl", team));
         // when
-        GroundSearchResponse response = groundService.searchGround(authUser, null, "잠실주경기장");
+        GroundSearchResponse response = groundService.searchGround(null, "잠실주경기장");
 
         // then
         assertEquals(ground.getGroundName(), response.getGroundName());
@@ -131,7 +131,7 @@ public class GroundServiceTest {
         ground = groundRepository.save(new Ground("잠실주경기장", "서울", "02-1234-5678", "groundImageUrl", team));
         // when/then
         ApiException exception = assertThrows(ApiException.class, () -> {
-            groundService.searchGround(authUser, "없는팀", null);
+            groundService.searchGround("없는팀", null);
         });
 
         // 예외 메시지 검증
@@ -144,7 +144,7 @@ public class GroundServiceTest {
         ground = groundRepository.save(new Ground("잠실주경기장", "서울", "02-1234-5678", "groundImageUrl", team));
         // when/then
         ApiException exception = assertThrows(ApiException.class, () -> {
-            groundService.searchGround(authUser, null, "없는구장");
+            groundService.searchGround(null, "없는구장");
         });
 
         // 예외 메시지 검증
@@ -157,11 +157,10 @@ public class GroundServiceTest {
         ground = groundRepository.save(new Ground("잠실주경기장", "서울", "02-1234-5678", "groundImageUrl", team));
         // when/then
         ApiException exception = assertThrows(ApiException.class, () -> {
-            groundService.searchGround(authUser, null, null);  // 검색 조건 없음
+            groundService.searchGround(null, null);  // 검색 조건 없음
         });
 
         // 예외 메시지 검증
         assertEquals(ErrorStatus._INVALID_SEARCH_CRITERIA.getMessage(), exception.getMessage());
     }
 }
-

@@ -60,10 +60,10 @@ public class TeamServiceTest {
     @Test
     void 팀_정상_검색() {
         // given
-        Team team = teamRepository.save(new Team("Seoul Tigers", "uniformImgUrl", "mascotImgUrl", "equipmentImgUrl", "Eye of the Tiger"));
+        teamRepository.save(new Team("Seoul Tigers", "uniformImgUrl", "mascotImgUrl", "equipmentImgUrl", "Eye of the Tiger"));
 
         // when
-        TeamSearchResponse response = teamService.searchTeam(authUser, "Seoul Tigers");
+        TeamSearchResponse response = teamService.searchTeam("Seoul Tigers");
 
         // then
         assertNotNull(response);
@@ -79,6 +79,6 @@ public class TeamServiceTest {
         String nonExistentTeamName = "NonExistentTeam";
 
         // when & then
-        assertThrows(ApiException.class, () -> teamService.searchTeam(authUser, nonExistentTeamName));
+        assertThrows(ApiException.class, () -> teamService.searchTeam(nonExistentTeamName));
     }
 }

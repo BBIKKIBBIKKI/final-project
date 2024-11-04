@@ -30,9 +30,8 @@ public class TeamController {
 
     @GetMapping("/search")
     public ApiResponse<TeamSearchResponse> searchTeam(
-            @AuthenticationPrincipal AuthUser authUser,
             @RequestParam(required = false, name="teamName") String teamName
     ) {
-       return ApiResponse.onSuccess(teamService.searchTeam(authUser, teamName));
+       return ApiResponse.onSuccess(teamService.searchTeam(teamName));
     }
 }
