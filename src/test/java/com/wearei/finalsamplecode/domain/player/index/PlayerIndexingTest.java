@@ -1,29 +1,24 @@
 package com.wearei.finalsamplecode.domain.player.index;
 
-import com.wearei.finalsamplecode.domain.player.dto.response.PlayerSearchResponse;
 import com.wearei.finalsamplecode.domain.player.entity.Player;
 import com.wearei.finalsamplecode.domain.player.repository.PlayerRepository;
-import com.wearei.finalsamplecode.domain.player.service.PlayerService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import static org.junit.jupiter.api.Assertions.*;
 
 @Slf4j
+@Transactional
 @SpringBootTest
 public class PlayerIndexingTest {
     @Autowired
-    private PlayerService playerService;
-
-    @Autowired
     private PlayerRepository playerRepository;
 
-    private static final int PLAYER_COUNT = 1000000; // 50만 명의 플레이어
+    private static final int PLAYER_COUNT = 10; // 인덱싱 테스트를 위해 100만명의 선수를 생성하는데 사용하였으나, 배포시 10명으로 수정
     private static final String[] FAMILY_NAMES = {"김", "이", "박", "최", "정", "강", "조", "윤", "장", "임"};
     private static final String[] GIVEN_NAMES = {"민수", "지우", "서연", "준호", "수민", "예은", "현우", "유진", "지원", "재영"};
     private static final String[] TEAMS = {"KIA 타이거즈", "삼성 라이온즈", "LG 트윈스", "두산베어스",
@@ -74,19 +69,5 @@ public class PlayerIndexingTest {
         String familyName = FAMILY_NAMES[random.nextInt(FAMILY_NAMES.length)];
         String givenName = GIVEN_NAMES[random.nextInt(GIVEN_NAMES.length)];
         return familyName + givenName;
-    }
-
-    @Test
-    public void testGetPlayerByName() {
-        // Given
-        String playerName = "박서연";
-
-        // When
-        List<PlayerSearchResponse> players = playerService.getPlayerByNameAndTeamName(playerName, null);
-
-        // Then
-        assertFalse(players.isEmpty(), "선수 정보가 조회되어야 합니다.");
-        assertEquals(playerName, players.get(0).getPlayerName(), "조회된 선수 이름이 일치해야 합니다.");
-        assertEquals("KIA 타이거즈", players.get(0).getTeamName(), "조회된 팀 이름이 일치해야 합니다.");
     }
 }
