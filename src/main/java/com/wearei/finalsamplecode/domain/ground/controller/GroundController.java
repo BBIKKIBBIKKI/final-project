@@ -28,10 +28,9 @@ public class GroundController {
 
     @GetMapping("/search")
     public ApiResponse<GroundSearchResponse> searchGround(
-            @AuthenticationPrincipal AuthUser authUser,
             @RequestParam(required = false, name="teamName") String teamName,
             @RequestParam(required = false, name="groundName") String groundName
     ) {
-        return ApiResponse.onSuccess(groundService.searchGround(authUser, teamName, groundName));
+        return ApiResponse.onSuccess(groundService.searchGround(teamName, groundName));
     }
 }
