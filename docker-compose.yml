@@ -9,3 +9,11 @@ services:
         limits:
           cpus: '0.5'
           memory: 512M
+    environment:
+      REDIS_HOST: redis  # Redis 서비스 이름을 호스트로 사용
+      REDIS_PORT: 6379    # Redis 기본 포트 설정
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"  # Redis의 기본 포트
