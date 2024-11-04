@@ -17,3 +17,4 @@ services:
     image: redis:latest
     ports:
       - "6379:6379"  # Redis의 기본 포트
+      -
