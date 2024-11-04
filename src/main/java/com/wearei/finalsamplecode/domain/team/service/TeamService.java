@@ -49,7 +49,8 @@ public class TeamService {
         return new TeamCreateResponse(team.getTeamName(), team.getUniformImg(), team.getMascotImg(), team.getUniformImg(), team.getEquipmentImg());
     }
 
-    public TeamSearchResponse searchTeam(AuthUser authUser, String teamName) {
+    @Transactional(readOnly = true)
+    public TeamSearchResponse searchTeam(String teamName) {
         Team team = teamRepository.findByTeamName(teamName)
                 .orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_TEAM));
 
