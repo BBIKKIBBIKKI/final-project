@@ -6,9 +6,7 @@ import com.wearei.finalsamplecode.common.annotation.AppProfile;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.Objects;
@@ -16,7 +14,7 @@ import java.util.Objects;
 @Component
 @AppProfile
 @RequiredArgsConstructor
-public class DefaultS3Api implements S3Api {
+public class DefaultS3Api implements S3Api { // application.yml이 local, prod, dev일 경우 사용한다.
     private final AmazonS3Client amazonS3Client;
 
     @Value("${cloud.aws.s3.bucket}")
