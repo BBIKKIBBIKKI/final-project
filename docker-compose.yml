@@ -1,0 +1,11 @@
+version: '3'
+services:
+  bbikkibbikki:
+    image: oht2050/bbikkibbikki:latest
+    ports:
+      - "80:80"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
