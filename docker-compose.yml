@@ -10,8 +10,17 @@ services:
           cpus: '0.5'
           memory: 512M
     environment:
-      REDIS_HOST: redis  # Redis 서비스 이름을 호스트로 사용
-      REDIS_PORT: 6379    # Redis 기본 포트 설정
+      DB_URL: ${{ secrets.DB_URL }}
+      DB_USERNAME: ${{ secrets.DB_USERNAME }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      REDIS_HOST: ${{ secrets.REDIS_HOST }}
+      REDIS_PORT: ${{ secrets.REDIS_PORT }}
+      JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
+      S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
+      SQS_NAME: ${{ secrets.SQS_NAME }}
+      S3_ACCESS_KEY: ${{ secrets.S3_ACCESS_KEY }}
+      S3_SECRET_KEY: ${{ secrets.S3_SECRET_KEY }}
+
 
   redis:
     image: redis:latest
