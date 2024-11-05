@@ -10,18 +10,18 @@ services:
           cpus: '0.5'
           memory: 512M
     environment:
-      DB_URL: ${{ secrets.DB_URL }}
-      DB_USERNAME: ${{ secrets.DB_USERNAME }}
-      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-      REDIS_HOST: ${{ secrets.REDIS_HOST }}
-      REDIS_PORT: ${{ secrets.REDIS_PORT }}
-      JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
-      S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
-      SQS_NAME: ${{ secrets.SQS_NAME }}
-      S3_ACCESS_KEY: ${{ secrets.S3_ACCESS_KEY }}
-      S3_SECRET_KEY: ${{ secrets.S3_SECRET_KEY }}
+      DB_URL: ${DB_URL}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      S3_BUCKET_NAME: ${S3_BUCKET_NAME}
+      SQS_NAME: ${SQS_NAME}
+      S3_ACCESS_KEY: ${S3_ACCESS_KEY}
+      S3_SECRET_KEY: ${S3_SECRET_KEY}
 
   redis:
     image: redis:latest
     ports:
-      - "6379:6379"  # Redis의 기본 포트
+      - "6379:6379"

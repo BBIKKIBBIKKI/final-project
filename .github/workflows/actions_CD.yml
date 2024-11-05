@@ -14,6 +14,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+
+      - name: Set environment variables
+        env:
+          DB_URL: ${{ secrets.DB_URL }}
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          REDIS_HOST: ${{ secrets.REDIS_HOST }}
+          REDIS_PORT: ${{ secrets.REDIS_PORT }}
+          JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
+          S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
+          SQS_NAME: ${{ secrets.SQS_NAME }}
+          S3_ACCESS_KEY: ${{ secrets.S3_ACCESS_KEY }}
+          S3_SECRET_KEY: ${{ secrets.S3_SECRET_KEY }}
+
       # ZIP 파일 생성
       - name: Create ZIP file for deployment
         run: zip -r deploy.zip docker-compose.yml other-source-files/*  # 필요한 파일들 포함
