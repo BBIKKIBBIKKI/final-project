@@ -21,6 +21,7 @@ services:
       PROD_S3_ACCESS_KEY: ${PROD_S3_ACCESS_KEY}
       PROD_S3_SECRET_KEY: ${PROD_S3_SECRET_KEY}
 
+
   redis:
     image: redis:latest
     ports:
