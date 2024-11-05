@@ -8,14 +8,18 @@ import com.wearei.finalsamplecode.domain.auth.dto.response.SignupResponse;
 import com.wearei.finalsamplecode.domain.auth.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthService authService;
+
+    @GetMapping("/")
+    public String healthCheck(){
+        return "true";
+    }
+
     // 회원가입
     @PostMapping("/auth/sign-up")
     public ApiResponse<SignupResponse> signup(
