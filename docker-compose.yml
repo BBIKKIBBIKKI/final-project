@@ -10,18 +10,29 @@ services:
           cpus: '0.5'
           memory: 512M
     environment:
-      DB_URL: ${DB_URL}
-      DB_USERNAME: ${DB_USERNAME}
-      DB_PASSWORD: ${DB_PASSWORD}
-      REDIS_HOST: ${REDIS_HOST}
-      REDIS_PORT: ${REDIS_PORT}
-      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
-      S3_BUCKET_NAME: ${S3_BUCKET_NAME}
-      SQS_NAME: ${SQS_NAME}
-      S3_ACCESS_KEY: ${S3_ACCESS_KEY}
-      S3_SECRET_KEY: ${S3_SECRET_KEY}
+      PROD_DB_URL: ${PROD_DB_URL}
+      PROD_DB_USERNAME: ${PROD_DB_USERNAME}
+      PROD_DB_PASSWORD: ${PROD_DB_PASSWORD}
+      PROD_REDIS_HOST: ${PROD_REDIS_HOST}
+      PROD_REDIS_PORT: ${PROD_REDIS_PORT}
+      PROD_JWT_SECRET_KEY: ${PROD_JWT_SECRET_KEY}
+      PROD_S3_BUCKET_NAME: ${PROD_S3_BUCKET_NAME}
+      PROD_SQS_NAME: ${PROD_SQS_NAME}
+      PROD_S3_ACCESS_KEY: ${PROD_S3_ACCESS_KEY}
+      PROD_S3_SECRET_KEY: ${PROD_S3_SECRET_KEY}
 
   redis:
     image: redis:latest
     ports:
       - "6379:6379"
+
+  mysql:
+    image: mysql:8.0  # 또는 다른 버전 선택 가능
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${PROD_DB_PASSWORD}  # 원하는 root 비밀번호 설정
+      MYSQL_DATABASE: baseball  # 생성할 기본 데이터베이스 이름
+      MYSQL_USER: ${PROD_DB_USERNAME}
+      MYSQL_PASSWORD: ${PROD_DB_PASSWORD}
+    ports:
+      - "3306:3306"  # MySQL 기본 포트
