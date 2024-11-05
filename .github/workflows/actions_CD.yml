@@ -3,7 +3,7 @@ name: Deploy to Elastic Beanstalk
 on:
   push:
     branches:
-      - cicd-ohtt
+      - cicd-oht
 
 jobs:
   deploy:
