@@ -21,7 +21,6 @@ services:
       S3_ACCESS_KEY: ${{ secrets.S3_ACCESS_KEY }}
       S3_SECRET_KEY: ${{ secrets.S3_SECRET_KEY }}
 
-
   redis:
     image: redis:latest
     ports:
