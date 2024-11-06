@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
     private final AuthService authService;
 
-    @GetMapping("/")
+    @GetMapping("/health")
     public String healthCheck(){
         return "true";
     }
