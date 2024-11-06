@@ -24,16 +24,26 @@
 
 ## 💜 주요기능
 
-- 
+- 덕질 커뮤니티
+    : 최애 선수 팔로잉, 구단 응원 게시물, 댓글, 좋아요 기능
 
-- Redis를 활용한 캐시 전략
+- 실시간 채팅
+    : Web Socket을 통한 매 경기마다 실시간 채팅으로 야구인들과 소통!
 
-- 인덱스를 활용한 최적화
+- 구장별 가게 음식 예약
+    : 음식을 주문/예약할 때 분산락을 이용해 메뉴의 재고와 순서를 파악해 혼잡스럽지 않도록 교통정리 하는 기능
+  
+- 음식 주문 알림
+    : AWS SQS를 통해 비동기 메세지큐로 특정 이벤트에 대한 실시간 음식 주문 알림 기능
 
-- 알림 기능
+- CI/CD
+    : Elastic Beanstalk를 사용한 무중단 배포 구현
+  
+- 인덱싱
+    : 선수 테이블 인덱싱
 
 ## ⏲️ 개발기간
-- 2024.10.14(월) ~ 2024.10.17(목)
+- 2024.10.21(월) ~ 2024.11.22(금)
 
 ## 📚️ 기술스택
 
@@ -66,24 +76,13 @@
 https://embed.figma.com/design/pDd7kx221auWuDxgz6xSD9/Bbikki?node-id=0-1&t=8HwyPIOHDGqx7S4q-1&embed-host=notion&footer=false&theme=system
 
 ## ✔️ API 명세서
-| API 명세 | API 명세  | API 명세 | API 명세 |
-| :------------: | :------------: |:------------:|:------------:|
-|<img src="https://github.com/SemiFinalPJ/backend/blob/dev/src/img/api%20%EB%AA%85%EC%84%B81.png" width="300" height="200"/>|<img src="https://github.com/SemiFinalPJ/backend/blob/dev/src/img/api%20%EB%AA%85%EC%84%B82.png" width="300" height="200"/>|<img src="https://github.com/SemiFinalPJ/backend/blob/dev/src/img/api%20%EB%AA%85%EC%84%B83.png" width="300" height="200"/>|<img src="https://github.com/SemiFinalPJ/backend/blob/dev/src/img/api%20%EB%AA%85%EC%84%B84.png" width="300" height="200"/>|
+https://www.notion.so/teamsparta/1262dc3ef51481a281d6fd7b6a26ffe9?v=1262dc3ef514813583bd000cfffdb22b&pvs=4
 
 ## ✔️ ERD
-![](https://github.com/SemiFinalPJ/backend/blob/dev/src/img/ERD.png)
+<img width="1089" alt="스크린샷 2024-10-24 오후 1 23 04" src="https://github.com/user-attachments/assets/3f37a084-2561-46c2-b206-2dfa5b78bb8c">
 
-## ✔️ Trouble Shooting
-### 강태영
-- 인덱스를 조회 속도가 가장 느린 조건에 설정했으나, 성능 개선이 크게 이뤄지지 않음, 성능 개선을 위해 상대적으로 덜 중복되는 title과 info필드를 인덱스로 지정함.
+## ✔️ 아키텍쳐 다이아그램
+<img width="902" alt="스크린샷 2024-11-06 14 51 38" src="https://github.com/user-attachments/assets/01d24b78-c12b-4605-8862-a770f5ebb7a9">
 
-### 김아름
-- 하나의 카드에 여러 스레드가 접근해 변경을 시도하는 테스트에서 낙관적 락을 사용하니 충돌이 너무 많아 계속 롤백하고 다시 시도하며 테스트가 끝나지 않는 이슈 발생. 최대 시도 횟수 정의한 후 초과시 종료하도록 함.
-
-### 정은교
-- 한 유저가 카드를 무제한적으로 조회하지 않기 위해서 5초 제한을 cardService 상에서 로직으로 구현을 하였음. 하지만, 캐싱상에서 조회수 데이터뿐만 아니라 조회 기록 데이터(card:user:view:{user_id}:{card_id}) 를 ttl 5초로 설정하여 무제한으로 조회를 하지 않도록 하는 방안을 제안해주셔서 수정하는 방향으로 진행함.
-
-### 황인서
-- 레디스에 카드 ID와 조회수만 저장되어 어플리케이션 로직 내에서 다시 조회수를 가지고 정렬해야 하다 보니 시간이 오래 걸림, 이를 해결하기 위해 zest 자료구조를 사용해 조회수를 기준으로 정렬된 상태로 저장하여 랭킹 조회 성능을 개선했다.
-
-
+## ✔️ CI/CD 플로우 차트
+<img width="671" alt="스크린샷 2024-11-06 14 52 50" src="https://github.com/user-attachments/assets/bfef9b79-c009-469d-9a84-ae15b2e7d1b5">
