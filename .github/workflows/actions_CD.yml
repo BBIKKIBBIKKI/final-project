@@ -30,3 +30,4 @@ jobs:
           region: ap-northeast-2
           deployment_package: deploy.zip  # ZIP 파일의 이름
 
+
