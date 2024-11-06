@@ -28,4 +28,4 @@ jobs:
           environment_name: Bbikkibbikki-env-2
           version_label: ${{ github.sha }}
           region: ap-northeast-2
-          deployment_package: deploy.zip  # ZIP 파일의 이름'
+          deployment_package: deploy.zip  # ZIP 파일의 이름
