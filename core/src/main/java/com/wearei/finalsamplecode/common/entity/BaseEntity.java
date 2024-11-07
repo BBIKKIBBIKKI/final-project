@@ -1,5 +1,6 @@
 package com.wearei.finalsamplecode.common.entity;
 
+import jakarta.persistence.*;
 import lombok.Getter;
 
 @Getter

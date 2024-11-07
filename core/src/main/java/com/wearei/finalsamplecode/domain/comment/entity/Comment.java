@@ -3,6 +3,7 @@ package com.wearei.finalsamplecode.domain.comment.entity;
 import com.wearei.finalsamplecode.domain.board.entity.Board;
 import com.wearei.finalsamplecode.domain.team.entity.Team;
 import com.wearei.finalsamplecode.common.entity.Timestamped;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

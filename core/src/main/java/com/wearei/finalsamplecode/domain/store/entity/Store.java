@@ -7,6 +7,8 @@ import com.wearei.finalsamplecode.common.entity.BaseEntity;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -45,6 +47,24 @@ public class Store extends BaseEntity {
         this.openedAt = openedAt;
         this.closedAt = closedAt;
         this.user = user;
+    }
+
+    public Store(Ground ground, String storeName, LocalTime openedAt, LocalTime closedAt) {
+        this.ground = ground;
+        this.storeName = storeName;
+        this.openedAt = openedAt;
+        this.closedAt = closedAt;
+    }
+
+    public Store(String storeName, LocalTime openedAt, LocalTime closedAt) {
+        this.storeName = storeName;
+        this.openedAt = openedAt;
+        this.closedAt = closedAt;
+    }
+
+    public Store(String storeName, List<Menu> menus) {
+        this.storeName = storeName;
+        this.menus = menus;
     }
 
     public void update(Ground ground, String storeName, LocalTime openedAt, LocalTime closedAt) {

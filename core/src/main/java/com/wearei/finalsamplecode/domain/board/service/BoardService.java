@@ -1,25 +1,16 @@
 package com.wearei.finalsamplecode.domain.board.service;
 
-import static java.util.stream.Collectors.toList;
-
-import com.wearei.finalsamplecode.domain.board.dto.request.BoardCreateRequestDto;
+import com.wearei.finalsamplecode.apipayload.status.ErrorStatus;
 import com.wearei.finalsamplecode.domain.board.dto.request.BoardUpdateRequestDto;
-import com.wearei.finalsamplecode.domain.board.dto.response.BoardCreateResponseDto;
 import com.wearei.finalsamplecode.domain.board.dto.response.BoardSearchDetailResponseDto;
-import com.wearei.finalsamplecode.domain.board.dto.response.BoardSearchResponseDto;
 import com.wearei.finalsamplecode.domain.board.dto.response.BoardUpdateResponseDto;
 import com.wearei.finalsamplecode.domain.board.entity.Board;
 import com.wearei.finalsamplecode.domain.board.repository.BoardRepository;
 import com.wearei.finalsamplecode.domain.comment.dto.response.CommentResponseDto;
 import com.wearei.finalsamplecode.domain.team.entity.Team;
 import com.wearei.finalsamplecode.domain.team.repository.TeamRepository;
-import com.wearei.finalsamplecode.apipayload.status.ErrorStatus;
 import com.wearei.finalsamplecode.exception.ApiException;
 import com.wearei.finalsamplecode.integration.s3.S3Api;
-import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -27,6 +18,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.Objects;
+import static java.util.stream.Collectors.toList;
 
 @Service
 @RequiredArgsConstructor
@@ -36,8 +31,8 @@ public class BoardService {
     private final S3Api s3Api;
 
     @Transactional
-    public BoardCreateResponseDto createBoard(BoardCreateRequestDto boardCreateRequestDto, MultipartFile backgroundImg) {
-        Team team = teamRepository.findByTeamId(boardCreateRequestDto.getTeamId());
+    public Board createBoard(Long teamId, String title, String contents, MultipartFile backgroundImg) {
+        Team team = teamRepository.findByTeamId(teamId);
 
         String groundImageUrl = null;
       
@@ -50,12 +45,13 @@ public class BoardService {
         Board board = boardRepository.save(
                 new Board(
                         team,
-                        boardCreateRequestDto.getTitle(),
-                        boardCreateRequestDto.getContents(),
+                        title,
+                        contents,
                         groundImageUrl)
         );
 
-        return new BoardCreateResponseDto(boardCreateRequestDto.getTeamId(),
+        return new Board(
+                team,
                 board.getId(),
                 board.getTitle(),
                 board.getContents(),
@@ -66,8 +62,8 @@ public class BoardService {
         );
     }
 
-    public Page<BoardSearchResponseDto> getBoards(Long teamId, Pageable pageable) {
-        teamRepository.findByTeamId(teamId);
+    public Page<Board> getBoards(Long teamId, Pageable pageable) {
+        Team team = teamRepository.findByTeamId(teamId);
 
         Page<Board> boardPage = boardRepository.findByTeamId(teamId, pageable);
 
@@ -75,8 +71,8 @@ public class BoardService {
             return new PageImpl<>(Collections.emptyList(), pageable, 0); // 빈 리스트와 함께 페이지 정보 반환
         }
 
-        return boardPage.map(board -> new BoardSearchResponseDto(
-                teamId,
+        return boardPage.map(board -> new Board(
+                team,
                 board.getId(),
                 board.getTitle(),
                 board.getContents(),

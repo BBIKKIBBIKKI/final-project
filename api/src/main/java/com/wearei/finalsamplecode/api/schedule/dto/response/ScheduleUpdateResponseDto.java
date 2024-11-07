@@ -3,6 +3,8 @@ package com.wearei.finalsamplecode.api.schedule.dto.response;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+
+import com.wearei.finalsamplecode.domain.schedule.entity.Schedule;
 import lombok.Getter;
 
 @Getter
@@ -16,14 +18,14 @@ public class ScheduleUpdateResponseDto {
     private final LocalTime time;
     private final LocalDateTime modifiedAt;
 
-    public ScheduleUpdateResponseDto(Long teamId, Long id, String title, String contents, String ground, LocalDate date, LocalTime time, LocalDateTime modifiedAt) {
-        this.teamId = teamId;
-        this.id = id;
-        this.title = title;
-        this.contents = contents;
-        this.ground = ground;
-        this.date = date;
-        this.time = time;
-        this.modifiedAt = modifiedAt;
+    public ScheduleUpdateResponseDto(Schedule schedule) {
+        this.teamId = schedule.getTeam().getId();
+        this.id = schedule.getId();
+        this.title = schedule.getTitle();
+        this.contents = schedule.getContents();
+        this.ground = schedule.getGround();
+        this.date = schedule.getDate();
+        this.time = schedule.getTime();
+        this.modifiedAt = schedule.getModifiedAt();
     }
 }

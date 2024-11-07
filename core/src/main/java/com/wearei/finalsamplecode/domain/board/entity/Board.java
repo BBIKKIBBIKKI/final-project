@@ -3,8 +3,13 @@ package com.wearei.finalsamplecode.domain.board.entity;
 import com.wearei.finalsamplecode.domain.comment.entity.Comment;
 import com.wearei.finalsamplecode.domain.team.entity.Team;
 import com.wearei.finalsamplecode.common.entity.Timestamped;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -35,6 +40,15 @@ public class Board extends Timestamped {
         this.title = title;
         this.contents = contents;
         this.backgroundImage = backgroundImg;
+    }
+
+    public Board(Team team, Long boardId, String title, String contents, String groundImageUrl, int likes, LocalDateTime createdAt, LocalDateTime modifiedAt) {
+         this.team = team;
+         this.id = boardId;
+         this.title = title;
+         this.contents = contents;
+         this.backgroundImage = groundImageUrl;
+         this.likes = likes;
     }
 
     public void increaseLike() {

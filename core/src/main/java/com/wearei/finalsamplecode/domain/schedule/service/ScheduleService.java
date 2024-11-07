@@ -1,10 +1,7 @@
 package com.wearei.finalsamplecode.domain.schedule.service;
 
-import com.wearei.finalsamplecode.domain.schedule.dto.request.ScheduleCreateRequestDto;
-import com.wearei.finalsamplecode.domain.schedule.dto.request.ScheduleUpdateRequestDto;
-import com.wearei.finalsamplecode.domain.schedule.dto.response.ScheduleCreateResponseDto;
-import com.wearei.finalsamplecode.domain.schedule.dto.response.ScheduleSearchResponseDto;
-import com.wearei.finalsamplecode.domain.schedule.dto.response.ScheduleUpdateResponseDto;
+import com.wearei.finalsamplecode.apipayload.status.ErrorStatus;
+import com.wearei.finalsamplecode.common.dto.AuthUser;
 import com.wearei.finalsamplecode.domain.schedule.entity.Schedule;
 import com.wearei.finalsamplecode.domain.schedule.repository.ScheduleRepository;
 import com.wearei.finalsamplecode.domain.team.entity.Team;
@@ -12,126 +9,80 @@ import com.wearei.finalsamplecode.domain.team.repository.TeamRepository;
 import com.wearei.finalsamplecode.domain.user.entity.User;
 import com.wearei.finalsamplecode.domain.user.enums.UserRole;
 import com.wearei.finalsamplecode.domain.user.repository.UserRepository;
-import com.wearei.finalsamplecode.apipayload.status.ErrorStatus;
-import com.wearei.finalsamplecode.common.dto.AuthUser;
 import com.wearei.finalsamplecode.exception.ApiException;
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
     private final UserRepository userRepository;
     private final TeamRepository teamRepository;
 
-    public ScheduleCreateResponseDto createSchedule(ScheduleCreateRequestDto scheduleCreateRequestDto, AuthUser authUser) {
+    public Schedule createSchedule(Long teamId, String title, String contents, String ground, LocalDate date, LocalTime time, AuthUser authUser) {
         User user = userRepository.findById(authUser.getUserId()).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_USER));
 
         checkIfAdmin(user);
-        //구단id확인
-       Team team = teamRepository.findByTeamId(scheduleCreateRequestDto.getTeamId());
 
-        // 일정 생성하기
-        Schedule schedule = new Schedule(team,
-                scheduleCreateRequestDto.getTitle(),
-                scheduleCreateRequestDto.getContents(),
-                scheduleCreateRequestDto.getGround(),
-                scheduleCreateRequestDto.getDate(),
-                scheduleCreateRequestDto.getTime()
-        );
-        //생성한 일정 저장
-        scheduleRepository.save(schedule);
+       Team team = teamRepository.findByTeamId(teamId);
 
-        return new ScheduleCreateResponseDto(scheduleCreateRequestDto.getTeamId(),
-                schedule.getId(),
-                schedule.getTitle(),
-                schedule.getContents(),
-                schedule.getGround(),
-                schedule.getDate(),
-                schedule.getTime(),
-                schedule.getCreatedAt(),
-                schedule.getModifiedAt()
-        );
+        return scheduleRepository.save(new Schedule(
+                team,
+                title,
+                contents,
+                ground,
+                date,
+                time
+        ));
     }
 
-    public ScheduleUpdateResponseDto updateSchedule(Long scheduleId, ScheduleUpdateRequestDto scheduleUpdateRequestDto) {
+    public Schedule updateSchedule(Long scheduleId, Long teamId, String title, String contents, String ground, LocalDate date, LocalTime time) {
         //구단 조회
-       Team team = teamRepository.findByTeamId(scheduleUpdateRequestDto.getTeamId());
+       Team team = teamRepository.findByTeamId(teamId);
         //일정 확인
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_SCHEDULE));
 
-        if(scheduleUpdateRequestDto.getTitle() != null){
-            schedule.setTitle(scheduleUpdateRequestDto.getTitle());
+        if(Objects.nonNull(title)){
+            schedule.updateTitle(title);
         }
 
-        if(scheduleUpdateRequestDto.getContents() != null){
-            schedule.setContents(scheduleUpdateRequestDto.getContents());
+        if(Objects.nonNull(contents)){
+            schedule.updateContents(contents);
         }
 
-        if(scheduleUpdateRequestDto.getGround() != null){
-            schedule.setGround(scheduleUpdateRequestDto.getGround());
+        if(Objects.nonNull(ground)){
+            schedule.updateGround(ground);
         }
 
-        if(scheduleUpdateRequestDto.getDate() != null){
-            schedule.setDate(scheduleUpdateRequestDto.getDate());
+        if(Objects.nonNull(date)){
+            schedule.updateDate(date);
         }
 
-        if(scheduleUpdateRequestDto.getTime() != null){
-            schedule.setTime(scheduleUpdateRequestDto.getTime());
+        if(Objects.nonNull(time)){
+            schedule.updateTime(time);
         }
         //일정 수정
-        schedule.updateSchedule(team,
+        schedule.updateSchedule(
+                team,
                 schedule.getTitle(),
                 schedule.getContents(),
                 schedule.getGround(),
                 schedule.getDate(),
                 schedule.getTime()
         );
-        //일정 저장
-        scheduleRepository.save(schedule);
+
         //일정 조회시 반환
-        return new ScheduleUpdateResponseDto(scheduleUpdateRequestDto.getTeamId(),
-                schedule.getId(),
-                schedule.getTitle(),
-                schedule.getContents(),
-                schedule.getGround(),
-                schedule.getDate(),
-                schedule.getTime(),
-                schedule.getModifiedAt()
-        );
-    }
-
-    public List<ScheduleSearchResponseDto> getSchedules(Long teamId) {
-        teamRepository.findByTeamId(teamId);
-
-        return scheduleRepository.findByTeam_Id(teamId).stream()
-                .map(schedule -> new ScheduleSearchResponseDto(teamId,
-                        schedule.getId(),
-                        schedule.getTitle(),
-                        schedule.getContents(),
-                        schedule.getGround(),
-                        schedule.getDate(),
-                        schedule.getTime(),
-                        schedule.getCreatedAt(),
-                        schedule.getModifiedAt()))
-                .collect(Collectors.toList());
-    }
-
-    public ScheduleSearchResponseDto getSchedule(Long teamId, Long scheduleId) {
-        Schedule schedule = scheduleRepository.findByTeamIdAndId(teamId,scheduleId);
-
-        return new ScheduleSearchResponseDto(teamId,
-                schedule.getId(),
-                schedule.getTitle(),
-                schedule.getContents(),
-                schedule.getGround(),
-                schedule.getDate(),
-                schedule.getTime(),
-                schedule.getCreatedAt(),
-                schedule.getModifiedAt());
+        return schedule;
     }
 
     public void deleteSchedule(Long scheduleId, Long teamId) {

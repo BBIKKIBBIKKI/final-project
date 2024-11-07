@@ -17,4 +17,7 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
                                    @Param("menuName") String menuName);
 
     boolean existsByStoreNameAndGround(String storeName, Ground ground);
+
+    @Query("SELECT s FROM Store s LEFT JOIN FETCH s.menus WHERE s.id = :storeId")
+    Store findStoreWithMenus(@Param("storeId") Long storeId);
 }

@@ -1,8 +1,8 @@
 package com.wearei.finalsamplecode.config;
 
 import com.wearei.finalsamplecode.common.annotation.AppProfile;
-import io.awspring.cloud.sqs.config.SqsMessageListenerContainerFactory;
-import io.awspring.cloud.sqs.operations.SqsTemplate;
+
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import software.amazon.awssdk.auth.credentials.AwsCredentials;
