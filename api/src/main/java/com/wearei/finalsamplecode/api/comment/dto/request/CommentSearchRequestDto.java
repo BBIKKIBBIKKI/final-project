@@ -8,6 +8,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CommentSearchRequestDto {
-    private Long teamId;
     private Long boardId;
 }
