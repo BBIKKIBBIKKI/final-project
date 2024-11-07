@@ -3,6 +3,7 @@ package com.wearei.finalsamplecode.domain.follow.entity;
 import com.wearei.finalsamplecode.domain.player.entity.Player;
 import com.wearei.finalsamplecode.domain.user.entity.User;
 import com.wearei.finalsamplecode.common.entity.BaseEntity;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

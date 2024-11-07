@@ -1,6 +1,8 @@
 package com.wearei.finalsamplecode.api.user.dto.resonse;
 
 import java.time.LocalDateTime;
+
+import com.wearei.finalsamplecode.domain.user.entity.User;
 import lombok.Getter;
 
 @Getter
@@ -18,5 +20,13 @@ public class UserUpdateResponse {
         this.email = email;
         this.userRole = userRole;
         this.modifiedAt = modifiedAt;
+    }
+
+    public UserUpdateResponse(User user) {
+        this.userId = user.getId();
+        this.name = user.getUsername();
+        this.email = user.getEmail();
+        this.userRole = user.getUserRole().toString();
+        this.modifiedAt = user.getModifiedAt();
     }
 }

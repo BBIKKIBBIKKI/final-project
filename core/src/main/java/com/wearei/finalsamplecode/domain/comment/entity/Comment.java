@@ -3,6 +3,7 @@ package com.wearei.finalsamplecode.domain.comment.entity;
 import com.wearei.finalsamplecode.domain.board.entity.Board;
 import com.wearei.finalsamplecode.domain.team.entity.Team;
 import com.wearei.finalsamplecode.common.entity.Timestamped;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -16,23 +17,16 @@ public class Comment extends Timestamped {
     @JoinColumn(name = "board_id")
     private Board board;
 
-    @ManyToOne
-    @JoinColumn(name = "team_id")
-    private Team team;
-
     private String contents;
 
     private boolean isDeleted = false;
 
-    public Comment(Team team, Board board, String contents) {
-        this.team = team;
+    public Comment(Board board, String contents) {
         this.board = board;
         this.contents = contents;
     }
 
-    public void updateComment(Team team, Board board, String contents) {
-        this.team = team;
-        this.board = board;
+    public void updateComment(String contents) {
         this.contents = contents;
     }
 

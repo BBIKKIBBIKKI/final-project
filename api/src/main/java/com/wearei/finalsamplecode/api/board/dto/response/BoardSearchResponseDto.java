@@ -1,6 +1,8 @@
 package com.wearei.finalsamplecode.api.board.dto.response;
 
 import java.time.LocalDateTime;
+
+import com.wearei.finalsamplecode.domain.board.entity.Board;
 import lombok.Getter;
 
     @Getter
@@ -13,6 +15,17 @@ import lombok.Getter;
         private final int likes;
         private final LocalDateTime createAt;
         private final LocalDateTime modifiedAt;
+
+        public BoardSearchResponseDto(Board board) {
+            this.teamId = board.getTeam().getId();
+            this.id = board.getId();
+            this.title = board.getTitle();
+            this.contents = board.getContents();
+            this.backgroundImage = board.getBackgroundImage();
+            this.likes = board.getLikes();
+            this.createAt = board.getCreatedAt();
+            this.modifiedAt = board.getModifiedAt();
+        }
 
         public BoardSearchResponseDto(Long teamId, Long id, String title, String contents, String backgroundImage, int likes, LocalDateTime createAt, LocalDateTime modifiedAt) {
             this.teamId = teamId;

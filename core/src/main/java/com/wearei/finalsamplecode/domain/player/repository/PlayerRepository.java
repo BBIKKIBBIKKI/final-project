@@ -1,10 +1,10 @@
 package com.wearei.finalsamplecode.domain.player.repository;
 
 import com.wearei.finalsamplecode.domain.player.entity.Player;
-import io.lettuce.core.dynamic.annotation.Param;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface PlayerRepository extends JpaRepository<Player, Long> {
 
