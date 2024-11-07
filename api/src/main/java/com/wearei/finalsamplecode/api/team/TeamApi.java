@@ -3,9 +3,9 @@ package com.wearei.finalsamplecode.api.team;
 import com.wearei.finalsamplecode.api.team.dto.request.TeamCreateRequest;
 import com.wearei.finalsamplecode.api.team.dto.response.TeamCreateResponse;
 import com.wearei.finalsamplecode.api.team.dto.response.TeamSearchResponse;
-import com.wearei.finalsamplecode.apipayload.ApiResponse;
-import com.wearei.finalsamplecode.common.dto.AuthUser;
-import com.wearei.finalsamplecode.domain.team.service.DomainTeamService;
+import com.wearei.finalsamplecode.common.ApiResponse;
+import com.wearei.finalsamplecode.security.AuthUser;
+import com.wearei.finalsamplecode.core.domain.team.service.DomainTeamService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -28,7 +28,7 @@ public class TeamApi {
             @RequestPart(required = false) MultipartFile mascotImg,
             @RequestPart(required = false) MultipartFile equipmentImg
     ) {
-        return ApiResponse.onSuccess(new TeamCreateResponse(domainTeamService.createTeam(authUser, request.getTeamName(), request.getThemeSong(), uniformImg,  mascotImg, equipmentImg)));
+        return ApiResponse.onSuccess(new TeamCreateResponse(domainTeamService.createTeam(authUser.getUserId(), request.getTeamName(), request.getThemeSong(), uniformImg,  mascotImg, equipmentImg)));
     }
 
     @GetMapping("/search")

@@ -1,7 +1,7 @@
 package com.wearei.finalsamplecode.api.player;
 
-import com.wearei.finalsamplecode.domain.player.entity.Player;
-import com.wearei.finalsamplecode.domain.player.repository.PlayerRepository;
+import com.wearei.finalsamplecode.core.domain.player.entity.Player;
+import com.wearei.finalsamplecode.core.domain.player.repository.PlayerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

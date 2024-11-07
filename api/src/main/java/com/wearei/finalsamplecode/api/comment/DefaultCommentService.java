@@ -1,10 +1,10 @@
 package com.wearei.finalsamplecode.api.comment;
 
-import com.wearei.finalsamplecode.apipayload.status.ErrorStatus;
-import com.wearei.finalsamplecode.domain.board.repository.BoardRepository;
-import com.wearei.finalsamplecode.domain.comment.entity.Comment;
-import com.wearei.finalsamplecode.domain.comment.ropository.CommentRepository;
-import com.wearei.finalsamplecode.exception.ApiException;
+import com.wearei.finalsamplecode.common.apipayload.status.ErrorStatus;
+import com.wearei.finalsamplecode.core.domain.board.repository.BoardRepository;
+import com.wearei.finalsamplecode.core.domain.comment.entity.Comment;
+import com.wearei.finalsamplecode.core.domain.comment.ropository.CommentRepository;
+import com.wearei.finalsamplecode.common.exception.ApiException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

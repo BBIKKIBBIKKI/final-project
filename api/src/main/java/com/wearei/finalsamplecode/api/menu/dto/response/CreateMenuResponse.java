@@ -1,6 +1,6 @@
 package com.wearei.finalsamplecode.api.menu.dto.response;
 
-import com.wearei.finalsamplecode.domain.menu.entity.Menu;
+import com.wearei.finalsamplecode.core.domain.menu.entity.Menu;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

@@ -1,7 +1,7 @@
 package com.wearei.finalsamplecode.api.board.dto.response;
 
 import java.time.LocalDateTime;
-import com.wearei.finalsamplecode.domain.board.entity.Board;
+import com.wearei.finalsamplecode.core.domain.board.entity.Board;
 import lombok.Getter;
 
 @Getter

@@ -1,16 +1,17 @@
 package com.wearei.finalsamplecode.chat.service;
 
-import com.wearei.finalsamplecode.domain.chat.repository.ChatRepository;
-import com.wearei.finalsamplecode.domain.chat.repository.ChatRoom;
-import java.io.IOException;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import com.wearei.finalsamplecode.chat.repository.ChatRepository;
+import com.wearei.finalsamplecode.chat.repository.ChatRoom;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
+
+import java.io.IOException;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @RequiredArgsConstructor

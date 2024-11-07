@@ -2,7 +2,7 @@ package com.wearei.finalsamplecode.api.user.dto.resonse;
 
 import java.time.LocalDateTime;
 
-import com.wearei.finalsamplecode.domain.user.entity.User;
+import com.wearei.finalsamplecode.core.domain.user.entity.User;
 import lombok.Getter;
 
 @Getter

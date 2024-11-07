@@ -1,6 +1,6 @@
 package com.wearei.finalsamplecode.api.player.dto.response;
 
-import com.wearei.finalsamplecode.domain.player.entity.Player;
+import com.wearei.finalsamplecode.core.domain.player.entity.Player;
 import lombok.Getter;
 
 @Getter

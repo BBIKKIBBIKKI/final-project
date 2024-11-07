@@ -4,7 +4,7 @@ import com.wearei.finalsamplecode.api.comment.dto.response.CommentResponseDto;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.wearei.finalsamplecode.domain.board.entity.Board;
+import com.wearei.finalsamplecode.core.domain.board.entity.Board;
 import lombok.Getter;
 
 import static java.util.stream.Collectors.toList;
@@ -33,17 +33,5 @@ public class BoardSearchDetailResponseDto {
         this.comments = board.getComment().stream().map(
                         comment -> new CommentResponseDto(comment.getId(), comment.getContents()))
                         .collect(toList());
-    }
-
-    public BoardSearchDetailResponseDto(Long teamId, Long id, String title, String contents, String backgroundImage, int likes, LocalDateTime createAt, LocalDateTime modifiedAt, List<CommentResponseDto> comments) {
-        this.teamId = teamId;
-        this.id = id;
-        this.title = title;
-        this.contents = contents;
-        this.backgroundImage = backgroundImage;
-        this.likes = likes;
-        this.createAt = createAt;
-        this.modifiedAt = modifiedAt;
-        this.comments = comments;
     }
 }

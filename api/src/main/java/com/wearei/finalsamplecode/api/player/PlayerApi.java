@@ -1,8 +1,8 @@
 package com.wearei.finalsamplecode.api.player;
 
 import com.wearei.finalsamplecode.api.player.dto.response.PlayerSearchResponse;
-import com.wearei.finalsamplecode.apipayload.ApiResponse;
-import com.wearei.finalsamplecode.domain.player.entity.Player;
+import com.wearei.finalsamplecode.common.ApiResponse;
+import com.wearei.finalsamplecode.core.domain.player.entity.Player;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;

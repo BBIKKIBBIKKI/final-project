@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-import com.wearei.finalsamplecode.domain.schedule.entity.Schedule;
+import com.wearei.finalsamplecode.core.domain.schedule.entity.Schedule;
 import lombok.Getter;
 
 @Getter

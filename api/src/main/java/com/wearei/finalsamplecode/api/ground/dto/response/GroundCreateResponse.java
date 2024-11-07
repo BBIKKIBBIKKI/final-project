@@ -1,6 +1,6 @@
 package com.wearei.finalsamplecode.api.ground.dto.response;
 
-import com.wearei.finalsamplecode.domain.ground.entity.Ground;
+import com.wearei.finalsamplecode.core.domain.ground.entity.Ground;
 
 public class GroundCreateResponse extends GroundResponse {
     public GroundCreateResponse(Ground ground) {
