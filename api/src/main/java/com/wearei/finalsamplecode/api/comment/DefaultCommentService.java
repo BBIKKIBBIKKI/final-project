@@ -1,4 +1,4 @@
-package com.wearei.finalsamplecode.api.comment.service;
+package com.wearei.finalsamplecode.api.comment;
 
 import com.wearei.finalsamplecode.apipayload.status.ErrorStatus;
 import com.wearei.finalsamplecode.domain.board.repository.BoardRepository;

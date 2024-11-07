@@ -1,9 +1,8 @@
-package com.wearei.finalsamplecode.api.team.controller;
+package com.wearei.finalsamplecode.api.team;
 
 import com.wearei.finalsamplecode.api.team.dto.request.TeamCreateRequest;
 import com.wearei.finalsamplecode.api.team.dto.response.TeamCreateResponse;
 import com.wearei.finalsamplecode.api.team.dto.response.TeamSearchResponse;
-import com.wearei.finalsamplecode.api.team.service.DefaultTeamService;
 import com.wearei.finalsamplecode.apipayload.ApiResponse;
 import com.wearei.finalsamplecode.common.dto.AuthUser;
 import com.wearei.finalsamplecode.domain.team.service.DomainTeamService;
@@ -16,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/teams")
 @RequiredArgsConstructor
-public class TeamController {
+public class TeamApi {
     private final DomainTeamService domainTeamService;
     private final DefaultTeamService defaultTeamService;
 

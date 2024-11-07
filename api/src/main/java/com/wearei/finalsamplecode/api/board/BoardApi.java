@@ -1,4 +1,4 @@
-package com.wearei.finalsamplecode.api.board.controller;
+package com.wearei.finalsamplecode.api.board;
 
 import com.wearei.finalsamplecode.api.board.dto.request.BoardCreateRequestDto;
 import com.wearei.finalsamplecode.api.board.dto.request.BoardUpdateRequestDto;
@@ -9,7 +9,6 @@ import com.wearei.finalsamplecode.api.board.dto.response.BoardUpdateResponseDto;
 import com.wearei.finalsamplecode.apipayload.ApiResponse;
 import com.wearei.finalsamplecode.apipayload.status.SuccessStatus;
 import com.wearei.finalsamplecode.domain.board.entity.Board;
-import com.wearei.finalsamplecode.api.board.service.DefaultBoardService;
 import com.wearei.finalsamplecode.domain.board.service.DomainBoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/boards")
 @RequiredArgsConstructor
-public class BoardController {
+public class BoardApi {
     private final DomainBoardService domainBoardService;
     private final DefaultBoardService defaultBoardService;
 

@@ -1,9 +1,8 @@
-package com.wearei.finalsamplecode.api.player.controller;
+package com.wearei.finalsamplecode.api.player;
 
 import com.wearei.finalsamplecode.api.player.dto.response.PlayerSearchResponse;
 import com.wearei.finalsamplecode.apipayload.ApiResponse;
 import com.wearei.finalsamplecode.domain.player.entity.Player;
-import com.wearei.finalsamplecode.api.player.service.DefaultPlayerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-public class PlayerController {
+public class PlayerApi {
     private final DefaultPlayerService defaultPlayerService;
 
     @GetMapping("/players")

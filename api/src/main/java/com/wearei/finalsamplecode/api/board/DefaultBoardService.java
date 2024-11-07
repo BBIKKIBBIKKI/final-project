@@ -1,4 +1,4 @@
-package com.wearei.finalsamplecode.api.board.service;
+package com.wearei.finalsamplecode.api.board;
 
 import com.wearei.finalsamplecode.apipayload.status.ErrorStatus;
 import com.wearei.finalsamplecode.domain.board.entity.Board;

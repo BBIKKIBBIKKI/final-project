@@ -1,4 +1,4 @@
-package com.wearei.finalsamplecode.api.follow.controller;
+package com.wearei.finalsamplecode.api.follow;
 
 import com.wearei.finalsamplecode.api.follow.dto.request.CreateFollowRequest;
 import com.wearei.finalsamplecode.api.follow.dto.response.CreateFollowResponse;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class FollowDomainController {
+public class FollowApi {
     private final DomainFollowService domainFollowService;
 
     @PostMapping("/asfollows")

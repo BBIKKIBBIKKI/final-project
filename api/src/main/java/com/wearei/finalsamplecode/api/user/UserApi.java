@@ -1,4 +1,4 @@
-package com.wearei.finalsamplecode.api.user.controller;
+package com.wearei.finalsamplecode.api.user;
 
 import com.wearei.finalsamplecode.api.user.dto.request.UserDeleteRequest;
 import com.wearei.finalsamplecode.api.user.dto.request.UserUpdateRequest;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class UserController {
+public class UserApi {
     private final DomainUserService domainUserService;
 
     // 회원정보변경

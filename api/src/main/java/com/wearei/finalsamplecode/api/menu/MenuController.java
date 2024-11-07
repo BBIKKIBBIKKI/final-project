@@ -1,4 +1,4 @@
-package com.wearei.finalsamplecode.api.menu.controller;
+package com.wearei.finalsamplecode.api.menu;
 
 import com.wearei.finalsamplecode.api.menu.dto.request.CreateMenuRequest;
 import com.wearei.finalsamplecode.api.menu.dto.request.DeleteMenuRequest;

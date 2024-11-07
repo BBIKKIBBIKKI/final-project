@@ -1,9 +1,8 @@
-package com.wearei.finalsamplecode.api.ground.controller;
+package com.wearei.finalsamplecode.api.ground;
 
 import com.wearei.finalsamplecode.api.ground.dto.request.GroundCreateRequest;
 import com.wearei.finalsamplecode.api.ground.dto.response.GroundCreateResponse;
 import com.wearei.finalsamplecode.api.ground.dto.response.GroundSearchResponse;
-import com.wearei.finalsamplecode.api.ground.service.DefaultGroundService;
 import com.wearei.finalsamplecode.apipayload.ApiResponse;
 import com.wearei.finalsamplecode.common.dto.AuthUser;
 import com.wearei.finalsamplecode.domain.ground.service.DomainGroundService;
@@ -15,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/grounds")
 @RequiredArgsConstructor
-public class GroundController {
+public class GroundApi {
     private final DefaultGroundService defaultGroundService;
     private final DomainGroundService domainGroundService;
 

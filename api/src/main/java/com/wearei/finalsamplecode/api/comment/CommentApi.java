@@ -1,4 +1,4 @@
-package com.wearei.finalsamplecode.api.comment.controller;
+package com.wearei.finalsamplecode.api.comment;
 
 import com.wearei.finalsamplecode.api.comment.dto.request.CommentCreateRequestDto;
 import com.wearei.finalsamplecode.api.comment.dto.request.CommentSearchRequestDto;
@@ -6,7 +6,6 @@ import com.wearei.finalsamplecode.api.comment.dto.request.CommentUpdateRequestDt
 import com.wearei.finalsamplecode.api.comment.dto.response.CommentCreateResponseDto;
 import com.wearei.finalsamplecode.api.comment.dto.response.CommentSearchResponseDto;
 import com.wearei.finalsamplecode.api.comment.dto.response.CommentUpdateResponseDto;
-import com.wearei.finalsamplecode.api.comment.service.DefaultCommentService;
 import com.wearei.finalsamplecode.apipayload.ApiResponse;
 import com.wearei.finalsamplecode.apipayload.status.SuccessStatus;
 import java.util.List;
@@ -18,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/comments")
 @RequiredArgsConstructor
-public class CommentController {
+public class CommentApi {
     private final DomainCommentService domainCommentService;
     private final DefaultCommentService defaultCommentService;
 

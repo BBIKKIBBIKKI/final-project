@@ -1,4 +1,4 @@
-package com.wearei.finalsamplecode.api.team.service;
+package com.wearei.finalsamplecode.api.team;
 
 import com.wearei.finalsamplecode.apipayload.status.ErrorStatus;
 import com.wearei.finalsamplecode.domain.team.entity.Team;

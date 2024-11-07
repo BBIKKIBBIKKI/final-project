@@ -1,4 +1,4 @@
-package com.wearei.finalsamplecode.api.ground.service;
+package com.wearei.finalsamplecode.api.ground;
 
 import com.wearei.finalsamplecode.domain.ground.entity.Ground;
 import com.wearei.finalsamplecode.domain.ground.repository.GroundRepository;
