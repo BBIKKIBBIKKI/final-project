@@ -1,13 +1,10 @@
 package com.wearei.finalsamplecode.api.store;
 
-import com.wearei.finalsamplecode.domain.menu.service.DomainMenuService;
 import com.wearei.finalsamplecode.domain.store.entity.Store;
 import com.wearei.finalsamplecode.domain.store.repository.StoreRepository;
-import com.wearei.finalsamplecode.domain.store.service.DomainStoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 
 @Service
@@ -15,8 +12,6 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class DefaultStoreService {
     private final StoreRepository storeRepository;
-    private final DomainStoreService domainStoreService;
-    private final DomainMenuService domainMenuService;
 
     // 가게 다건 조회
     public List<Store> getAllStores() {
@@ -35,6 +30,4 @@ public class DefaultStoreService {
 
         return storeRepository.searchStoresOrMenu(storeName, menuName);
     }
-
-
 }
