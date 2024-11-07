@@ -1,48 +1,52 @@
-package com.wearei.finalsamplecode.api.store.controller;
+package com.wearei.finalsamplecode.api.store;
 
 import com.wearei.finalsamplecode.api.store.dto.request.StoreCreateRequest;
 import com.wearei.finalsamplecode.api.store.dto.request.StoreUpdateRequest;
-import com.wearei.finalsamplecode.api.store.dto.response.StoreCreateResponse;
-import com.wearei.finalsamplecode.api.store.dto.response.StoreGetAllResponse;
-import com.wearei.finalsamplecode.api.store.dto.response.StoreGetResponse;
-import com.wearei.finalsamplecode.api.store.dto.response.StoreIntegratedResponse;
-import com.wearei.finalsamplecode.api.store.dto.response.StoreUpdateResponse;
-import com.wearei.finalsamplecode.api.store.service.StoreService;
+import com.wearei.finalsamplecode.api.store.dto.response.*;
 import com.wearei.finalsamplecode.apipayload.ApiResponse;
 import com.wearei.finalsamplecode.apipayload.status.SuccessStatus;
 import com.wearei.finalsamplecode.common.dto.AuthUser;
-import java.util.List;
+import com.wearei.finalsamplecode.domain.store.entity.Store;
+import com.wearei.finalsamplecode.domain.store.service.DomainStoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/stores")
-public class StoreController {
-    private final StoreService storeService;
+public class StoreApi {
+    private final DomainStoreService domainStoreService;
+    private final DefaultStoreService defaultStoreService;
 
     // 가게 생성 (사장님 권한)
     @PostMapping
     public ApiResponse<StoreCreateResponse> createStore(@RequestBody StoreCreateRequest request, @AuthenticationPrincipal AuthUser authUser) {
-        return ApiResponse.onSuccess(storeService.createStore(request, authUser));
+        Store store = domainStoreService.createStore(request.getGroundId(), request.getStoreName(), request.getOpenedAt(), request.getClosedAt(), authUser);
+        return ApiResponse.onSuccess(new StoreCreateResponse(store));
     }
 
     // 가게 수정 (사장님 권한)
     @PatchMapping("/{storeId}")
     public ApiResponse<StoreUpdateResponse> updateStore(@RequestBody StoreUpdateRequest request, @AuthenticationPrincipal AuthUser authUser, @PathVariable Long storeId){
-        return ApiResponse.onSuccess(storeService.updateStore(request, authUser, storeId));
+        Store store = domainStoreService.updateStore(request.getGroundId(), request.getStoreName(), request.getOpenedAt(), request.getClosedAt(), authUser, storeId);
+        return ApiResponse.onSuccess(new StoreUpdateResponse(store));
     }
 
     // 가게 다건 조회
     @GetMapping
     public ApiResponse<List<StoreGetAllResponse>> getAllStores(){
-        return ApiResponse.onSuccess(storeService.getAllStores());
+        List<Store> stores = defaultStoreService.getAllStores();
+        List<StoreGetAllResponse> storeList = stores.stream().map(StoreGetAllResponse::new).toList();
+        return ApiResponse.onSuccess(storeList);
     }
 
     // 가게 단건 조회(메뉴도 같이 나옴)
     @GetMapping("/{storeId}")
     public ApiResponse<StoreGetResponse> getStoreAndMenu(@PathVariable Long storeId){
-        return ApiResponse.onSuccess(storeService.getStore(storeId));
+        Store store = defaultStoreService.getStore(storeId);
+        return ApiResponse.onSuccess(new StoreGetResponse(store));
     }
 
     // 가게 + 메뉴 통합 검색 기능
@@ -50,13 +54,21 @@ public class StoreController {
     public ApiResponse<List<StoreIntegratedResponse>> searchStoresOrMenus(@RequestParam(required = false) String storeName,
                                                                           @RequestParam(required = false) String menuName){
 
-        return ApiResponse.onSuccess(storeService.searchStoresOrMenus(storeName, menuName));
+        List<Store> stores = defaultStoreService.searchStoresOrMenus(storeName, menuName);
+        List<StoreIntegratedResponse> responses = stores.stream()
+                .map(store -> new StoreIntegratedResponse(
+                        store.getStoreName(),
+                        store.getOpenedAt(),
+                        store.getClosedAt(),
+                        store.isDeleted()
+                )).toList();
+        return ApiResponse.onSuccess(responses);
     }
 
     // 가게 삭제 (사장님 권한)
     @DeleteMapping("/{storeId}")
     public ApiResponse<String> deleteStore(@PathVariable Long storeId, @AuthenticationPrincipal AuthUser authUser){
-        storeService.deleteStore(storeId, authUser);
+        domainStoreService.deleteStore(storeId, authUser);
         return ApiResponse.onSuccess(SuccessStatus._DELETION_SUCCESS.getMessage());
     }
 }

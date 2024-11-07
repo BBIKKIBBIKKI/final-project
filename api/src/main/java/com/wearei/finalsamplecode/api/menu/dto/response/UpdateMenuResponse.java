@@ -1,5 +1,6 @@
 package com.wearei.finalsamplecode.api.menu.dto.response;
 
+import com.wearei.finalsamplecode.domain.menu.entity.Menu;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -7,4 +8,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UpdateMenuResponse {
     private final String menuName;
+
+    public UpdateMenuResponse(Menu menu) {
+        this.menuName = menu.getMenuName();
+    }
 }

@@ -4,6 +4,7 @@ import com.wearei.finalsamplecode.domain.team.entity.Team;
 import com.wearei.finalsamplecode.common.entity.Timestamped;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -32,8 +33,8 @@ public class Schedule extends Timestamped {
         this.title = title;
         this.contents = contents;
         this.ground = ground;
-        this.time = time;
         this.date = date;
+        this.time = time;
     }
 
     public void updateSchedule(Team team, String title, String contents, String ground, LocalDate date, LocalTime time) {
@@ -45,33 +46,23 @@ public class Schedule extends Timestamped {
         this.time = time;
     }
 
-    public void setContents(String contents) {
-        if (contents != null) {
+    public void updateContents(String contents) {
             this.contents = contents;
-        }
     }
 
-    public void setTitle(String title) {
-        if (title != null) {
+    public void updateTitle(String title) {
             this.title = title;
-        }
     }
 
-    public void setGround(String ground) {
-        if (ground != null) {
+    public void updateGround(String ground) {
             this.ground = ground;
-        }
     }
 
-    public void setDate(LocalDate date) {
-        if (date != null) {
+    public void updateDate(LocalDate date) {
             this.date = date;
-        }
     }
 
-    public void setTime(LocalTime time) {
-        if (time != null) {
+    public void updateTime(LocalTime time) {
             this.time = time;
-        }
     }
 }

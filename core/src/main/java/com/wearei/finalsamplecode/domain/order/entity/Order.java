@@ -5,6 +5,7 @@ import com.wearei.finalsamplecode.domain.order.enums.OrderStatus;
 import com.wearei.finalsamplecode.domain.store.entity.Store;
 import com.wearei.finalsamplecode.domain.user.entity.User;
 import com.wearei.finalsamplecode.common.entity.BaseEntity;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

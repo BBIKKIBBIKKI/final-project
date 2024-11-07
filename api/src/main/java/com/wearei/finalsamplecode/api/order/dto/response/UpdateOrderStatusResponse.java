@@ -1,6 +1,7 @@
 package com.wearei.finalsamplecode.api.order.dto.response;
 
-import com.wearei.finalsamplecode.api.order.enums.OrderStatus;
+import com.wearei.finalsamplecode.domain.order.entity.Order;
+import com.wearei.finalsamplecode.domain.order.enums.OrderStatus;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -8,4 +9,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UpdateOrderStatusResponse {
     private final OrderStatus orderStatus;
+
+    public UpdateOrderStatusResponse(Order order) {
+        this.orderStatus = order.getOrderStatus();
+    }
 }
