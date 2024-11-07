@@ -15,6 +15,7 @@ public enum ErrorStatus implements BaseCode {
     _NOT_OWNER_USER(HttpStatus.BAD_REQUEST, "400", "해당 유저는 가게 주인 권한이 존재하지 않습니다."),
     _EMAIL_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "400", "이미 존재하는 이메일입니다"),
     _PASSWORD_MISMATCH(HttpStatus.BAD_REQUEST, "400", "비밀번호가 일치하지 않습니다."),
+    _NOT_ALLOW_SAME_PASSWORD(HttpStatus.BAD_REQUEST, "400", "기존 비밀번호와 새로운 비밀번호는 같을 수 없습니다"),
 
     // deletion
     _DELETION_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "500", "삭제에 실패하였습니다."),

@@ -9,7 +9,6 @@ import com.wearei.finalsamplecode.core.domain.user.entity.User;
 import com.wearei.finalsamplecode.common.enums.UserRole;
 import com.wearei.finalsamplecode.core.domain.user.repository.UserRepository;
 import com.wearei.finalsamplecode.common.exception.ApiException;
-import com.wearei.finalsamplecode.common.dto.AuthUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,12 +24,14 @@ public class ScheduleService {
     private final UserRepository userRepository;
     private final TeamRepository teamRepository;
 
-    public Schedule createSchedule(Long teamId, String title, String contents, String ground, LocalDate date, LocalTime time, AuthUser authUser) {
-        User user = userRepository.findById(authUser.getUserId()).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_USER));
+    public Schedule createSchedule(Long userId, Long teamId, String title, String contents, String ground, LocalDate date, LocalTime time) {
+        User user = userRepository.findByIdOrThrow(userId);
 
-        checkIfAdmin(user);
+        if(user.isNotSameRole(UserRole.ROLE_ADMIN)) {
+            throw new ApiException(ErrorStatus._NOT_OWNER_USER);
+        }
 
-       Team team = teamRepository.findByTeamId(teamId);
+        Team team = teamRepository.findByTeamId(teamId);
 
         return scheduleRepository.save(new Schedule(
                 team,

@@ -34,16 +34,4 @@ public class BoardSearchDetailResponseDto {
                         comment -> new CommentResponseDto(comment.getId(), comment.getContents()))
                         .collect(toList());
     }
-
-    public BoardSearchDetailResponseDto(Long teamId, Long id, String title, String contents, String backgroundImage, int likes, LocalDateTime createAt, LocalDateTime modifiedAt, List<CommentResponseDto> comments) {
-        this.teamId = teamId;
-        this.id = id;
-        this.title = title;
-        this.contents = contents;
-        this.backgroundImage = backgroundImage;
-        this.likes = likes;
-        this.createAt = createAt;
-        this.modifiedAt = modifiedAt;
-        this.comments = comments;
-    }
 }

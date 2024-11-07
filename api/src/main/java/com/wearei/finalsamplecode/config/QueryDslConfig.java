@@ -1,4 +1,4 @@
-package com.wearei.finalsamplecode.common.config;
+package com.wearei.finalsamplecode.config;
 
 import com.querydsl.jpa.JPQLTemplates;
 import com.querydsl.jpa.impl.JPAQueryFactory;

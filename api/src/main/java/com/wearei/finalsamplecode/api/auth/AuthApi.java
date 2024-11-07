@@ -5,7 +5,6 @@ import com.wearei.finalsamplecode.api.auth.dto.request.SignupRequest;
 import com.wearei.finalsamplecode.api.auth.dto.response.SigninResponse;
 import com.wearei.finalsamplecode.api.auth.dto.response.SignupResponse;
 import com.wearei.finalsamplecode.common.ApiResponse;
-import com.wearei.finalsamplecode.core.domain.auth.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;

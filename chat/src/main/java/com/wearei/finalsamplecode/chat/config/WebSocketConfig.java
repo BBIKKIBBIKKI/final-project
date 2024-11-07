@@ -1,10 +1,13 @@
 package com.wearei.finalsamplecode.chat.config;
 
-
+import com.wearei.finalsamplecode.chat.repository.ChatRepository;
+import com.wearei.finalsamplecode.chat.service.ChatHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
+import org.springframework.web.socket.config.annotation.EnableWebSocket;
+import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
+import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 
 @Configuration
 @EnableWebSocket

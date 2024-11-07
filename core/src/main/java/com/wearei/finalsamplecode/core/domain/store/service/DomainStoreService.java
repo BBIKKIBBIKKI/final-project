@@ -1,16 +1,14 @@
 package com.wearei.finalsamplecode.core.domain.store.service;
 
 import com.wearei.finalsamplecode.common.apipayload.status.ErrorStatus;
+import com.wearei.finalsamplecode.common.enums.UserRole;
+import com.wearei.finalsamplecode.common.exception.ApiException;
 import com.wearei.finalsamplecode.core.domain.ground.entity.Ground;
 import com.wearei.finalsamplecode.core.domain.ground.repository.GroundRepository;
-import com.wearei.finalsamplecode.core.domain.menu.service.DomainMenuService;
 import com.wearei.finalsamplecode.core.domain.store.entity.Store;
 import com.wearei.finalsamplecode.core.domain.store.repository.StoreRepository;
 import com.wearei.finalsamplecode.core.domain.user.entity.User;
-import com.wearei.finalsamplecode.common.enums.UserRole;
 import com.wearei.finalsamplecode.core.domain.user.repository.UserRepository;
-import com.wearei.finalsamplecode.common.exception.ApiException;
-import com.wearei.finalsamplecode.common.dto.AuthUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,14 +21,15 @@ import java.time.LocalTime;
 public class DomainStoreService {
     private final StoreRepository storeRepository;
     private final UserRepository userRepository;
-    private final DomainMenuService domainMenuService;
     private final GroundRepository groundRepository;
 
     // 가게 생성
-    public Store createStore(Long groundId, String storeName, LocalTime openedAt, LocalTime closedAt, AuthUser authUser) {
-        User user = User.fromAuthUser(authUser);
+    public Store createStore(Long userId, Long groundId, String storeName, LocalTime openedAt, LocalTime closedAt) {
+        User user = userRepository.findByIdOrThrow(userId);
 
-        authCheck(authUser);
+        if(user.isNotSameRole(UserRole.ROLE_OWNER)) {
+            throw new ApiException(ErrorStatus._NOT_OWNER_USER);
+        }
 
         Ground ground = groundRepository.findById(groundId).orElseThrow(()
                 -> new ApiException(ErrorStatus._NOT_FOUND_GROUND));
@@ -50,12 +49,16 @@ public class DomainStoreService {
     }
 
     // 가게 수정
-    public Store updateStore(Long groundId, String storeName, LocalTime openedAt, LocalTime closedAt, AuthUser authUser, Long storeId) {
+    public Store updateStore(Long userId, Long groundId, String storeName, LocalTime openedAt, LocalTime closedAt, Long storeId) {
+        User user = userRepository.findByIdOrThrow(userId);
+
+        if(user.isNotSameRole(UserRole.ROLE_OWNER)) {
+            throw new ApiException(ErrorStatus._NOT_OWNER_USER);
+        }
+
         Ground ground = groundRepository.findById(groundId).orElseThrow(()
                 -> new ApiException(ErrorStatus._NOT_FOUND_GROUND));
         Store store = checkStore(storeId);
-
-        authCheck(authUser);
 
         store.update(ground, storeName, openedAt, closedAt);
 
@@ -63,15 +66,12 @@ public class DomainStoreService {
     }
 
     // 가게 삭제
-    public void deleteStore(Long storeId, AuthUser authUser) {
+    public void deleteStore(Long userId, Long storeId) {
+        User user = userRepository.findByIdOrThrow(userId);
 
         Store store = checkStore(storeId);
 
-        authCheck(authUser);
-
         store.softDelete();
-        storeRepository.save(store);
-
     }
 
     // 가게 확인
@@ -84,12 +84,5 @@ public class DomainStoreService {
         }
 
         return store;
-    }
-
-    // 가게 사장님 권한 확인
-    public void authCheck(AuthUser authUser) {
-        if (!authUser.getUserRole().equals(UserRole.ROLE_OWNER)){
-            throw new ApiException(ErrorStatus._BAD_REQUEST_STORE);
-        }
     }
 }

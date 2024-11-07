@@ -7,7 +7,7 @@ import com.wearei.finalsamplecode.api.menu.dto.response.CreateMenuResponse;
 import com.wearei.finalsamplecode.api.menu.dto.response.UpdateMenuResponse;
 import com.wearei.finalsamplecode.common.ApiResponse;
 import com.wearei.finalsamplecode.common.apipayload.status.SuccessStatus;
-import com.wearei.finalsamplecode.common.dto.AuthUser;
+import com.wearei.finalsamplecode.security.AuthUser;
 import com.wearei.finalsamplecode.core.domain.menu.entity.Menu;
 import com.wearei.finalsamplecode.core.domain.menu.service.DomainMenuService;
 import lombok.RequiredArgsConstructor;
@@ -22,19 +22,19 @@ public class MenuApi {
 
     @PostMapping
     public ApiResponse<CreateMenuResponse> createMenu(@RequestBody CreateMenuRequest request, @AuthenticationPrincipal AuthUser authUser) {
-        Menu menu = domainMenuService.createMenu(request.getStoreId(),request.getMenuName(), request.getPrice(), authUser);
+        Menu menu = domainMenuService.createMenu(authUser.getUserId(), request.getStoreId(),request.getMenuName(), request.getPrice());
         return ApiResponse.onSuccess(new CreateMenuResponse(menu));
     }
 
     @PatchMapping("/{menuId}")
     public ApiResponse<UpdateMenuResponse> updateMenu(@PathVariable Long menuId, @RequestBody UpdateMenuRequest request, @AuthenticationPrincipal AuthUser authUser){
-        Menu menu = domainMenuService.updateMenu(menuId, request.getStoreId(), request.getMenuName(), request.getPrice(),authUser);
+        Menu menu = domainMenuService.updateMenu(authUser.getUserId(), menuId, request.getStoreId(), request.getMenuName(), request.getPrice());
         return ApiResponse.onSuccess(new UpdateMenuResponse(menu));
     }
 
     @DeleteMapping("/{menuId}")
     public ApiResponse<String> deleteMenu(@PathVariable Long menuId, @AuthenticationPrincipal AuthUser authUser, @RequestBody DeleteMenuRequest request){
-        domainMenuService.deleteMenu(menuId, authUser, request.getStoreId());
+        domainMenuService.deleteMenu(authUser.getUserId(), menuId, request.getStoreId());
         return ApiResponse.onSuccess(SuccessStatus._DELETION_SUCCESS.getMessage());
     }
 }

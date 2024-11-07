@@ -11,7 +11,7 @@ import com.wearei.finalsamplecode.common.ApiResponse;
 import com.wearei.finalsamplecode.common.apipayload.status.SuccessStatus;
 import com.wearei.finalsamplecode.core.domain.order.entity.Order;
 import com.wearei.finalsamplecode.core.domain.order.service.DomainOrderService;
-import com.wearei.finalsamplecode.common.dto.AuthUser;
+import com.wearei.finalsamplecode.security.AuthUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +26,7 @@ public class OrderApi {
     // 주문 생성
     @PostMapping
     public ApiResponse<CreateOrderResponse> createOrder(@RequestBody CreateOrderRequest request, @AuthenticationPrincipal AuthUser authUser){
-        Order order = domainOrderService.createOrder(request.getStoreId(), request.getMenuId(), request.getQuantity(), authUser);
+        Order order = domainOrderService.createOrder(authUser.getUserId(), request.getStoreId(), request.getMenuId(), request.getQuantity());
         return ApiResponse.onSuccess(new CreateOrderResponse(order));
     }
 
@@ -40,7 +40,7 @@ public class OrderApi {
     // 주문 상태 수정(사장님 권한)
     @PatchMapping("/{orderId}/status")
     public ApiResponse<UpdateOrderStatusResponse> updateOrderStatus(@PathVariable Long orderId, @RequestBody UpdateOrderStatusRequest request, @AuthenticationPrincipal AuthUser authUser){
-        Order order = domainOrderService.updateOrderStatus(orderId, request.getOrderStatus(), authUser);
+        Order order = domainOrderService.updateOrderStatus(authUser.getUserId(), orderId, request.getOrderStatus());
         return ApiResponse.onSuccess(new UpdateOrderStatusResponse(order));
     }
 

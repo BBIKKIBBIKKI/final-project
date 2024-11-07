@@ -3,8 +3,9 @@ package com.wearei.finalsamplecode.api.ground;
 import com.wearei.finalsamplecode.api.ground.dto.request.GroundCreateRequest;
 import com.wearei.finalsamplecode.api.ground.dto.response.GroundCreateResponse;
 import com.wearei.finalsamplecode.api.ground.dto.response.GroundSearchResponse;
+import com.wearei.finalsamplecode.api.ground.service.DefaultGroundService;
 import com.wearei.finalsamplecode.common.ApiResponse;
-import com.wearei.finalsamplecode.common.dto.AuthUser;
+import com.wearei.finalsamplecode.security.AuthUser;
 import com.wearei.finalsamplecode.core.domain.ground.service.DomainGroundService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -24,7 +25,7 @@ public class GroundApi {
             @RequestPart GroundCreateRequest request,
             @RequestPart(required = false) MultipartFile groundImg
     ) {
-        return ApiResponse.onSuccess(new GroundCreateResponse(domainGroundService.createGround(request.getTeamId(), request.getGroundName(), request.getLocation(), request.getTel(), authUser,  groundImg)));
+        return ApiResponse.onSuccess(new GroundCreateResponse(domainGroundService.createGround(authUser.getUserId(), request.getTeamId(), request.getGroundName(), request.getLocation(), request.getTel(),  groundImg)));
     }
 
     @GetMapping("/search")

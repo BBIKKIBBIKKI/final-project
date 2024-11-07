@@ -1,6 +1,7 @@
 package com.wearei.finalsamplecode.core.domain.order.service;
 
 import com.wearei.finalsamplecode.common.apipayload.status.ErrorStatus;
+import com.wearei.finalsamplecode.common.enums.UserRole;
 import com.wearei.finalsamplecode.core.domain.menu.entity.Menu;
 import com.wearei.finalsamplecode.core.domain.menu.service.DomainMenuService;
 import com.wearei.finalsamplecode.core.domain.order.entity.Order;
@@ -12,7 +13,6 @@ import com.wearei.finalsamplecode.core.domain.store.service.DomainStoreService;
 import com.wearei.finalsamplecode.core.domain.user.entity.User;
 import com.wearei.finalsamplecode.core.domain.user.repository.UserRepository;
 import com.wearei.finalsamplecode.common.exception.ApiException;
-import com.wearei.finalsamplecode.common.dto.AuthUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -29,8 +29,8 @@ public class DomainOrderService {
     private final ApplicationEventPublisher eventPublisher;
 
     // 주문 생성
-    public Order createOrder(Long storeId, Long menuId, Long quantity, AuthUser authUser) {
-        User orderUser = findUserByUserId(authUser.getUserId());
+    public Order createOrder(Long userId, Long storeId, Long menuId, Long quantity) {
+        User orderUser = findUserByUserId(userId);
 
         Store store = domainStoreService.checkStore(storeId);
 
@@ -73,12 +73,16 @@ public class DomainOrderService {
     }
 
     // 주문 상태 수정
-    public Order updateOrderStatus(Long orderId, OrderStatus orderStatus, AuthUser authUser) {
+    public Order updateOrderStatus(Long userId, Long orderId, OrderStatus orderStatus) {
+        User user = userRepository.findByIdOrThrow(userId);
+
+        if(user.isNotSameRole(UserRole.ROLE_OWNER)) {
+            throw new ApiException(ErrorStatus._NOT_OWNER_USER);
+        }
+
         Order order = orderRepository.findByOrderIdOrThrow(orderId);
 
         domainStoreService.checkStore(order.getStore().getId());
-
-        domainStoreService.authCheck(authUser);
 
         order.updateStatus(orderStatus);
 

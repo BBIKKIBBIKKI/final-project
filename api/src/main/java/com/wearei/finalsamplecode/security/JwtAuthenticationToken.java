@@ -1,9 +1,9 @@
-package com.wearei.finalsamplecode.api.config;
+package com.wearei.finalsamplecode.security;
 
-import com.wearei.finalsamplecode.common.dto.AuthUser;
-import java.util.List;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import java.util.List;
 
 public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 

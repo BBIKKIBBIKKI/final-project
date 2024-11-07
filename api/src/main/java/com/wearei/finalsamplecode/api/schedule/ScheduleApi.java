@@ -7,7 +7,7 @@ import com.wearei.finalsamplecode.api.schedule.dto.response.ScheduleSearchRespon
 import com.wearei.finalsamplecode.api.schedule.dto.response.ScheduleUpdateResponseDto;
 import com.wearei.finalsamplecode.common.ApiResponse;
 import com.wearei.finalsamplecode.common.apipayload.status.SuccessStatus;
-import com.wearei.finalsamplecode.common.dto.AuthUser;
+import com.wearei.finalsamplecode.security.AuthUser;
 import com.wearei.finalsamplecode.core.domain.schedule.entity.Schedule;
 import com.wearei.finalsamplecode.core.domain.schedule.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ public class ScheduleApi {
 
     @PostMapping
     public ApiResponse<ScheduleCreateResponseDto> createSchedule(@AuthenticationPrincipal AuthUser authUser, @RequestBody ScheduleCreateRequestDto scheduleCreateRequestDto) {
-        return ApiResponse.onSuccess(new ScheduleCreateResponseDto(scheduleService.createSchedule(scheduleCreateRequestDto.getTeamId(), scheduleCreateRequestDto.getTitle(), scheduleCreateRequestDto.getContents(), scheduleCreateRequestDto.getGround(), scheduleCreateRequestDto.getDate(), scheduleCreateRequestDto.getTime(), authUser)));
+        return ApiResponse.onSuccess(new ScheduleCreateResponseDto(scheduleService.createSchedule(authUser.getUserId(), scheduleCreateRequestDto.getTeamId(), scheduleCreateRequestDto.getTitle(), scheduleCreateRequestDto.getContents(), scheduleCreateRequestDto.getGround(), scheduleCreateRequestDto.getDate(), scheduleCreateRequestDto.getTime())));
     }
 
     @PatchMapping("/{scheduleId}")

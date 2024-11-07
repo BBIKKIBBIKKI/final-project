@@ -1,9 +1,8 @@
 package com.wearei.finalsamplecode.core.domain.user.entity;
 
 import com.wearei.finalsamplecode.common.entity.Timestamped;
-import com.wearei.finalsamplecode.core.domain.player.entity.Player;
 import com.wearei.finalsamplecode.common.enums.UserRole;
-import com.wearei.finalsamplecode.common.dto.AuthUser;
+import com.wearei.finalsamplecode.core.domain.player.entity.Player;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -52,11 +51,19 @@ public class User extends Timestamped {
         this.password=password;
     }
 
+    public void updatePassword(String password) {
+        this.password = password;
+    }
+
     public User(Long id) {
         this.id = id;
     }
 
-    public static User fromAuthUser(AuthUser authUser) {
-        return new User(authUser.getUserId());
+    public boolean isSameRole(UserRole userRole) {
+        return this.userRole == userRole;
+    }
+
+    public boolean isNotSameRole(UserRole userRole) {
+        return !isSameRole(userRole);
     }
 }

@@ -1,4 +1,4 @@
-package com.wearei.finalsamplecode.common.dto;
+package com.wearei.finalsamplecode.security;
 
 import com.wearei.finalsamplecode.common.enums.UserRole;
 import lombok.Getter;

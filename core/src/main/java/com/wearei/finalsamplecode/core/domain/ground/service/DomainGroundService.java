@@ -1,14 +1,14 @@
 package com.wearei.finalsamplecode.core.domain.ground.service;
 
 import com.wearei.finalsamplecode.common.apipayload.status.ErrorStatus;
+import com.wearei.finalsamplecode.common.enums.UserRole;
 import com.wearei.finalsamplecode.core.domain.ground.repository.GroundRepository;
 import com.wearei.finalsamplecode.core.domain.ground.entity.Ground;
 import com.wearei.finalsamplecode.core.domain.team.entity.Team;
 import com.wearei.finalsamplecode.core.domain.team.repository.TeamRepository;
 import com.wearei.finalsamplecode.core.domain.user.entity.User;
-import com.wearei.finalsamplecode.core.domain.user.service.CustomUserDetailsService;
+import com.wearei.finalsamplecode.core.domain.user.repository.UserRepository;
 import com.wearei.finalsamplecode.common.exception.ApiException;
-import com.wearei.finalsamplecode.common.dto.AuthUser;
 import com.wearei.finalsamplecode.integration.s3.S3Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,14 +23,16 @@ import java.io.IOException;
 public class DomainGroundService {
     private final TeamRepository teamRepository;
     private final GroundRepository groundRepository;
-    private final CustomUserDetailsService userDetailsService;
+    private final UserRepository userRepository;
     private final S3Api s3Api;
 
     @Transactional
-    public Ground createGround(Long teamId, String groundName, String location, String tel, AuthUser authUser, MultipartFile groundImg) {
-        User user = userDetailsService.findUserById(authUser.getUserId());
+    public Ground createGround(Long userId, Long teamId, String groundName, String location, String tel, MultipartFile groundImg) {
+        User user = userRepository.findByIdOrThrow(userId);
 
-        userDetailsService.checkIfAdmin(user);
+        if(user.isNotSameRole(UserRole.ROLE_ADMIN)) {
+            throw new ApiException(ErrorStatus._INVALID_USER_ROLE);
+        }
 
         Team team = teamRepository.findById(teamId)
                 .orElseThrow(() -> new ApiException((ErrorStatus._NOT_FOUND_TEAM)));
