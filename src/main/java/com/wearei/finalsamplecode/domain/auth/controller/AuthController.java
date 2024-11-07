@@ -15,6 +15,11 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
     private final AuthService authService;
 
+    @GetMapping("/")
+    public String home(){
+        return "배포가 정상적으로 완료되었다!";
+    }
+
     @GetMapping("/health")
     public String healthCheck(){
         return "true";
