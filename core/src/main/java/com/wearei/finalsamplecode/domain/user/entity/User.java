@@ -6,6 +6,7 @@ import com.wearei.finalsamplecode.common.dto.AuthUser;
 import com.wearei.finalsamplecode.common.entity.Timestamped;
 import java.util.ArrayList;
 import java.util.List;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

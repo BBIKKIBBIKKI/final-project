@@ -5,6 +5,8 @@ import com.wearei.finalsamplecode.domain.team.entity.Team;
 import com.wearei.finalsamplecode.common.entity.Timestamped;
 import java.util.List;
 import java.util.Objects;
+
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -14,13 +16,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "boards")
 @AttributeOverride(name = "id", column = @Column(name = "board_id"))
 public class Board extends Timestamped {
-    @ManyToOne
-    @JoinColumn(name = "team_id")
-    private Team team;
-
-    @OneToMany(mappedBy = "board")
-    private List<Comment> comment;
-
     private String title;
 
     private String contents;
@@ -29,6 +24,13 @@ public class Board extends Timestamped {
     private String backgroundImage;
 
     private int likes = 0;
+
+    @ManyToOne
+    @JoinColumn(name = "team_id")
+    private Team team;
+
+    @OneToMany(mappedBy = "board")
+    private List<Comment> comment;
 
     public Board(Team team, String title, String contents, String backgroundImg) {
         this.team = team;
@@ -47,8 +49,7 @@ public class Board extends Timestamped {
         }
     }
 
-    public void update(Team team, String title, String contents, String backgroundImage) {
-        this.team = team;
+    public void update(String title, String contents, String backgroundImage) {
         if (!Objects.isNull(title)) {
             this.title = title;
         }

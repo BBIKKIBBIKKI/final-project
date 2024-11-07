@@ -1,5 +1,6 @@
 package com.wearei.finalsamplecode.api.team.dto.response;
 
+import com.wearei.finalsamplecode.domain.team.entity.Team;
 import lombok.Getter;
 
 @Getter
@@ -9,6 +10,14 @@ public class TeamResponse {
     private final String mascotImg;
     private final String equipmentImg;
     private final String themeSong;
+
+    public TeamResponse(Team team) {
+        this.teamName = team.getTeamName();
+        this.uniformImg = team.getUniformImg();
+        this.mascotImg = team.getMascotImg();
+        this.equipmentImg = team.getEquipmentImg();
+        this.themeSong = team.getThemeSong();
+    }
 
     public TeamResponse(String teamName, String uniformImg, String mascotImg, String equipmentImg, String themeSong) {
         this.teamName = teamName;
