@@ -2,8 +2,8 @@ package com.wearei.finalsamplecode.api.follow;
 
 import com.wearei.finalsamplecode.api.follow.dto.request.CreateFollowRequest;
 import com.wearei.finalsamplecode.api.follow.dto.response.CreateFollowResponse;
-import com.wearei.finalsamplecode.apipayload.ApiResponse;
-import com.wearei.finalsamplecode.domain.follow.service.DomainFollowService;
+import com.wearei.finalsamplecode.common.ApiResponse;
+import com.wearei.finalsamplecode.core.domain.follow.service.DomainFollowService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

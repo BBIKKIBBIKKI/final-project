@@ -1,7 +1,7 @@
 package com.wearei.finalsamplecode.api.comment.dto.response;
 
 import java.time.LocalDateTime;
-import com.wearei.finalsamplecode.domain.comment.entity.Comment;
+import com.wearei.finalsamplecode.core.domain.comment.entity.Comment;
 import lombok.Getter;
 
 @Getter

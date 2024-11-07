@@ -1,6 +1,6 @@
 package com.wearei.finalsamplecode.api.team.dto.response;
 
-import com.wearei.finalsamplecode.domain.team.entity.Team;
+import com.wearei.finalsamplecode.core.domain.team.entity.Team;
 
 public class TeamCreateResponse extends TeamResponse {
     public TeamCreateResponse(Team team) {

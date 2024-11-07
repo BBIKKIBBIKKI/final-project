@@ -2,7 +2,7 @@ package com.wearei.finalsamplecode.chat.controller;
 
 import com.wearei.finalsamplecode.chat.response.ChatRoomCreateResponse;
 import com.wearei.finalsamplecode.api.chat.service.ChatService;
-import com.wearei.finalsamplecode.apipayload.ApiResponse;
+import com.wearei.finalsamplecode.common.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

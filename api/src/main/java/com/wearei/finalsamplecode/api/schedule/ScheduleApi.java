@@ -5,11 +5,11 @@ import com.wearei.finalsamplecode.api.schedule.dto.request.ScheduleUpdateRequest
 import com.wearei.finalsamplecode.api.schedule.dto.response.ScheduleCreateResponseDto;
 import com.wearei.finalsamplecode.api.schedule.dto.response.ScheduleSearchResponseDto;
 import com.wearei.finalsamplecode.api.schedule.dto.response.ScheduleUpdateResponseDto;
-import com.wearei.finalsamplecode.apipayload.ApiResponse;
-import com.wearei.finalsamplecode.apipayload.status.SuccessStatus;
+import com.wearei.finalsamplecode.common.ApiResponse;
+import com.wearei.finalsamplecode.common.apipayload.status.SuccessStatus;
 import com.wearei.finalsamplecode.common.dto.AuthUser;
-import com.wearei.finalsamplecode.domain.schedule.entity.Schedule;
-import com.wearei.finalsamplecode.domain.schedule.service.ScheduleService;
+import com.wearei.finalsamplecode.core.domain.schedule.entity.Schedule;
+import com.wearei.finalsamplecode.core.domain.schedule.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;

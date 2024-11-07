@@ -1,8 +1,8 @@
 package com.wearei.finalsamplecode.api.config;
 
-import com.wearei.finalsamplecode.domain.user.enums.UserRole;
-import com.wearei.finalsamplecode.apipayload.status.ErrorStatus;
-import com.wearei.finalsamplecode.exception.ApiException;
+import com.wearei.finalsamplecode.common.enums.UserRole;
+import com.wearei.finalsamplecode.common.apipayload.status.ErrorStatus;
+import com.wearei.finalsamplecode.common.exception.ApiException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

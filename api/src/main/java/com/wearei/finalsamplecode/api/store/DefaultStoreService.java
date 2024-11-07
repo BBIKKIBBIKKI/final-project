@@ -1,7 +1,7 @@
 package com.wearei.finalsamplecode.api.store;
 
-import com.wearei.finalsamplecode.domain.store.entity.Store;
-import com.wearei.finalsamplecode.domain.store.repository.StoreRepository;
+import com.wearei.finalsamplecode.core.domain.store.entity.Store;
+import com.wearei.finalsamplecode.core.domain.store.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

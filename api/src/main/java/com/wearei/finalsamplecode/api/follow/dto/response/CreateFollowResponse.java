@@ -1,6 +1,6 @@
 package com.wearei.finalsamplecode.api.follow.dto.response;
 
-import com.wearei.finalsamplecode.domain.follow.entity.Follow;
+import com.wearei.finalsamplecode.core.domain.follow.entity.Follow;
 import lombok.Getter;
 
 @Getter

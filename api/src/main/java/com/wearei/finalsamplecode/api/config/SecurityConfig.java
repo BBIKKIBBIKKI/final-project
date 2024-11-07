@@ -1,6 +1,6 @@
 package com.wearei.finalsamplecode.api.config;
 
-import com.wearei.finalsamplecode.domain.user.enums.UserRole;
+import com.wearei.finalsamplecode.common.enums.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,6 +1,6 @@
 package com.wearei.finalsamplecode.api.order.dto.request;
 
-import com.wearei.finalsamplecode.domain.order.enums.OrderStatus;
+import com.wearei.finalsamplecode.core.domain.order.enums.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

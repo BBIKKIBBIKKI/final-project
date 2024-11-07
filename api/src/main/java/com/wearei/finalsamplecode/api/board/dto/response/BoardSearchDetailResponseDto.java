@@ -4,7 +4,7 @@ import com.wearei.finalsamplecode.api.comment.dto.response.CommentResponseDto;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.wearei.finalsamplecode.domain.board.entity.Board;
+import com.wearei.finalsamplecode.core.domain.board.entity.Board;
 import lombok.Getter;
 
 import static java.util.stream.Collectors.toList;

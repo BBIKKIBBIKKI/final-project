@@ -5,7 +5,7 @@ import com.wearei.finalsamplecode.api.menu.dto.response.CreateMenuResponse;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.wearei.finalsamplecode.domain.store.entity.Store;
+import com.wearei.finalsamplecode.core.domain.store.entity.Store;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

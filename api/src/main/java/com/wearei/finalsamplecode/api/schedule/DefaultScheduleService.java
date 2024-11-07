@@ -1,7 +1,7 @@
 package com.wearei.finalsamplecode.api.schedule;
 
-import com.wearei.finalsamplecode.domain.schedule.entity.Schedule;
-import com.wearei.finalsamplecode.domain.schedule.repository.ScheduleRepository;
+import com.wearei.finalsamplecode.core.domain.schedule.entity.Schedule;
+import com.wearei.finalsamplecode.core.domain.schedule.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

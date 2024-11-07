@@ -1,7 +1,7 @@
 package com.wearei.finalsamplecode.api.order;
 
-import com.wearei.finalsamplecode.domain.order.entity.Order;
-import com.wearei.finalsamplecode.domain.order.repository.OrderRepository;
+import com.wearei.finalsamplecode.core.domain.order.entity.Order;
+import com.wearei.finalsamplecode.core.domain.order.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

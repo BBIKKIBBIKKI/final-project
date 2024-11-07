@@ -1,6 +1,6 @@
 package com.wearei.finalsamplecode.api.auth.dto.response;
 
-import com.wearei.finalsamplecode.domain.user.entity.User;
+import com.wearei.finalsamplecode.core.domain.user.entity.User;
 import java.time.LocalDateTime;
 import lombok.Getter;
 

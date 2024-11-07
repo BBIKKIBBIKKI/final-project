@@ -6,11 +6,11 @@ import com.wearei.finalsamplecode.api.comment.dto.request.CommentUpdateRequestDt
 import com.wearei.finalsamplecode.api.comment.dto.response.CommentCreateResponseDto;
 import com.wearei.finalsamplecode.api.comment.dto.response.CommentSearchResponseDto;
 import com.wearei.finalsamplecode.api.comment.dto.response.CommentUpdateResponseDto;
-import com.wearei.finalsamplecode.apipayload.ApiResponse;
-import com.wearei.finalsamplecode.apipayload.status.SuccessStatus;
+import com.wearei.finalsamplecode.common.ApiResponse;
+import com.wearei.finalsamplecode.common.apipayload.status.SuccessStatus;
 import java.util.List;
-import com.wearei.finalsamplecode.domain.comment.entity.Comment;
-import com.wearei.finalsamplecode.domain.comment.service.DomainCommentService;
+import com.wearei.finalsamplecode.core.domain.comment.entity.Comment;
+import com.wearei.finalsamplecode.core.domain.comment.service.DomainCommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

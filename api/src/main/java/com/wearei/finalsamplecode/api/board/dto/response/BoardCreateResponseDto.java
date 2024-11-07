@@ -2,8 +2,8 @@ package com.wearei.finalsamplecode.api.board.dto.response;
 
 import java.time.LocalDateTime;
 
-import com.wearei.finalsamplecode.domain.board.entity.Board;
-import com.wearei.finalsamplecode.domain.team.entity.Team;
+import com.wearei.finalsamplecode.core.domain.board.entity.Board;
+import com.wearei.finalsamplecode.core.domain.team.entity.Team;
 import lombok.Getter;
 
 @Getter
