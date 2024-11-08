@@ -24,7 +24,7 @@ public class DomainBoardService {
 
     @Transactional
     public Board createBoard(Long teamId, String title , String contents, MultipartFile backgroundImg) {
-        Team team = teamRepository.findByTeamId(teamId);
+        Team team = teamRepository.findById(teamId).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_TEAM));
 
         String groundImageUrl = null;
 
@@ -40,7 +40,7 @@ public class DomainBoardService {
 
     @Transactional
     public Board updateBoard(Long boardId, Long teamId, String title, String contents, MultipartFile backgroundImg) {
-        Team team = teamRepository.findByTeamId(teamId);
+        Team team = teamRepository.findById(teamId).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_TEAM));
         Board board = boardRepository.findByBoardId(boardId);
 
         String updatedTitle = title != null ? title : board.getTitle();
