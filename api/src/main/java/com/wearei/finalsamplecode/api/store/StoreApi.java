@@ -67,7 +67,7 @@ public class StoreApi {
 
     // 가게 삭제 (사장님 권한)
     @DeleteMapping("/{storeId}")
-    public ApiResponse<String> deleteStore(@PathVariable Long storeId, @AuthenticationPrincipal AuthUser authUser){
+    public ApiResponse<Void> deleteStore(@PathVariable Long storeId, @AuthenticationPrincipal AuthUser authUser){
         domainStoreService.deleteStore(authUser.getUserId(), storeId);
         return ApiResponse.onSuccess(SuccessStatus._DELETION_SUCCESS.getMessage());
     }

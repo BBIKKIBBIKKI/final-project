@@ -53,7 +53,7 @@ public class OrderApi {
 
     // 주문 삭제
     @DeleteMapping("/{orderId}")
-    public ApiResponse<String> deleteOrder(@PathVariable Long orderId){
+    public ApiResponse<Void> deleteOrder(@PathVariable Long orderId){
         domainOrderService.deleteOrder(orderId);
         return ApiResponse.onSuccess(SuccessStatus._DELETION_SUCCESS.getMessage());
     }

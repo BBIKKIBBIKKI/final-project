@@ -1,11 +1,7 @@
 package com.wearei.finalsamplecode.api.board;
 
-import com.wearei.finalsamplecode.api.board.dto.request.BoardCreateRequestDto;
-import com.wearei.finalsamplecode.api.board.dto.request.BoardUpdateRequestDto;
-import com.wearei.finalsamplecode.api.board.dto.response.BoardCreateResponseDto;
-import com.wearei.finalsamplecode.api.board.dto.response.BoardSearchDetailResponseDto;
-import com.wearei.finalsamplecode.api.board.dto.response.BoardSearchResponseDto;
-import com.wearei.finalsamplecode.api.board.dto.response.BoardUpdateResponseDto;
+import com.wearei.finalsamplecode.api.board.dto.BoardRequest;
+import com.wearei.finalsamplecode.api.board.dto.BoardResponse;
 import com.wearei.finalsamplecode.common.ApiResponse;
 import com.wearei.finalsamplecode.common.apipayload.status.SuccessStatus;
 import com.wearei.finalsamplecode.core.domain.board.entity.Board;
@@ -25,48 +21,48 @@ public class BoardApi {
     private final DefaultBoardService defaultBoardService;
 
     @PostMapping()
-    public ApiResponse<BoardCreateResponseDto> createBoard(@RequestPart BoardCreateRequestDto request,
-                                                           @RequestPart(required = false) MultipartFile backgroundImg
+    public ApiResponse<BoardResponse.Create> createBoard(@RequestPart BoardRequest.Create request,
+                                                  @RequestPart(required = false) MultipartFile backgroundImg
     ) {
-        return ApiResponse.onSuccess(new BoardCreateResponseDto(domainBoardService.createBoard(request.getTeamId(), request.getTitle(), request.getContents(), backgroundImg)));
+        return ApiResponse.onSuccess(new BoardResponse.Create(domainBoardService.createBoard(request.teamId(), request.title(), request.contents(), backgroundImg)));
     }
 
     @GetMapping()
-    public ApiResponse<Page<BoardSearchResponseDto>> getBoards(@RequestParam Long teamId,
+    public ApiResponse<Page<BoardResponse.Search>> getBoards(@RequestParam Long teamId,
                                                                @RequestParam(defaultValue = "0")int page,
                                                                @RequestParam(defaultValue = "10")int size
     ) {
         Page<Board> boards = defaultBoardService.getBoards(teamId, PageRequest.of(page,size));
-        return ApiResponse.onSuccess(boards.map(BoardSearchResponseDto::new));
+        return ApiResponse.onSuccess(boards.map(BoardResponse.Search::new));
     }
 
     @GetMapping("/{boardId}")
-    public ApiResponse<BoardSearchDetailResponseDto> getBoard(@PathVariable Long boardId, @RequestParam Long teamId) {
-        return ApiResponse.onSuccess(new BoardSearchDetailResponseDto(defaultBoardService.getBoard(teamId, boardId)));
+    public ApiResponse<BoardResponse.Detail> getBoard(@PathVariable Long boardId, @RequestParam Long teamId) {
+        return ApiResponse.onSuccess(new BoardResponse.Detail(defaultBoardService.getBoard(teamId, boardId)));
     }
 
     @PatchMapping("/{boardId}")
-    public ApiResponse<BoardUpdateResponseDto> updateBoard(@PathVariable Long boardId,
-                                                           @RequestPart BoardUpdateRequestDto request,
+    public ApiResponse<BoardResponse.Update> updateBoard(@PathVariable Long boardId,
+                                                           @RequestPart BoardRequest.Update request,
                                                            @RequestPart(required = false) MultipartFile backgroundImg
     ) {
-        return ApiResponse.onSuccess(new BoardUpdateResponseDto(domainBoardService.updateBoard(boardId, request.getTeamId(), request.getTitle(), request.getContents(), backgroundImg)));
+        return ApiResponse.onSuccess(new BoardResponse.Update(domainBoardService.updateBoard(boardId, request.teamId(), request.title(), request.contents(), backgroundImg)));
     }
 
     @DeleteMapping("/{boardId}")
-    public ApiResponse<String> deleteBoard(@PathVariable Long boardId, @RequestParam Long teamId) {
+    public ApiResponse<Void> deleteBoard(@PathVariable Long boardId, @RequestParam Long teamId) {
         domainBoardService.deleteBoard(boardId, teamId);
         return ApiResponse.onSuccess(SuccessStatus._DELETION_SUCCESS.getMessage());
     }
 
     @PostMapping("/{boardId}/likes")
-    public ApiResponse<String> increaselikePost(@PathVariable Long boardId) {
+    public ApiResponse<Void> increaseLike(@PathVariable Long boardId) {
         domainBoardService.increaseLike(boardId);
         return ApiResponse.onSuccess(SuccessStatus._LIKE_SUCCESS.getMessage());
     }
 
     @DeleteMapping("/{boardId}/likes")
-    public ApiResponse<String> decreaselikePost(@PathVariable Long boardId) {
+    public ApiResponse<Void> decreaseLike(@PathVariable Long boardId) {
         domainBoardService.decreaseLike(boardId);
         return ApiResponse.onSuccess(SuccessStatus._LIKE_SUCCESS.getMessage());
     }

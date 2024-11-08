@@ -48,7 +48,7 @@ public class ScheduleApi {
     }
 
     @DeleteMapping("/{scheduleId}")
-    public ApiResponse<String> deleteSchedule(@PathVariable Long scheduleId, @RequestParam Long teamId) {
+    public ApiResponse<Void> deleteSchedule(@PathVariable Long scheduleId, @RequestParam Long teamId) {
         scheduleService.deleteSchedule(scheduleId, teamId);
         return ApiResponse.onSuccess(SuccessStatus._DELETION_SUCCESS.getMessage());
     }

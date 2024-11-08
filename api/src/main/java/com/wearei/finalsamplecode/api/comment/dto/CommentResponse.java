@@ -9,7 +9,7 @@ import static com.wearei.finalsamplecode.api.comment.dto.CommentResponse.*;
 
 public sealed interface CommentResponse permits Create, Detail, Search, Update {
     record Create(
-            Long id,
+            @NotNull Long id,
             String contents,
             LocalDateTime createdAt,
             LocalDateTime modifiedAt
@@ -41,7 +41,7 @@ public sealed interface CommentResponse permits Create, Detail, Search, Update {
     }
 
     record Search(
-            Long id,
+            @NotNull Long id,
             String contents,
             LocalDateTime createdAt,
             LocalDateTime modifiedAt
@@ -56,10 +56,11 @@ public sealed interface CommentResponse permits Create, Detail, Search, Update {
         }
     }
 
-    record Update(Long boardId,
-                  String contents,
-                  LocalDateTime createdAt,
-                  LocalDateTime modifiedAt
+    record Update(
+            @NotNull Long id,
+            String contents,
+            LocalDateTime createdAt,
+            LocalDateTime modifiedAt
     ) implements CommentResponse {
         public Update(Comment comment){
             this(

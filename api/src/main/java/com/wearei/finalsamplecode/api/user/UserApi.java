@@ -1,8 +1,7 @@
 package com.wearei.finalsamplecode.api.user;
 
-import com.wearei.finalsamplecode.api.user.dto.request.UserDeleteRequest;
-import com.wearei.finalsamplecode.api.user.dto.request.UserUpdateRequest;
-import com.wearei.finalsamplecode.api.user.dto.resonse.UserUpdateResponse;
+import com.wearei.finalsamplecode.api.user.dto.UserRequest;
+import com.wearei.finalsamplecode.api.user.dto.UserResponse;
 import com.wearei.finalsamplecode.api.user.service.DefaultUserService;
 import com.wearei.finalsamplecode.common.ApiResponse;
 import com.wearei.finalsamplecode.common.apipayload.status.SuccessStatus;
@@ -21,20 +20,20 @@ public class UserApi {
 
     // 회원정보변경
     @PatchMapping("/users")
-    public ApiResponse<UserUpdateResponse> userUpdate(
+    public ApiResponse<UserResponse.Update> userUpdate(
             @AuthenticationPrincipal AuthUser authUser,
-            @RequestBody UserUpdateRequest request) {
+            @RequestBody UserRequest.Update request) {
 
-        return ApiResponse.onSuccess(new UserUpdateResponse(defaultUserService.updatePassword(authUser.getUserId(), request.getPassword(), request.getNewPassword())));
+        return ApiResponse.onSuccess(new UserResponse.Update(defaultUserService.updatePassword(authUser.getUserId(), request.password(), request.newPassword())));
     }
 
     // 회원탈퇴
     @DeleteMapping("/users")
-    public ApiResponse<String> deleteUser(
+    public ApiResponse<Void> deleteUser(
             @AuthenticationPrincipal AuthUser authUser,
-            @RequestBody UserDeleteRequest request) {
+            @RequestBody UserRequest.Delete request) {
 
-        defaultUserService.delete(authUser.getUserId(), request.getPassword());
+        defaultUserService.delete(authUser.getUserId(), request.password());
         return ApiResponse.onSuccess(SuccessStatus._DELETION_SUCCESS.getMessage());
     }
 }

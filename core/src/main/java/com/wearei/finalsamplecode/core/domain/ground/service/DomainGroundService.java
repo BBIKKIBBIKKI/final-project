@@ -2,6 +2,7 @@ package com.wearei.finalsamplecode.core.domain.ground.service;
 
 import com.wearei.finalsamplecode.common.apipayload.status.ErrorStatus;
 import com.wearei.finalsamplecode.common.enums.UserRole;
+import com.wearei.finalsamplecode.common.support.Preconditions;
 import com.wearei.finalsamplecode.core.domain.ground.repository.GroundRepository;
 import com.wearei.finalsamplecode.core.domain.ground.entity.Ground;
 import com.wearei.finalsamplecode.core.domain.team.entity.Team;
@@ -30,9 +31,7 @@ public class DomainGroundService {
     public Ground createGround(Long userId, Long teamId, String groundName, String location, String tel, MultipartFile groundImg) {
         User user = userRepository.findByIdOrThrow(userId);
 
-        if(user.isNotSameRole(UserRole.ROLE_ADMIN)) {
-            throw new ApiException(ErrorStatus._INVALID_USER_ROLE);
-        }
+        Preconditions.validate(!user.isNotSameRole(UserRole.ROLE_ADMIN), ErrorStatus._INVALID_USER_ROLE);
 
         Team team = teamRepository.findById(teamId)
                 .orElseThrow(() -> new ApiException((ErrorStatus._NOT_FOUND_TEAM)));

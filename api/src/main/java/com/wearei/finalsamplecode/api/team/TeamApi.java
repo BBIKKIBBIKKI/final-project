@@ -1,8 +1,7 @@
 package com.wearei.finalsamplecode.api.team;
 
-import com.wearei.finalsamplecode.api.team.dto.request.TeamCreateRequest;
-import com.wearei.finalsamplecode.api.team.dto.response.TeamCreateResponse;
-import com.wearei.finalsamplecode.api.team.dto.response.TeamSearchResponse;
+import com.wearei.finalsamplecode.api.team.dto.TeamRequest;
+import com.wearei.finalsamplecode.api.team.dto.TeamResponse;
 import com.wearei.finalsamplecode.common.ApiResponse;
 import com.wearei.finalsamplecode.security.AuthUser;
 import com.wearei.finalsamplecode.core.domain.team.service.DomainTeamService;
@@ -19,22 +18,21 @@ public class TeamApi {
     private final DomainTeamService domainTeamService;
     private final DefaultTeamService defaultTeamService;
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
-    public ApiResponse<TeamCreateResponse> createTeam(
+    public ApiResponse<TeamResponse.Create> createTeam(
             @AuthenticationPrincipal AuthUser authUser,
-            @RequestPart TeamCreateRequest request,
+            @RequestPart TeamRequest.Create request,
             @RequestPart(required = false) MultipartFile uniformImg,
             @RequestPart(required = false) MultipartFile mascotImg,
             @RequestPart(required = false) MultipartFile equipmentImg
     ) {
-        return ApiResponse.onSuccess(new TeamCreateResponse(domainTeamService.createTeam(authUser.getUserId(), request.getTeamName(), request.getThemeSong(), uniformImg,  mascotImg, equipmentImg)));
+        return ApiResponse.onSuccess(new TeamResponse.Create(domainTeamService.createTeam(authUser.getUserId(), request.teamName(), request.themeSong(), uniformImg,  mascotImg, equipmentImg)));
     }
 
     @GetMapping("/search")
-    public ApiResponse<TeamSearchResponse> searchTeam(
+    public ApiResponse<TeamResponse.Search> searchTeam(
             @RequestParam(required = false, name="teamName") String teamName
     ) {
-       return ApiResponse.onSuccess(new TeamSearchResponse(defaultTeamService.findByTeamName(teamName)));
+       return ApiResponse.onSuccess(new TeamResponse.Search(defaultTeamService.findByTeamName(teamName)));
     }
 }

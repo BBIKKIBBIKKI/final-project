@@ -18,10 +18,4 @@ public class DefaultTeamService {
         return teamRepository.findByTeamName(teamName)
                 .orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_TEAM));
     }
-
-    @Transactional(readOnly = true)
-    public Team findById(Long teamId) {
-        return teamRepository.findById(teamId)
-                .orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_TEAM));
-    }
 }

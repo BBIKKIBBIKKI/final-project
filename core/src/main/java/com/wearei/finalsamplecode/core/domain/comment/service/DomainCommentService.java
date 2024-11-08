@@ -49,16 +49,4 @@ public class DomainCommentService {
         comment.Deleted();
         commentRepository.save(comment);
     }
-
-//    private Comment checkMyComment(Long teamId, Long boardId) {
-//        Team team = teamRepository.findByTeamId(teamId);
-//
-//        Board board = boardRepository.findByBoardId(boardId);
-//
-//        // 수정
-//        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_COMMENT));
-//
-//        // 코멘트가 내꺼인지 확인
-//
-//    }
 }

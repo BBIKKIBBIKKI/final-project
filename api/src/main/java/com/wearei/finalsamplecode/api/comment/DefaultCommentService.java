@@ -7,7 +7,6 @@ import com.wearei.finalsamplecode.core.domain.comment.ropository.CommentReposito
 import com.wearei.finalsamplecode.common.exception.ApiException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service

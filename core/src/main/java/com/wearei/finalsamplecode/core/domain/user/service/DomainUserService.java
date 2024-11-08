@@ -1,9 +1,8 @@
 package com.wearei.finalsamplecode.core.domain.user.service;
 
-import com.wearei.finalsamplecode.core.domain.user.entity.User;
-import com.wearei.finalsamplecode.core.domain.user.repository.UserRepository;
 import com.wearei.finalsamplecode.common.apipayload.status.ErrorStatus;
-import com.wearei.finalsamplecode.common.exception.ApiException;
+import com.wearei.finalsamplecode.common.support.Preconditions;
+import com.wearei.finalsamplecode.core.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,9 +21,7 @@ public class DomainUserService {
     // 회원 탈퇴
     public void delete(User user) {
         // 이미 탈퇴된 사용자일 경우
-        if (user.isDeleted()) {
-            throw new ApiException(ErrorStatus._NOT_FOUND_USER);
-        }
+        Preconditions.validate(!user.isDeleted(), ErrorStatus._NOT_FOUND_USER);
 
         // 사용자 삭제 처리
         user.markIsDeleted(); // 삭제 상태로 변경

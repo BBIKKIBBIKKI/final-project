@@ -1,15 +1,16 @@
 package com.wearei.finalsamplecode.api.board;
 
 import com.wearei.finalsamplecode.common.apipayload.status.ErrorStatus;
+import com.wearei.finalsamplecode.common.exception.ApiException;
 import com.wearei.finalsamplecode.core.domain.board.entity.Board;
 import com.wearei.finalsamplecode.core.domain.board.repository.BoardRepository;
 import com.wearei.finalsamplecode.core.domain.team.repository.TeamRepository;
-import com.wearei.finalsamplecode.common.exception.ApiException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
 import java.util.Collections;
 
 @Service
