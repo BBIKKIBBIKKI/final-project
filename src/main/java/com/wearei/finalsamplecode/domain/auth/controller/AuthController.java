@@ -17,7 +17,7 @@ public class AuthController {
 
     @GetMapping("/")
     public String home(){
-        return "배포가 정상적으로 완료되었다!";
+        return "배포가 정상적으로 완료되었다!2222";
     }
 
     @GetMapping("/health")
