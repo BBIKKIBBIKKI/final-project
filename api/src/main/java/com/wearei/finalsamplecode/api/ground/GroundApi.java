@@ -1,8 +1,7 @@
 package com.wearei.finalsamplecode.api.ground;
 
-import com.wearei.finalsamplecode.api.ground.dto.request.GroundCreateRequest;
-import com.wearei.finalsamplecode.api.ground.dto.response.GroundCreateResponse;
-import com.wearei.finalsamplecode.api.ground.dto.response.GroundSearchResponse;
+import com.wearei.finalsamplecode.api.ground.dto.GroundRequest;
+import com.wearei.finalsamplecode.api.ground.dto.GroundResponse;
 import com.wearei.finalsamplecode.api.ground.service.DefaultGroundService;
 import com.wearei.finalsamplecode.common.ApiResponse;
 import com.wearei.finalsamplecode.security.AuthUser;
@@ -20,19 +19,19 @@ public class GroundApi {
     private final DomainGroundService domainGroundService;
 
     @PostMapping
-    public ApiResponse<GroundCreateResponse> createGround(
+    public ApiResponse<GroundResponse.Create> createGround(
             @AuthenticationPrincipal AuthUser authUser,
-            @RequestPart GroundCreateRequest request,
+            @RequestPart GroundRequest.Create request,
             @RequestPart(required = false) MultipartFile groundImg
     ) {
-        return ApiResponse.onSuccess(new GroundCreateResponse(domainGroundService.createGround(authUser.getUserId(), request.getTeamId(), request.getGroundName(), request.getLocation(), request.getTel(),  groundImg)));
+        return ApiResponse.onSuccess(new GroundResponse.Create(domainGroundService.createGround(authUser.getUserId(), request.teamId(), request.groundName(), request.location(), request.tel(),  groundImg)));
     }
 
     @GetMapping("/search")
-    public ApiResponse<GroundSearchResponse> searchGround(
+    public ApiResponse<GroundResponse.Search> searchGround(
             @RequestParam(required = false, name="teamName") String teamName,
             @RequestParam(required = false, name="groundName") String groundName
     ) {
-        return ApiResponse.onSuccess(new GroundSearchResponse(defaultGroundService.searchGround(teamName, groundName)));
+        return ApiResponse.onSuccess(new GroundResponse.Search(defaultGroundService.searchGround(teamName, groundName)));
     }
 }

@@ -31,5 +31,6 @@ public class GroundQuery {
          }
 
          return Optional.of(result);
-     }
+    }
+
 }

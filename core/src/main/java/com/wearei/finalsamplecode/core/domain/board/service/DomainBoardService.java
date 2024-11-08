@@ -1,6 +1,7 @@
 package com.wearei.finalsamplecode.core.domain.board.service;
 
 import com.wearei.finalsamplecode.common.apipayload.status.ErrorStatus;
+import com.wearei.finalsamplecode.common.support.Preconditions;
 import com.wearei.finalsamplecode.core.domain.board.entity.Board;
 import com.wearei.finalsamplecode.core.domain.board.repository.BoardRepository;
 import com.wearei.finalsamplecode.core.domain.team.entity.Team;
@@ -46,12 +47,12 @@ public class DomainBoardService {
         String updatedContents = contents != null ? contents : board.getContents();
         String updatedBackgroundImageUrl = board.getBackgroundImage();
 
-        if (!Objects.isNull(board.getBackgroundImage())) {
-            try {
-                updatedBackgroundImageUrl = s3Api.updateImageInS3(updatedBackgroundImageUrl, backgroundImg);
-            } catch (IOException e) {
-                throw new ApiException(ErrorStatus._FILE_UPLOAD_ERROR);
-            }
+        Preconditions.validate(!Objects.isNull(board.getBackgroundImage()), ErrorStatus._FILE_UPLOAD_ERROR);
+
+        try {
+            updatedBackgroundImageUrl = s3Api.updateImageInS3(updatedBackgroundImageUrl, backgroundImg);
+        } catch (IOException e) {
+            throw new ApiException(ErrorStatus._FILE_UPLOAD_ERROR);
         }
 
         board.update(updatedTitle, updatedContents, updatedBackgroundImageUrl);

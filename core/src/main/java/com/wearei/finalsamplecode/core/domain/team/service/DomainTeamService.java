@@ -3,6 +3,7 @@ package com.wearei.finalsamplecode.core.domain.team.service;
 import com.wearei.finalsamplecode.common.apipayload.status.ErrorStatus;
 import com.wearei.finalsamplecode.common.enums.UserRole;
 import com.wearei.finalsamplecode.common.exception.ApiException;
+import com.wearei.finalsamplecode.common.support.Preconditions;
 import com.wearei.finalsamplecode.core.domain.team.entity.Team;
 import com.wearei.finalsamplecode.core.domain.team.repository.TeamRepository;
 import com.wearei.finalsamplecode.core.domain.user.entity.User;
@@ -12,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 
 @Service
@@ -26,9 +26,7 @@ public class DomainTeamService {
     public Team createTeam(Long userId, String teamName, String themeSong, MultipartFile uniformImg, MultipartFile mascotImg, MultipartFile equipmentImg) {
         User user = userRepository.findByIdOrThrow(userId);
 
-        if(user.isNotSameRole(UserRole.ROLE_ADMIN)) {
-            throw new ApiException(ErrorStatus._INVALID_USER_ROLE);
-        }
+        Preconditions.validate(!user.isNotSameRole(UserRole.ROLE_ADMIN), ErrorStatus._INVALID_USER_ROLE);
 
         String uniformImageUrl = null;
         String mascotImageUrl = null;
