@@ -20,7 +20,7 @@ public class DefaultBoardService {
     private final TeamRepository teamRepository;
 
     public Page<Board> getBoards(Long teamId, Pageable pageable) {
-        teamRepository.findByTeamId(teamId);
+        teamRepository.findById(teamId).orElseThrow(()-> new ApiException(ErrorStatus._NOT_FOUND_TEAM));
 
         Page<Board> boardPage = boardRepository.findByTeamId(teamId, pageable);
 
