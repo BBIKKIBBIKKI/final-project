@@ -45,24 +45,4 @@ public class Schedule extends Timestamped {
         this.date = date;
         this.time = time;
     }
-
-    public void updateContents(String contents) {
-            this.contents = contents;
-    }
-
-    public void updateTitle(String title) {
-            this.title = title;
-    }
-
-    public void updateGround(String ground) {
-            this.ground = ground;
-    }
-
-    public void updateDate(LocalDate date) {
-            this.date = date;
-    }
-
-    public void updateTime(LocalTime time) {
-            this.time = time;
-    }
 }
