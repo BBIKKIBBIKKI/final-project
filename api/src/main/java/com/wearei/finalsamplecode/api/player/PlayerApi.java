@@ -1,6 +1,6 @@
 package com.wearei.finalsamplecode.api.player;
 
-import com.wearei.finalsamplecode.api.player.dto.response.PlayerSearchResponse;
+import com.wearei.finalsamplecode.api.player.dto.response.PlayerResponse;
 import com.wearei.finalsamplecode.common.ApiResponse;
 import com.wearei.finalsamplecode.core.domain.player.entity.Player;
 import lombok.RequiredArgsConstructor;
@@ -16,8 +16,8 @@ public class PlayerApi {
     private final DefaultPlayerService defaultPlayerService;
 
     @GetMapping("/players")
-    public ApiResponse<List<PlayerSearchResponse>> getSearchPlayerName(@RequestParam String playerName, @RequestParam(required = false) String teamName) {
+    public ApiResponse<List<PlayerResponse.Search>> getSearchPlayerName(@RequestParam String playerName, @RequestParam(required = false) String teamName) {
         List<Player> players = defaultPlayerService.getPlayerByNameAndTeamName(playerName, teamName);;
-        return ApiResponse.onSuccess(players.stream().map(PlayerSearchResponse::new).toList());
+        return ApiResponse.onSuccess(players.stream().map(PlayerResponse.Search::new).toList());
     }
 }

@@ -2,6 +2,8 @@ package com.wearei.finalsamplecode.core.domain.order.service;
 
 import com.wearei.finalsamplecode.common.apipayload.status.ErrorStatus;
 import com.wearei.finalsamplecode.common.enums.UserRole;
+import com.wearei.finalsamplecode.common.exception.ApiException;
+import com.wearei.finalsamplecode.common.support.Preconditions;
 import com.wearei.finalsamplecode.core.domain.menu.entity.Menu;
 import com.wearei.finalsamplecode.core.domain.menu.service.DomainMenuService;
 import com.wearei.finalsamplecode.core.domain.order.entity.Order;
@@ -12,7 +14,6 @@ import com.wearei.finalsamplecode.core.domain.store.entity.Store;
 import com.wearei.finalsamplecode.core.domain.store.service.DomainStoreService;
 import com.wearei.finalsamplecode.core.domain.user.entity.User;
 import com.wearei.finalsamplecode.core.domain.user.repository.UserRepository;
-import com.wearei.finalsamplecode.common.exception.ApiException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,8 @@ public class DomainOrderService {
 
     // 주문 생성
     public Order createOrder(Long userId, Long storeId, Long menuId, Long quantity) {
-        User orderUser = findUserByUserId(userId);
+        User orderUser = userRepository.findById(userId)
+                .orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_USER));
 
         Store store = domainStoreService.checkStore(storeId);
 
@@ -76,9 +78,7 @@ public class DomainOrderService {
     public Order updateOrderStatus(Long userId, Long orderId, OrderStatus orderStatus) {
         User user = userRepository.findByIdOrThrow(userId);
 
-        if(user.isNotSameRole(UserRole.ROLE_OWNER)) {
-            throw new ApiException(ErrorStatus._NOT_OWNER_USER);
-        }
+        Preconditions.validate(!user.isNotSameRole(UserRole.ROLE_OWNER), ErrorStatus._NOT_OWNER_USER);
 
         Order order = orderRepository.findByOrderIdOrThrow(orderId);
 
@@ -98,11 +98,5 @@ public class DomainOrderService {
     public void deleteOrder(Long orderId) {
         Order order = orderRepository.findByOrderIdOrThrow(orderId);
         orderRepository.delete(order);
-    }
-
-    // 사용자 확인
-    private User findUserByUserId(Long id) {
-        return userRepository.findById(id)
-                .orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_USER));
     }
 }

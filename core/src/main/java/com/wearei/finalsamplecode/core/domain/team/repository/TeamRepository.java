@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface TeamRepository extends JpaRepository<Team, Long> {
     Optional<Team> findByTeamName(String teamName);
 
-    default Team findByTeamId(Long teamId){
+    default Team findByIdOrThrow(Long teamId){
         return findById(teamId).orElseThrow(()-> new ApiException(ErrorStatus._NOT_FOUND_TEAM));
     }
 }

@@ -40,7 +40,7 @@ public class DomainCommentService {
     }
 
     public void deleteComment(Long teamId, Long boardId, Long commentId) {
-        teamRepository.findByTeamId(teamId);
+        teamRepository.findByIdOrThrow(teamId);
 
         boardRepository.findByBoardId(boardId);
 
