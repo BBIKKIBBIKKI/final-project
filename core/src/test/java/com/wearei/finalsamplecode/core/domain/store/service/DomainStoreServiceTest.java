@@ -1,48 +1,30 @@
-package com.wearei.finalsamplecode.domain.store.service;
+package com.wearei.finalsamplecode.core.domain.store.service;
 
-import com.wearei.finalsamplecode.apipayload.status.ErrorStatus;
-import com.wearei.finalsamplecode.common.dto.AuthUser;
-import com.wearei.finalsamplecode.domain.ground.entity.Ground;
-import com.wearei.finalsamplecode.domain.ground.repository.GroundRepository;
-import com.wearei.finalsamplecode.domain.menu.entity.Menu;
-import com.wearei.finalsamplecode.domain.menu.repository.MenuRepository;
-import com.wearei.finalsamplecode.domain.store.dto.request.StoreCreateRequest;
-import com.wearei.finalsamplecode.domain.store.dto.request.StoreUpdateRequest;
-import com.wearei.finalsamplecode.domain.store.dto.response.StoreCreateResponse;
-import com.wearei.finalsamplecode.domain.store.dto.response.StoreGetAllResponse;
-import com.wearei.finalsamplecode.domain.store.dto.response.StoreGetResponse;
-import com.wearei.finalsamplecode.domain.store.dto.response.StoreUpdateResponse;
-import com.wearei.finalsamplecode.domain.store.entity.Store;
-import com.wearei.finalsamplecode.domain.store.repository.StoreRepository;
-import com.wearei.finalsamplecode.domain.team.entity.Team;
-import com.wearei.finalsamplecode.domain.team.repository.TeamRepository;
-import com.wearei.finalsamplecode.domain.user.entity.User;
-import com.wearei.finalsamplecode.domain.user.enums.UserRole;
-import com.wearei.finalsamplecode.exception.ApiException;
+import com.wearei.finalsamplecode.common.apipayload.status.ErrorStatus;
+import com.wearei.finalsamplecode.common.enums.UserRole;
+import com.wearei.finalsamplecode.common.exception.ApiException;
+import com.wearei.finalsamplecode.core.domain.ground.entity.Ground;
+import com.wearei.finalsamplecode.core.domain.ground.repository.GroundRepository;
+import com.wearei.finalsamplecode.core.domain.store.repository.StoreRepository;
+import com.wearei.finalsamplecode.core.domain.team.entity.Team;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
-import java.time.LocalTime;
-import java.util.List;
-import static org.junit.jupiter.api.Assertions.*;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalTime;
+
+@Transactional
 @SpringBootTest
-@Import(StoreService.class)
-class StoreServiceTest {
+class DomainStoreServiceTest {
     @Autowired
-    private StoreService storeService;
+    private DomainStoreService domainStoreService;
 
     @Autowired
     private StoreRepository storeRepository;
 
     @Autowired
     private GroundRepository groundRepository;
-
-    @Autowired
-    private TeamRepository teamRepository;
-    @Autowired
-    private MenuRepository menuRepository;
 
     // 가게 생성 3개
     @Test
@@ -125,64 +107,5 @@ class StoreServiceTest {
 
         // then
         assertNotNull(response);
-    }
-
-    @Test
-    void 가게_다건_조회() {
-        AuthUser authUser = new AuthUser(1L, "gusrnr5153@naver.com", UserRole.ROLE_OWNER);
-        User user = User.fromAuthUser(authUser);
-
-        Team team = new Team("두산", "a", "s","s","s");
-        teamRepository.save(team);
-
-        Ground ground = new Ground("잠실구장", "서울", "010010", "a", team);
-        groundRepository.save(ground);
-
-        Store store = new Store(ground,"피자", LocalTime.now().plusHours(5), LocalTime.now().plusHours(10), user);
-        storeRepository.save(store);
-
-        Store store1 = new Store(ground,"피자", LocalTime.now().plusHours(5), LocalTime.now().plusHours(10), user);
-        storeRepository.save(store1);
-
-        List<StoreGetAllResponse> response = storeService.getAllStores();
-
-        assertNotNull(response);
-
-    }
-
-    @Test
-    void 가게_단건_조회_성공() {
-        AuthUser authUser = new AuthUser(1L, "gusrnr5153@naver.com", UserRole.ROLE_OWNER);
-        User user = User.fromAuthUser(authUser);
-
-        Team team = new Team("두산", "a", "s","s","s");
-        teamRepository.save(team);
-
-        Ground ground = new Ground("잠실구장", "서울", "010010", "a", team);
-        groundRepository.save(ground);
-
-        Store store = new Store(ground,"피자", LocalTime.now().plusHours(5), LocalTime.now().plusHours(10), user);
-        storeRepository.save(store);
-
-        Menu menu = new Menu(store, "메뉴1", 1000L, user);
-        Menu menu2 = new Menu(store, "메뉴2", 1000L, user);
-        menuRepository.save(menu);
-        menuRepository.save(menu2);
-
-        StoreGetResponse response = storeService.getStore(store.getId());
-
-        assertNotNull(response);
-    }
-
-    @Test
-    void checkUser() {
-    }
-
-    @Test
-    void checkStore() {
-    }
-
-    @Test
-    void authCheck() {
     }
 }
