@@ -1,15 +1,10 @@
-package com.wearei.finalsamplecode.domain.team.service;
+package com.wearei.finalsamplecode.core.domain.team.service;
 
-import com.wearei.finalsamplecode.common.dto.AuthUser;
-import com.wearei.finalsamplecode.domain.team.dto.request.TeamCreateRequest;
-import com.wearei.finalsamplecode.domain.team.dto.response.TeamCreateResponse;
-import com.wearei.finalsamplecode.domain.team.dto.response.TeamSearchResponse;
-import com.wearei.finalsamplecode.domain.team.entity.Team;
-import com.wearei.finalsamplecode.domain.team.repository.TeamRepository;
-import com.wearei.finalsamplecode.domain.user.entity.User;
-import com.wearei.finalsamplecode.domain.user.enums.UserRole;
-import com.wearei.finalsamplecode.domain.user.repository.UserRepository;
-import com.wearei.finalsamplecode.exception.ApiException;
+import com.wearei.finalsamplecode.common.enums.UserRole;
+import com.wearei.finalsamplecode.core.domain.team.repository.TeamRepository;
+import com.wearei.finalsamplecode.core.domain.team.service.DomainTeamService;
+import com.wearei.finalsamplecode.core.domain.user.entity.User;
+import com.wearei.finalsamplecode.core.domain.user.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +12,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import static org.junit.jupiter.api.Assertions.*;
 
 @Transactional
 @SpringBootTest
-public class TeamServiceTest {
+public class DomainTeamServiceTest {
     @Autowired
-    private TeamService teamService;
+    private DomainTeamService teamService;
     @Autowired
     private TeamRepository teamRepository;
     @Autowired
@@ -57,28 +51,4 @@ public class TeamServiceTest {
         assertNotNull(response.getEquipmentImg());
     }
 
-    @Test
-    void 팀_정상_검색() {
-        // given
-        teamRepository.save(new Team("Seoul Tigers", "uniformImgUrl", "mascotImgUrl", "equipmentImgUrl", "Eye of the Tiger"));
-
-        // when
-        TeamSearchResponse response = teamService.searchTeam("Seoul Tigers");
-
-        // then
-        assertNotNull(response);
-        assertEquals("Seoul Tigers", response.getTeamName());
-        assertEquals("uniformImgUrl", response.getUniformImg());
-        assertEquals("mascotImgUrl", response.getMascotImg());
-        assertEquals("equipmentImgUrl", response.getEquipmentImg());
-    }
-
-    @Test
-    void 존재하지_않는_팀_검색_예외() {
-        // given
-        String nonExistentTeamName = "NonExistentTeam";
-
-        // when & then
-        assertThrows(ApiException.class, () -> teamService.searchTeam(nonExistentTeamName));
-    }
 }

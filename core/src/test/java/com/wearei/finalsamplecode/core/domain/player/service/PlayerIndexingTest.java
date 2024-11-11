@@ -1,12 +1,13 @@
-package com.wearei.finalsamplecode.domain.player.index;
+package com.wearei.finalsamplecode.core.domain.player.service;
 
-import com.wearei.finalsamplecode.domain.player.entity.Player;
-import com.wearei.finalsamplecode.domain.player.repository.PlayerRepository;
+import com.wearei.finalsamplecode.core.domain.player.entity.Player;
+import com.wearei.finalsamplecode.core.domain.player.repository.PlayerRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;

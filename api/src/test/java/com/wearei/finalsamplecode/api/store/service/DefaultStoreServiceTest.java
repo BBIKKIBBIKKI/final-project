@@ -1,5 +1,6 @@
-package com.wearei.finalsamplecode.api.store;
+package com.wearei.finalsamplecode.api.store.service;
 
+import com.wearei.finalsamplecode.api.store.DefaultStoreService;
 import com.wearei.finalsamplecode.common.enums.UserRole;
 import com.wearei.finalsamplecode.core.domain.ground.entity.Ground;
 import com.wearei.finalsamplecode.core.domain.team.entity.Team;
