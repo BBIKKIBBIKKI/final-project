@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @RequiredArgsConstructor
 public class DomainUserService {
+
     // 회원정보변경
     public User passwordUpdate(User user, String newPassword) {
         user.updatePassword(newPassword);

@@ -1,32 +1,29 @@
-package com.wearei.finalsamplecode.domain.user;
+package com.wearei.finalsamplecode.api.user.service;
 
-import com.wearei.finalsamplecode.apipayload.status.ErrorStatus;
-import com.wearei.finalsamplecode.config.PasswordEncoder;
-import com.wearei.finalsamplecode.domain.user.dto.request.UserUpdateRequest;
-import com.wearei.finalsamplecode.domain.user.dto.resonse.UserUpdateResponse;
-import com.wearei.finalsamplecode.domain.user.entity.User;
-import com.wearei.finalsamplecode.domain.user.enums.UserRole;
-import com.wearei.finalsamplecode.domain.user.repository.UserRepository;
-import com.wearei.finalsamplecode.domain.user.service.UserService;
-import com.wearei.finalsamplecode.exception.ApiException;
+import com.wearei.finalsamplecode.common.apipayload.status.ErrorStatus;
+import com.wearei.finalsamplecode.common.enums.UserRole;
+import com.wearei.finalsamplecode.common.exception.ApiException;
+import com.wearei.finalsamplecode.core.domain.user.entity.User;
+import com.wearei.finalsamplecode.core.domain.user.repository.UserRepository;
+import com.wearei.finalsamplecode.core.domain.user.service.DomainUserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
-import static org.junit.jupiter.api.Assertions.*;
 
 @Transactional
 @SpringBootTest
-public class UserServiceTest {
+class DefaultUserServiceTest {
 
     @Autowired
-    private UserService userService;
+    private DomainUserService domainUserService;
     @Autowired
     private UserRepository userRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
-    private User existingUser;
+
 
     @BeforeEach
     public void setUp() {

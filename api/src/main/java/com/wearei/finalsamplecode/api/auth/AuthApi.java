@@ -2,8 +2,6 @@ package com.wearei.finalsamplecode.api.auth;
 
 import com.wearei.finalsamplecode.api.auth.dto.request.AuthRequest;
 import com.wearei.finalsamplecode.api.auth.dto.response.AuthResponse;
-import com.wearei.finalsamplecode.api.auth.dto.response.SigninResponse;
-import com.wearei.finalsamplecode.api.auth.dto.response.SignupResponse;
 import com.wearei.finalsamplecode.common.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

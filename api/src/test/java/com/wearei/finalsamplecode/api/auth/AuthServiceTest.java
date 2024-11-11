@@ -1,22 +1,17 @@
-package com.wearei.finalsamplecode.domain.auth;
+package com.wearei.finalsamplecode.api.auth;
 
-import com.wearei.finalsamplecode.apipayload.status.ErrorStatus;
-import com.wearei.finalsamplecode.config.JwtUtil;
-import com.wearei.finalsamplecode.config.PasswordEncoder;
-import com.wearei.finalsamplecode.domain.auth.dto.request.SigninRequest;
-import com.wearei.finalsamplecode.domain.auth.dto.request.SignupRequest;
-import com.wearei.finalsamplecode.domain.auth.dto.response.SigninResponse;
-import com.wearei.finalsamplecode.domain.auth.dto.response.SignupResponse;
-import com.wearei.finalsamplecode.domain.auth.service.AuthService;
-import com.wearei.finalsamplecode.domain.user.entity.User;
-import com.wearei.finalsamplecode.domain.user.enums.UserRole;
-import com.wearei.finalsamplecode.domain.user.repository.UserRepository;
-import com.wearei.finalsamplecode.exception.ApiException;
+import com.wearei.finalsamplecode.common.apipayload.status.ErrorStatus;
+import com.wearei.finalsamplecode.common.enums.UserRole;
+import com.wearei.finalsamplecode.common.exception.ApiException;
+import com.wearei.finalsamplecode.core.domain.user.repository.UserRepository;
+import com.wearei.finalsamplecode.security.JwtUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @Transactional
