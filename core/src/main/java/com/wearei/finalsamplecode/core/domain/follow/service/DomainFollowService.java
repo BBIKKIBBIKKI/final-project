@@ -21,12 +21,13 @@ public class DomainFollowService {
     private final PlayerRepository playerRepository;
 
     public Follow createFollow(Long userId, Long playerId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(()-> new ApiException(ErrorStatus._NOT_FOUND_USER));
+        User user = userRepository.findByIdOrThrow(userId);
+        Player player = playerRepository.findByPlayerIdOrThrow(playerId);
 
-        Player player = playerRepository.findById(playerId)
-                .orElseThrow(()-> new ApiException(ErrorStatus._NOT_FOUND_PLAYER));
-
-        return followRepository.save(new Follow(user, player));
+        return followRepository.save(
+                new Follow(
+                        user, player
+                )
+        );
     }
 }
