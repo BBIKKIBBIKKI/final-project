@@ -24,7 +24,7 @@ public class DomainBoardService {
 
     @Transactional
     public Board createBoard(Long teamId, String title , String contents, MultipartFile backgroundImg) {
-        Team team = teamRepository.findByTeamId(teamId);
+        Team team = teamRepository.findByIdOrThrow(teamId);
 
         String groundImageUrl = null;
 
@@ -40,7 +40,7 @@ public class DomainBoardService {
 
     @Transactional
     public Board updateBoard(Long boardId, Long teamId, String title, String contents, MultipartFile backgroundImg) {
-        Team team = teamRepository.findByTeamId(teamId);
+        Team team = teamRepository.findByIdOrThrow(teamId);
         Board board = boardRepository.findByBoardId(boardId);
 
         String updatedTitle = title != null ? title : board.getTitle();

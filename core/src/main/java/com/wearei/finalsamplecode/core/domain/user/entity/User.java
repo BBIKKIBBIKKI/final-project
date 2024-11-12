@@ -33,10 +33,10 @@ public class User extends Timestamped {
 
     private boolean isDeleted = false;
 
-    public User(String email,String username, String Password, UserRole userRole){
+    public User(String email,String username, String password, UserRole userRole){
         this.email = email;
         this.username = username;
-        this.password = Password;
+        this.password = password;
         this.userRole = userRole;
     }
 
@@ -55,8 +55,9 @@ public class User extends Timestamped {
         this.password = password;
     }
 
-    public User(Long id) {
+    public User(Long id, UserRole userRole) {
         this.id = id;
+        this.userRole = userRole;
     }
 
     public boolean isSameRole(UserRole userRole) {

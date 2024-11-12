@@ -20,7 +20,7 @@ public class DefaultBoardService {
     private final TeamRepository teamRepository;
 
     public Page<Board> getBoards(Long teamId, Pageable pageable) {
-        teamRepository.findByTeamId(teamId);
+        teamRepository.findByIdOrThrow(teamId);
 
         Page<Board> boardPage = boardRepository.findByTeamId(teamId, pageable);
 

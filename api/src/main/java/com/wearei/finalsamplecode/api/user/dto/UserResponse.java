@@ -1,6 +1,7 @@
 package com.wearei.finalsamplecode.api.user.dto;
 
 import com.wearei.finalsamplecode.core.domain.user.entity.User;
+
 import static com.wearei.finalsamplecode.api.user.dto.UserResponse.*;
 
 import java.time.LocalDateTime;
