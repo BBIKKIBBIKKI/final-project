@@ -1,10 +1,13 @@
 package com.wearei.finalsamplecode.core.domain.comment.entity;
 
-import com.wearei.finalsamplecode.core.domain.board.entity.Board;
 import com.wearei.finalsamplecode.common.entity.Timestamped;
+import com.wearei.finalsamplecode.core.domain.board.entity.Board;
+import com.wearei.finalsamplecode.core.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -18,9 +21,14 @@ public class Comment extends Timestamped {
 
     private String contents;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     private boolean isDeleted = false;
 
-    public Comment(Board board, String contents) {
+    public Comment(User user, Board board, String contents) {
+        this.user = user;
         this.board = board;
         this.contents = contents;
     }
@@ -31,5 +39,13 @@ public class Comment extends Timestamped {
 
     public void Deleted() {
         this.isDeleted = true;
+    }
+
+    public boolean isSameCommentUserId(Long userId) {
+        return Objects.equals(this.user.getId(), userId);
+    }
+
+    public boolean isNotSameCommentUserId(Long userId) {
+        return !isSameCommentUserId(userId);
     }
 }

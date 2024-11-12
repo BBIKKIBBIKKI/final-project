@@ -17,7 +17,6 @@ public sealed interface CommentRequest permits Create, Search, Update {
     ) implements CommentRequest {}
 
     record Update(
-            @NotNull Long boardId,
             @NotBlank String contents
     ) implements CommentRequest {}
 }

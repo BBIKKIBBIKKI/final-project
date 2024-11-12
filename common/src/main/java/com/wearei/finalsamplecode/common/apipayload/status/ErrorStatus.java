@@ -81,9 +81,11 @@ public enum ErrorStatus implements BaseCode {
 
     // comment
     _NOT_FOUND_COMMENT(HttpStatus.NOT_FOUND, "404", "존재하지 않는 댓글입니다."),
+    _NO_PERMISSION_COMMENT_MODIFICATION(HttpStatus.NOT_FOUND, "403", "해당 댓글의 수정권한이 없습니다."),
 
     // board
     _NOT_FOUND_BOARD(HttpStatus.NOT_FOUND, "404", "존재하지 않는 게시물입니다."),
+    _NO_PERMISSION_BOARD_MODIFICATION(HttpStatus.NOT_FOUND, "403", "해당 게시글의 수정권한이 없습니다."),
 
     //like
     _LIKES_DONT_ZERO(HttpStatus.BAD_REQUEST, "400", "0이하로 감소시킬수 없습니다.");
