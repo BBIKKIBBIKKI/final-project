@@ -78,14 +78,12 @@ class DefaultBoardServiceTest {
                 boardId = newBoard.getId();
             }
         }
-
     }
 
     @Test
     void 팀아이디로_게시판_다건_조회() {
 
         int pageSize = 10;
-
         Page<Board> boards = defaultBoardService.getBoards(teamId, PageRequest.of(0, pageSize));
 
         assertEquals(pageSize, boards.getContent().size(), "검색된 게시글의 개수가 올바르지 않습니다.");
@@ -95,7 +93,6 @@ class DefaultBoardServiceTest {
             assertEquals(teamId, board.getTeam().getId(), "팀 ID가 일치하지 않습니다.");
             assertTrue(board.getTitle().startsWith("삼성 라이온즈"), "게시글 제목이 예상과 다릅니다.");
         });
-
     }
 
     @Test
@@ -105,7 +102,6 @@ class DefaultBoardServiceTest {
 
         assertEquals(boards.getTitle(), "삼성 라이온즈 이번엔 우승각인가?14");
         assertEquals(boards.getContents(), "이번시즌 삼성 라이온즈 이번엔 우승각인가?14");
-
     }
 
 }

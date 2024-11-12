@@ -98,8 +98,6 @@ class DefaultCommentServiceTest {
             }
 
         }
-
-
     }
 
     @Test
@@ -123,7 +121,6 @@ class DefaultCommentServiceTest {
         Comment comment = defaultCommentService.getComment(commentId, boardId);
 
         assertEquals(comment.getContents(), "그럴일 없다4");
-
     }
 
 }
