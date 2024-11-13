@@ -13,21 +13,25 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class DomainFollowService {
+
     private final FollowRepository followRepository;
+
     private final UserRepository userRepository;
+
     private final PlayerRepository playerRepository;
 
+    @Transactional
     public Follow createFollow(Long userId, Long playerId) {
         User user = userRepository.findByIdOrThrow(userId);
         Player player = playerRepository.findByPlayerIdOrThrow(playerId);
 
+        // 팔로우 수 증가
+        player.incrementFollow();
+
         return followRepository.save(
-                new Follow(
-                        user, player
-                )
+                new Follow(user, player)
         );
     }
 }
