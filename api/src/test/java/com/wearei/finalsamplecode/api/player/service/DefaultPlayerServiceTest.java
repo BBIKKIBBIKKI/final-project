@@ -102,8 +102,8 @@ public class DefaultPlayerServiceTest {
 
         // Then
         assertFalse(players.isEmpty(), "선수 정보가 조회되어야 합니다.");
-        assertEquals(playerName, players.getFirst().getPlayerName(), "조회된 선수 이름이 일치해야 합니다.");
-        assertEquals("두산베어스", players.getFirst().getTeam().getTeamName(), "조회된 팀 이름이 일치해야 합니다.");
+        assertEquals(playerName, players.get(0).getPlayerName(), "조회된 선수 이름이 일치해야 합니다.");
+        assertEquals("두산베어스", players.get(0).getTeam().getTeamName(), "조회된 팀 이름이 일치해야 합니다.");
     }
 
     private String generateRandomName(Random random) {
