@@ -9,67 +9,54 @@ import com.wearei.finalsamplecode.core.domain.team.entity.Team;
 import com.wearei.finalsamplecode.core.domain.team.repository.TeamRepository;
 import com.wearei.finalsamplecode.core.domain.user.entity.User;
 import com.wearei.finalsamplecode.core.domain.user.repository.UserRepository;
+import com.wearei.finalsamplecode.integration.s3.S3Api;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
+import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
-@Transactional
-@SpringBootTest
 public class DomainGroundServiceTest {
-    @Autowired
+
+    @InjectMocks
     private DomainGroundService domainGroundService;
-    @Autowired
+
+    @Mock
     private TeamRepository teamRepository;
-    @Autowired
+
+    @Mock
     private GroundRepository groundRepository;
-    @Autowired
+
+    @Mock
     private UserRepository userRepository;
 
-    private User user;
+    @Mock
+    private S3Api s3Api;
+
+    private User adminUser;
     private Team team;
-    private Ground ground;
 
     @BeforeEach
     void setUp() {
-        user = userRepository.save(new User("admin@example.com", "관리자", "password123", UserRole.ROLE_ADMIN));
-        team = teamRepository.save(new Team("두산베어스", "url1", "url2", "url3", "url4"));
+        MockitoAnnotations.openMocks(this);
+
+        // Mock 데이터 설정
+        adminUser = new User("admin@example.com", "관리자", "password123", UserRole.ROLE_ADMIN);
+        team = new Team("두산베어스", "url1", "url2", "url3", "url4");
+
+        // 기본적인 Mock 동작 설정
+        when(userRepository.findByIdOrThrow(anyLong())).thenReturn(adminUser);
+        when(teamRepository.findById(anyLong())).thenReturn(Optional.of(team));
     }
 
     @Test
-    void 구장_정상_생성() {
-        // 이미지 파일 생성 (MockMultipartFile 사용)
-        MultipartFile file = new MockMultipartFile(
-                "file",
-                "testGroundImage.jpg",
-                "image/jpeg",
-                "This is the file content".getBytes()
-        );
-
-        // 구장 생성 요청 객체
-        GroundCreateRequest groundCreateRequest = new GroundCreateRequest(team.getId(), "잠실주경기장", "서울", "02-1234-5678");
-
-        // when: 구장 생성
-        GroundCreateResponse groundCreateResponse = groundService.createGround(groundCreateRequest, authUser, file);
-
-        // then: 구장 정상 생성 확인
-        Ground savedGround = groundRepository.searchGroundByTeamOrGroundName(team.getTeamName(), groundCreateResponse.getGroundName())
-                .orElse(null);
-
-        // 검증
-        assertEquals("잠실주경기장", savedGround.getGroundName());
-        assertEquals("서울", savedGround.getLocation());
-        assertEquals("02-1234-5678", savedGround.getTel());
-        assertNotNull(savedGround.getGroundImg()); // 이미지 URL이 null이 아님을 확인
-        assertEquals(team.getId(), savedGround.getTeam().getId()); // 팀 ID가 일치하는지 확인
-    }
-
-    @Test
-    void 구장_생성시_존재하지_않는_팀_예외_테스트() {
+    void 구장_정상_생성() throws IOException {
         // given
         MultipartFile file = new MockMultipartFile(
                 "file",
@@ -78,17 +65,56 @@ public class DomainGroundServiceTest {
                 "This is the file content".getBytes()
         );
 
-        // 존재하지 않는 팀 ID 사용
-        GroundCreateRequest request = new GroundCreateRequest(999L, "잠실 주경기장", "서울", "02-1234-5678");
+        String uploadedImageUrl = "https://s3.amazonaws.com/testGroundImage.jpg";
+        when(s3Api.uploadImageToS3(file)).thenReturn(uploadedImageUrl);
 
-        // when/then: 팀이 없을 때 예외가 발생하는지 확인
-        ApiException exception = assertThrows(ApiException.class, () -> {
-            groundService.createGround(request, authUser, file);
-        });
+        // teamRepository에서 team을 찾을 수 있도록 Mock 설정 추가
+        when(teamRepository.findById(team.getId())).thenReturn(Optional.of(team));
 
-        // 예외 메시지 검증
-        assertEquals(ErrorStatus._NOT_FOUND_TEAM.getMessage(), exception.getMessage());
+        // groundRepository.save()가 반환할 Ground 객체 설정
+        Ground savedGround = new Ground("잠실주경기장", "서울", "02-1234-5678", uploadedImageUrl, team);
+        when(groundRepository.save(any(Ground.class))).thenReturn(savedGround);
+
+        // when
+        Ground ground = domainGroundService.createGround(1L, team.getId(), "잠실주경기장", "서울", "02-1234-5678", file);
+
+        // then
+        assertNotNull(ground);
+        assertEquals("잠실주경기장", ground.getGroundName());
+        assertEquals("서울", ground.getLocation());
+        assertEquals("02-1234-5678", ground.getTel());
+        assertEquals(uploadedImageUrl, ground.getGroundImg());
+        assertEquals(team, ground.getTeam());
+
+        verify(groundRepository, times(1)).save(any(Ground.class));
     }
 
 
+    @Test
+    void 구장_생성시_존재하지_않는_팀_예외_테스트() {
+        // given
+        when(teamRepository.findById(anyLong())).thenReturn(Optional.empty());
+        MultipartFile file = new MockMultipartFile("file", "test.jpg", "image/jpeg", "Test content".getBytes());
+
+        // when & then
+        ApiException exception = assertThrows(ApiException.class, () ->
+                domainGroundService.createGround(1L, 999L, "잠실주경기장", "서울", "02-1234-5678", file)
+        );
+
+        assertEquals(ErrorStatus._NOT_FOUND_TEAM.getMessage(), exception.getMessage());
+    }
+
+    @Test
+    void 구장_생성시_파일_업로드_실패_예외_테스트() throws IOException {
+        // given
+        MultipartFile file = new MockMultipartFile("file", "test.jpg", "image/jpeg", "Test content".getBytes());
+        when(s3Api.uploadImageToS3(file)).thenThrow(new IOException("S3 upload failed"));
+
+        // when & then
+        ApiException exception = assertThrows(ApiException.class, () ->
+                domainGroundService.createGround(1L, team.getId(), "잠실주경기장", "서울", "02-1234-5678", file)
+        );
+
+        assertEquals(ErrorStatus._NOT_FOUND_TEAM.getMessage(), exception.getMessage());
+    }
 }
