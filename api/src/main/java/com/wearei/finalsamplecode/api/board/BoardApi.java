@@ -6,9 +6,11 @@ import com.wearei.finalsamplecode.common.ApiResponse;
 import com.wearei.finalsamplecode.common.apipayload.status.SuccessStatus;
 import com.wearei.finalsamplecode.core.domain.board.entity.Board;
 import com.wearei.finalsamplecode.core.domain.board.service.DomainBoardService;
+import com.wearei.finalsamplecode.security.AuthUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,14 +22,16 @@ public class BoardApi {
     private final DomainBoardService domainBoardService;
     private final DefaultBoardService defaultBoardService;
 
-    @PostMapping()
-    public ApiResponse<BoardResponse.Create> createBoard(@RequestPart BoardRequest.Create request,
-                                                  @RequestPart(required = false) MultipartFile backgroundImg
+    @PostMapping
+    public ApiResponse<BoardResponse.Create> createBoard(
+            @AuthenticationPrincipal AuthUser authUser,
+            @RequestPart BoardRequest.Create request,
+            @RequestPart(required = false) MultipartFile backgroundImg
     ) {
-        return ApiResponse.onSuccess(new BoardResponse.Create(domainBoardService.createBoard(request.teamId(), request.title(), request.contents(), backgroundImg)));
+        return ApiResponse.onSuccess(new BoardResponse.Create(domainBoardService.createBoard(authUser.getUserId(), request.teamId(), request.title(), request.contents(), backgroundImg)));
     }
 
-    @GetMapping()
+    @GetMapping
     public ApiResponse<Page<BoardResponse.Search>> getBoards(@RequestParam Long teamId,
                                                                @RequestParam(defaultValue = "0")int page,
                                                                @RequestParam(defaultValue = "10")int size
@@ -42,16 +46,18 @@ public class BoardApi {
     }
 
     @PatchMapping("/{boardId}")
-    public ApiResponse<BoardResponse.Update> updateBoard(@PathVariable Long boardId,
-                                                           @RequestPart BoardRequest.Update request,
-                                                           @RequestPart(required = false) MultipartFile backgroundImg
+    public ApiResponse<BoardResponse.Update> updateBoard(
+            @AuthenticationPrincipal AuthUser authUser,
+            @PathVariable Long boardId,
+            @RequestPart BoardRequest.Update request,
+            @RequestPart(required = false) MultipartFile backgroundImg
     ) {
-        return ApiResponse.onSuccess(new BoardResponse.Update(domainBoardService.updateBoard(boardId, request.teamId(), request.title(), request.contents(), backgroundImg)));
+        return ApiResponse.onSuccess(new BoardResponse.Update(domainBoardService.updateBoard(authUser.getUserId(), boardId, request.title(), request.contents(), backgroundImg)));
     }
 
     @DeleteMapping("/{boardId}")
-    public ApiResponse<Void> deleteBoard(@PathVariable Long boardId, @RequestParam Long teamId) {
-        domainBoardService.deleteBoard(boardId, teamId);
+    public ApiResponse<Void> deleteBoard(@AuthenticationPrincipal AuthUser authUser, @PathVariable Long boardId) {
+        domainBoardService.deleteBoard(authUser.getUserId(), boardId);
         return ApiResponse.onSuccess(SuccessStatus._DELETION_SUCCESS.getMessage());
     }
 
