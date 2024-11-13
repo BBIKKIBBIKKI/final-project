@@ -1,0 +1,79 @@
+name: Deploy to Elastic Beanstalk
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # GitHub에서 소스 체크아웃
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up environment variables
+        run: |
+          echo "DB_URL=${{ secrets.DB_URL }}" >> $GITHUB_ENV
+          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> $GITHUB_ENV
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
+          echo "REDIS_HOST=${{ secrets.REDIS_HOST }}" >> $GITHUB_ENV
+          echo "REDIS_PORT=${{ secrets.REDIS_PORT }}" >> $GITHUB_ENV
+          echo "JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }}" >> $GITHUB_ENV
+          echo "S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }}" >> $GITHUB_ENV
+          echo "SQS_NAME=${{ secrets.SQS_NAME }}" >> $GITHUB_ENV
+          echo "S3_ACCESS_KEY=${{ secrets.S3_ACCESS_KEY }}" >> $GITHUB_ENV
+          echo "S3_SECRET_KEY=${{ secrets.S3_SECRET_KEY }}" >> $GITHUB_ENV
+
+      # Java 환경 설정
+      - name: java setup
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '17'
+
+      - name: Set up MySQL
+        run: |
+          sudo /etc/init.d/mysql start
+          mysql -e 'CREATE DATABASE baseball;' -uroot -proot
+
+      # Gradle 빌드 실행 및 JAR 파일 생성
+      - name: Build with Gradle
+        uses: gradle/gradle-build-action@main
+        with:
+          gradle-version: wrapper
+          arguments: clean build --no-daemon
+
+      # DockerHub에 로그인
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # Docker 이미지 빌드 및 푸시
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: oht2050/bbikkibbikki:latest
+
+      # ZIP 파일 생성
+      - name: Create ZIP file for deployment
+        run: zip -r deploy.zip docker-compose.yml other-source-files/*  # 필요한 파일들 포함
+
+      # Elastic Beanstalk 배포
+      - name: Deploy to Elastic Beanstalk
+        uses: einaregilsson/beanstalk-deploy@v14
+        with:
+          aws_access_key: ${{ secrets.S3_ACCESS_KEY }}
+          aws_secret_key: ${{ secrets.S3_SECRET_KEY }}
+          application_name: bbikkibbikki
+          environment_name: Bbikkibbikki-env-2
+          version_label: ${{ github.sha }}
+          region: ap-northeast-2
+          deployment_package: deploy.zip  # ZIP 파일의 이름
