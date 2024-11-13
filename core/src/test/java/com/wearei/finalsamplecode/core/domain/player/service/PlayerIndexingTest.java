@@ -1,4 +1,4 @@
-package com.wearei.finalsamplecode.core.domain.player;
+package com.wearei.finalsamplecode.core.domain.player.service;
 
 import com.wearei.finalsamplecode.core.domain.player.entity.Player;
 import com.wearei.finalsamplecode.core.domain.player.repository.PlayerRepository;

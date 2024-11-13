@@ -6,6 +6,7 @@ import com.wearei.finalsamplecode.common.entity.Timestamped;
 import java.util.List;
 import java.util.Objects;
 
+import com.wearei.finalsamplecode.core.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,8 +33,13 @@ public class Board extends Timestamped {
     @OneToMany(mappedBy = "board")
     private List<Comment> comment;
 
-    public Board(Team team, String title, String contents, String backgroundImg) {
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    public Board(Team team, User user, String title, String contents, String backgroundImg) {
         this.team = team;
+        this.user = user;
         this.title = title;
         this.contents = contents;
         this.backgroundImage = backgroundImg;
@@ -59,5 +65,13 @@ public class Board extends Timestamped {
         if (!Objects.isNull(backgroundImage)) {
             this.backgroundImage = backgroundImage;
         }
+    }
+
+    public boolean isSameBoardUserId(Long userId) {
+        return Objects.equals(this.user.getId(), userId);
+    }
+
+    public boolean isNotSameBoardUserId(Long userId) {
+        return !isSameBoardUserId(userId);
     }
 }
