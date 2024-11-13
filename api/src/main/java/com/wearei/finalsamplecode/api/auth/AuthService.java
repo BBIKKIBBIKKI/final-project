@@ -40,7 +40,11 @@ public class AuthService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(()-> new ApiException(ErrorStatus._BAD_FOUND_EMAIL));
 
-        Preconditions.validate(!passwordEncoder.matches(password, user.getPassword()), ErrorStatus._BAD_REQUEST_PASSWORD);
+        System.out.println(password);
+        System.out.println(passwordEncoder.encode(password));
+        System.out.println(user.getPassword());
+
+        Preconditions.validate(passwordEncoder.matches(password, user.getPassword()), ErrorStatus._BAD_REQUEST_PASSWORD);
 
         // 응답 DTO에 토큰 담아서 반환
         return jwtUtil.createToken(

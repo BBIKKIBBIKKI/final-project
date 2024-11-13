@@ -67,6 +67,10 @@ public class Store extends BaseEntity {
         this.menus = menus;
     }
 
+    public Store(Long id) {
+        this.id = id;
+    }
+
     public void update(Ground ground, String storeName, LocalTime openedAt, LocalTime closedAt) {
         this.ground = ground;
         this.storeName = storeName;
