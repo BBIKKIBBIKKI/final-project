@@ -17,7 +17,7 @@ public class PlayerApi {
 
     @GetMapping("/players")
     public ApiResponse<List<PlayerResponse.Search>> getSearchPlayerName(@RequestParam String playerName, @RequestParam(required = false) String teamName) {
-        List<Player> players = defaultPlayerService.getPlayerByNameAndTeamName(playerName, teamName);;
+        List<Player> players = defaultPlayerService.getPlayerByNameAndTeamName(playerName, teamName);
         return ApiResponse.onSuccess(players.stream().map(PlayerResponse.Search::new).toList());
     }
 }

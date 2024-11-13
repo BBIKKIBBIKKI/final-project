@@ -19,7 +19,6 @@ public class DomainCommentService {
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
     private final BoardRepository boardRepository;
-    private final TeamRepository teamRepository;
 
     @Transactional
     public Comment createComment(Long userId, Long boardId, String contents) {
@@ -53,6 +52,5 @@ public class DomainCommentService {
         Preconditions.validate(!comment.isNotSameCommentUserId(userId), ErrorStatus._NO_PERMISSION_COMMENT_MODIFICATION);
 
         comment.Deleted();
-        commentRepository.save(comment);
     }
 }
