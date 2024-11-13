@@ -17,7 +17,7 @@ public class Player extends BaseEntity {
     @Column(name = "player_age")
     private Long playerAge;
 
-    @Column(name ="player_name")
+    @Column(name = "player_name")
     private String playerName;
 
     private String position;
@@ -41,5 +41,9 @@ public class Player extends BaseEntity {
         this.position = position;
         this.playerSong = playerSong;
         this.playerBodyCheck = playerBodyCheck;
+    }
+
+    public void incrementFollow() {
+        this.follow++;
     }
 }
