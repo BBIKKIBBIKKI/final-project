@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @Table(name = "players", indexes = {
-        @Index(name = "idx_player_name_team_name", columnList = "player_name, team_name")
+        @Index(name = "idx_player_name_team_name", columnList = "player_name, team_id")
 })
 @AttributeOverride(name = "id", column = @Column(name = "player_id"))
 public class Player extends BaseEntity {
