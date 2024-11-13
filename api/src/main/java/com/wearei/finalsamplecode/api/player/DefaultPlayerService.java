@@ -38,8 +38,12 @@ public class DefaultPlayerService {
         }
 
         return ranking.stream()
-                .map(tuple -> playerRepository.findById((Long) Objects.requireNonNull(tuple.getValue()))
-                        .orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_PLAYER)))
+                .map(tuple -> {
+                    var id = (Integer) Objects.requireNonNull(tuple.getValue());
+
+                    return playerRepository.findById(id.longValue())
+                      .orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_PLAYER));
+                })
                 .toList();
     }
 }
