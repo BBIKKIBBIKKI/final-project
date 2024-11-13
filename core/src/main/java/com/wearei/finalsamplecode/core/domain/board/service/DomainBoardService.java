@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -32,7 +33,7 @@ public class DomainBoardService {
 
         String groundImageUrl = null;
 
-        if(!backgroundImg.isEmpty()) {
+        if(Objects.nonNull(backgroundImg) && !backgroundImg.isEmpty()) {
             try {
                 groundImageUrl = s3Api.uploadImageToS3(backgroundImg);
             } catch (IOException e) {
@@ -56,13 +57,13 @@ public class DomainBoardService {
     public Board updateBoard(Long userId, Long boardId, String title, String contents, MultipartFile backgroundImg) {
         Board board = boardRepository.findByBoardId(boardId);
 
-        Preconditions.validate(board.isNotSameBoardUserId(userId), ErrorStatus._NO_PERMISSION_BOARD_MODIFICATION);
+        Preconditions.validate(!board.isNotSameBoardUserId(userId), ErrorStatus._NO_PERMISSION_BOARD_MODIFICATION);
 
         String updatedTitle = title.isBlank() ? board.getTitle() : title;
         String updatedContents = contents.isBlank() ? board.getContents() : contents;
         String updatedBackgroundImageUrl = board.getBackgroundImage();
 
-        if(!backgroundImg.isEmpty()){
+        if(Objects.nonNull(backgroundImg) && !backgroundImg.isEmpty()){
             try {
                 updatedBackgroundImageUrl = s3Api.updateImageInS3(updatedBackgroundImageUrl, backgroundImg);
             } catch (IOException e) {
@@ -83,7 +84,7 @@ public class DomainBoardService {
     public void deleteBoard(Long userId, Long boardId) {
         Board board = boardRepository.findByBoardId(boardId);
 
-        Preconditions.validate(board.isNotSameBoardUserId(userId), ErrorStatus._NO_PERMISSION_BOARD_MODIFICATION);
+        Preconditions.validate(!board.isNotSameBoardUserId(userId), ErrorStatus._NO_PERMISSION_BOARD_MODIFICATION);
 
         try {
             s3Api.deleteImageFromS3(board.getBackgroundImage());

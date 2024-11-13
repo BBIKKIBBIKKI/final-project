@@ -19,6 +19,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 @Transactional
 @SpringBootTest
 public class DefaultPlayerServiceTest {
+
+    private Team team;
+
     @Autowired
     private TeamRepository teamRepository;
 
@@ -38,6 +41,16 @@ public class DefaultPlayerServiceTest {
     @BeforeEach
     public void indexingSetUp() {
         insertRandomPlayers(PLAYER_COUNT);
+
+        team = new Team(
+                "롯데 자이언트",
+                "noimage",
+                "noimage",
+                "noimage",
+                "noSong"
+
+        );
+
     }
 
     private void insertRandomPlayers(int count) {
@@ -49,14 +62,13 @@ public class DefaultPlayerServiceTest {
             String teamName = TEAMS[random.nextInt(TEAMS.length)]; // 랜덤으로 팀 선택
 
             Player player = new Player(
-                    null,                          // playerId (null for auto-generation)
                     (long) (18 + random.nextInt(40)), // 임의의 나이 (18~57)
                     playerName,                    // 임의의 플레이어 이름
-                    teamName,                      // 랜덤으로 선택된 팀 이름
+                    team,                      // 랜덤으로 선택된 팀 이름
                     "포지션" + (i % 5),              // 임의의 포지션 (5개 포지션)
                     "응원가" + (i % 5),              // 임의의 응원가
-                    "체력 상태",                     // 임의의 체력 상태
-                    (long) (random.nextInt(10000)) // 임의의 팔로워 수 (0~9999)
+                    "체력 상태"                     // 임의의 체력 상태
+//                    (long) (random.nextInt(10000)) // 임의의 팔로워 수 (0~9999)
             );
             players.add(player);
 
@@ -77,7 +89,7 @@ public class DefaultPlayerServiceTest {
     @BeforeEach
     public void setUp() {
         Team team = teamRepository.save(new Team("두산베어스", "url1", "url2", "url3", "url4"));
-        Player player = playerRepository.save(new Player(1L, 20L, "박서연", "두산베어스", "외야수", "https://youtube.com", "Normal", 123L));
+        Player player = playerRepository.save(new Player(20L, "박서연", team, "외야수", "https://youtube.com", "Normal"));
     }
 
     @Test
@@ -90,8 +102,8 @@ public class DefaultPlayerServiceTest {
 
         // Then
         assertFalse(players.isEmpty(), "선수 정보가 조회되어야 합니다.");
-        assertEquals(playerName, players.get(0).getPlayerName(), "조회된 선수 이름이 일치해야 합니다.");
-        assertEquals("두산베어스", players.get(0).getTeamName(), "조회된 팀 이름이 일치해야 합니다.");
+        assertEquals(playerName, players.getFirst().getPlayerName(), "조회된 선수 이름이 일치해야 합니다.");
+        assertEquals("두산베어스", players.getFirst().getTeam().getTeamName(), "조회된 팀 이름이 일치해야 합니다.");
     }
 
     private String generateRandomName(Random random) {

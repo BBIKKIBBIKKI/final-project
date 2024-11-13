@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface PlayerRepository extends JpaRepository<Player, Long> {
 
-    @Query("SELECT p FROM Player p WHERE p.playerName = :playerName AND (:teamName IS NULL OR p.teamName = :teamName)")
+    @Query("SELECT p FROM Player p WHERE p.playerName = :playerName AND (:teamName IS NULL OR p.team.teamName = :teamName)")
     List<Player> findByPlayerNameAndOptionalTeamName(@Param("playerName") String playerName, @Param("teamName") String teamName);
 
     default Player findByPlayerIdOrThrow(Long playerId) {

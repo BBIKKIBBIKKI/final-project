@@ -10,7 +10,6 @@ public sealed interface PlayerResponse permits Search {
             Long playerAge,
             Long follow,
             String playerName,
-            String teamName,
             String position,
             String playerSong,
             String playerBodyCheck
@@ -21,7 +20,6 @@ public sealed interface PlayerResponse permits Search {
                     player.getPlayerAge(),
                     player.getFollow(),
                     player.getPlayerName(),
-                    player.getTeamName(),
                     player.getPosition(),
                     player.getPlayerSong(),
                     player.getPlayerBodyCheck()
