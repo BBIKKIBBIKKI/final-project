@@ -25,9 +25,6 @@ public class User extends Timestamped {
     @Column(nullable = false)
     private String password;
 
-    @OneToMany(mappedBy = "user")
-    private List<Player> players = new ArrayList<>();
-
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
 

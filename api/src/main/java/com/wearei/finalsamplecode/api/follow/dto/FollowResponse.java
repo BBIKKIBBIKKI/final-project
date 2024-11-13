@@ -12,7 +12,7 @@ public sealed interface FollowResponse permits Create {
     ) implements FollowResponse {
         public Create(Follow follow) {
             this(
-                    follow.getFollowId(),
+                    follow.getId(),
                     follow.getPlayer().getId()
             );
         }

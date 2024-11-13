@@ -11,10 +11,8 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Table(name="asfollows")
-@AttributeOverride(name = "id", column = @Column(name = "team_id"))
+@AttributeOverride(name = "id", column = @Column(name = "follow_Id"))
 public class Follow extends BaseEntity {
-    @Column(name = "follow_Id")
-    private Long followId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
