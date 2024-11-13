@@ -22,7 +22,7 @@ public class DefaultUserService {
     public User updatePassword(Long userId, String password, String newPassword) {
         var user = userRepository.findByIdOrThrow(userId);
 
-        Preconditions.validate(!passwordEncoder.matches(password, user.getPassword()), ErrorStatus._PASSWORD_MISMATCH);
+        Preconditions.validate(passwordEncoder.matches(password, user.getPassword()), ErrorStatus._PASSWORD_MISMATCH);
         Preconditions.validate(!password.equals(newPassword), ErrorStatus._NOT_ALLOW_SAME_PASSWORD);
 
         return domainUserService.passwordUpdate(user, newPassword);
@@ -32,7 +32,7 @@ public class DefaultUserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_USER));
 
-        Preconditions.validate(!passwordEncoder.matches(password, user.getPassword()), ErrorStatus._PASSWORD_MISMATCH);
+        Preconditions.validate( passwordEncoder.matches(password, user.getPassword()), ErrorStatus._PASSWORD_MISMATCH);
 
         domainUserService.delete(user);
     }

@@ -1,54 +1,72 @@
 package com.wearei.finalsamplecode.core.domain.team.service;
 
 import com.wearei.finalsamplecode.common.enums.UserRole;
+import com.wearei.finalsamplecode.core.domain.team.entity.Team;
 import com.wearei.finalsamplecode.core.domain.team.repository.TeamRepository;
-import com.wearei.finalsamplecode.core.domain.team.service.DomainTeamService;
 import com.wearei.finalsamplecode.core.domain.user.entity.User;
 import com.wearei.finalsamplecode.core.domain.user.repository.UserRepository;
+import com.wearei.finalsamplecode.integration.s3.S3Api;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
 
-@Transactional
-@SpringBootTest
-public class DomainTeamServiceTest {
-    @Autowired
-    private DomainTeamService teamService;
-    @Autowired
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+class DomainTeamServiceTest {
+
+    @Mock
     private TeamRepository teamRepository;
-    @Autowired
+    @Mock
     private UserRepository userRepository;
+    @Mock
+    private S3Api s3Api;
+    @InjectMocks
+    private DomainTeamService teamService;
 
     private User user;
-    private AuthUser authUser;
 
     @BeforeEach
     void setUp() {
-        user = userRepository.save(new User("testadmin1@example.com", "정은교", "2573758Aa!", UserRole.ROLE_ADMIN));
-        authUser = new AuthUser(user.getId(), user.getEmail(), user.getUserRole());
+        MockitoAnnotations.openMocks(this);
+        user = new User("test123@naver.com","이재희","Abcdefg@123", UserRole.ROLE_ADMIN);
     }
 
     @Test
-    void 구단_정상_생성() {
+    void 구단_정상_생성() throws IOException {
         // given
-        TeamCreateRequest request = new TeamCreateRequest("Seoul Tigers", "Eye of the Tiger");
+        String teamName = "Seoul Tigers";
+        String themeSong = "Eye of the Tiger";
         MultipartFile uniformImg = new MockMultipartFile("uniformImg", "uniform.jpg", "image/jpeg", "fake-image-data".getBytes());
         MultipartFile mascotImg = new MockMultipartFile("mascotImg", "mascot.jpg", "image/jpeg", "fake-image-data".getBytes());
         MultipartFile equipmentImg = new MockMultipartFile("equipmentImg", "equipment.jpg", "image/jpeg", "fake-image-data".getBytes());
 
+        String uniformImageUrl = "https://s3.bucket/uniform.jpg";
+        String mascotImageUrl = "https://s3.bucket/mascot.jpg";
+        String equipmentImageUrl = "https://s3.bucket/equipment.jpg";
+
+        when(userRepository.findByIdOrThrow(user.getId())).thenReturn(user);
+        when(s3Api.uploadImageToS3(uniformImg)).thenReturn(uniformImageUrl);
+        when(s3Api.uploadImageToS3(mascotImg)).thenReturn(mascotImageUrl);
+        when(s3Api.uploadImageToS3(equipmentImg)).thenReturn(equipmentImageUrl);
+        when(teamRepository.save(any(Team.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
         // when
-        TeamCreateResponse response = teamService.createTeam(request, authUser, uniformImg, mascotImg, equipmentImg);
+        Team createdTeam = teamService.createTeam(user.getId(), teamName, themeSong, uniformImg, mascotImg, equipmentImg);
 
         // then
-        assertNotNull(response);
-        assertEquals("Seoul Tigers", response.getTeamName());
-        assertNotNull(response.getUniformImg());
-        assertNotNull(response.getMascotImg());
-        assertNotNull(response.getEquipmentImg());
-    }
+        assertNotNull(createdTeam);
+        assertEquals(teamName, createdTeam.getTeamName());
+        assertEquals(uniformImageUrl, createdTeam.getUniformImg());
+        assertEquals(mascotImageUrl, createdTeam.getMascotImg());
+        assertEquals(equipmentImageUrl, createdTeam.getEquipmentImg());
+        assertEquals(themeSong, createdTeam.getThemeSong());
 
+        verify(teamRepository, times(1)).save(any(Team.class));
+    }
 }
