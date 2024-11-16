@@ -6,8 +6,6 @@ import com.wearei.finalsamplecode.core.domain.player.entity.Player;
 import com.wearei.finalsamplecode.core.domain.player.repository.PlayerRepository;
 import com.wearei.finalsamplecode.core.domain.user.entity.User;
 import com.wearei.finalsamplecode.core.domain.user.repository.UserRepository;
-import com.wearei.finalsamplecode.common.apipayload.status.ErrorStatus;
-import com.wearei.finalsamplecode.common.exception.ApiException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
