@@ -29,7 +29,7 @@ public class DefaultS3Api implements S3Api { // application.yml이 local, prod, 
 
         String fileName = file.getOriginalFilename();
         String prefix = String.valueOf(System.currentTimeMillis());
-        String newFileName = String.format("%s_%s", prefix, fileName);
+        String newFileName = String.format("api/%s_%s", prefix, fileName);
         String fileUrl = String.format("https://%s.s3.ap-northeast-2.amazonaws.com/%s", bucket, newFileName);
 
         ObjectMetadata metadata = new ObjectMetadata();
