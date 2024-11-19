@@ -28,6 +28,7 @@ jwt:
   secret:
     key: ${JWT_SECRET_KEY}
 
+
 cloud:
   aws:
     s3:

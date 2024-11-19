@@ -92,7 +92,10 @@ public enum ErrorStatus implements BaseCode {
     _LIKES_DONT_ZERO(HttpStatus.BAD_REQUEST, "400", "0이하로 감소시킬수 없습니다."),
 
     // lock
-    _LOCK_ERROR(HttpStatus.BAD_REQUEST,"423","락을 획득하지 못했습니다.");
+    _LOCK_ERROR(HttpStatus.BAD_REQUEST,"423","락을 획득하지 못했습니다."),
+
+    // parsing
+    _PARSING_ERROR(HttpStatus.BAD_REQUEST,"400","데이터 파싱 중 오류가 발생 했습니다.");
 
 
     private HttpStatus httpStatus;
