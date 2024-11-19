@@ -27,7 +27,6 @@ public class GroundApi {
         return ApiResponse.onSuccess(new GroundResponse.Create(domainGroundService.createGround(authUser.getUserId(), request.teamId(), request.groundName(), request.location(), request.tel(),  groundImg)));
     }
 
-
     @GetMapping("/search")
     public ApiResponse<GroundResponse.Search> searchGround(
             @RequestParam(required = false, name="teamName") String teamName,
