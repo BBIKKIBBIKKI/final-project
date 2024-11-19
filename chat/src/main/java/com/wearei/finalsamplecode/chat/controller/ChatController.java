@@ -40,6 +40,11 @@ public class ChatController {
         return chatHistoryService.getChatHistory(roomId, 0, -1);
     }
 
+    @GetMapping("/")
+    public String home() {
+        return "채팅 어플리케이션 헬스체크 정상적";
+    }
+
     @ResponseBody
     @GetMapping("/healthCheck")
     public String healthCheck() {
