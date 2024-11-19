@@ -20,6 +20,11 @@ spring:
       max-file-size: 5MB
       max-request-size: 5MB
 
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+
 jwt:
   secret:
     key: ${PROD_JWT_SECRET_KEY}
