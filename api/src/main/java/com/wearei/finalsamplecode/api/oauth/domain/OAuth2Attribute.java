@@ -1,5 +1,6 @@
 package com.wearei.finalsamplecode.api.oauth.domain;
 
+import java.util.LinkedHashMap;
 import lombok.Builder;
 import java.util.Map;
 
@@ -19,11 +20,13 @@ public class OAuth2Attribute {
     }
 
     private static OAuth2Attribute ofKakao(String attributeKey, Map<String, Object> attributes) {
-        attributes.forEach((key, value) -> System.out.printf("%s -> %s", key, value.toString()));
+        LinkedHashMap kakaoAccount = (LinkedHashMap) attributes.get("kakao_account");
+
+        LinkedHashMap kakaoProfile = (LinkedHashMap) kakaoAccount.get("profile");
 
         return OAuth2Attribute.builder()
-                .nickname((String) attributes.get("nickname"))
-                .email((String) attributes.get("email"))
+                .nickname(kakaoProfile.get("nickname").toString())
+                .email((String) kakaoAccount.get("email"))
                 .picture((String) attributes.get("profile_image"))
                 .attributes(attributes)
                 .attributeKey(attributeKey)
@@ -34,8 +37,7 @@ public class OAuth2Attribute {
         return Map.of(
                 "id", attributeKey,
                 "nickname", nickname,
-                "email", email,
-                "picture", picture
+                "email", email
         );
     }
 }

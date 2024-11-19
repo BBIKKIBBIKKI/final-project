@@ -23,7 +23,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         var oAuth2Attribute = OAuth2Attribute.of(providerName, attributeKey, oAuth2User.getAttributes());
 
-
         return new DefaultOAuth2User(List.of(), oAuth2Attribute.convertToMap(), "id");
     }
 }

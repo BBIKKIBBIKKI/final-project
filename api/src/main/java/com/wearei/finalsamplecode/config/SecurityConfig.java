@@ -1,5 +1,6 @@
 package com.wearei.finalsamplecode.config;
 
+import com.wearei.finalsamplecode.api.oauth.handler.OAuth2AuthenticationSuccessHandler;
 import com.wearei.finalsamplecode.api.oauth.service.CustomOAuth2UserService;
 import com.wearei.finalsamplecode.common.enums.UserRole;
 import com.wearei.finalsamplecode.security.JwtSecurityFilter;
@@ -27,7 +28,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtSecurityFilter jwtSecurityFilter, CustomOAuth2UserService customOAuth2UserService) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtSecurityFilter jwtSecurityFilter, CustomOAuth2UserService customOAuth2UserService, OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session
@@ -40,7 +41,7 @@ public class SecurityConfig {
                 .oauth2Login(it -> {
                     it.authorizationEndpoint(authorizationEndpointConfig -> authorizationEndpointConfig.authorizationRequestRepository(httpSessionOAuth2AuthorizationRequestRepository()));
                     it.userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig.userService(customOAuth2UserService));
-
+                    it.successHandler(oAuth2AuthenticationSuccessHandler);
                 })
                 .logout(AbstractHttpConfigurer::disable) // LogoutFilter 비활성화
                 .authorizeHttpRequests(auth -> auth

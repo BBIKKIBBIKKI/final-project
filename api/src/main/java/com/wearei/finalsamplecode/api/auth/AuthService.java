@@ -48,9 +48,7 @@ public class AuthService {
 
         Preconditions.validate(passwordEncoder.matches(password, user.getPassword()), ErrorStatus._BAD_REQUEST_PASSWORD);
 
-        // 응답 DTO에 토큰 담아서 반환
         return jwtUtil.createToken(
-                user.getId(),
                 user.getEmail(),
                 user.getUserRole());
     }
