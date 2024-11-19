@@ -50,6 +50,9 @@ jobs:
           sudo /etc/init.d/mysql start
           mysql -e 'CREATE DATABASE baseball;' -uroot -proot
 
+      - name: Make gradlew executable
+        run: chmod +x gradlew
+
       # Gradle 빌드 실행 및 JAR 파일 생성
       # Gradle 빌드 실행 및 JAR 파일 생성
       - name: Build with Gradle
