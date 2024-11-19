@@ -8,7 +8,8 @@ public sealed interface MenuRequest permits Create, Update, Delete {
     record Create(
             @NotNull Long storeId,
             @NotNull String menuName,
-            @NotNull Long price
+            @NotNull Long price,
+            @NotNull Long inventory
     ) implements MenuRequest {}
 
     record Update(

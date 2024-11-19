@@ -4,6 +4,7 @@ import com.wearei.finalsamplecode.common.apipayload.status.ErrorStatus;
 import com.wearei.finalsamplecode.common.enums.UserRole;
 import com.wearei.finalsamplecode.common.exception.ApiException;
 import com.wearei.finalsamplecode.common.support.Preconditions;
+import com.wearei.finalsamplecode.core.domain.lock.service.StockService;
 import com.wearei.finalsamplecode.core.domain.menu.entity.Menu;
 import com.wearei.finalsamplecode.core.domain.menu.service.DomainMenuService;
 import com.wearei.finalsamplecode.core.domain.order.entity.Order;
@@ -15,9 +16,11 @@ import com.wearei.finalsamplecode.core.domain.store.service.DomainStoreService;
 import com.wearei.finalsamplecode.core.domain.user.entity.User;
 import com.wearei.finalsamplecode.core.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.redisson.api.RedissonClient;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @Transactional
@@ -28,6 +31,8 @@ public class DomainOrderService {
     private final DomainStoreService domainStoreService;
     private final DomainMenuService domainMenuService;
     private final ApplicationEventPublisher eventPublisher;
+    private final RedissonClient redissonClient;
+    private final StockService stockService;
 
     // 주문 생성
     public Order createOrder(Long userId, Long storeId, Long menuId, Long quantity) {
@@ -40,14 +45,21 @@ public class DomainOrderService {
 
         Long totalPrice = menu.getPrice() * quantity;
 
-        return orderRepository.save( new Order(
-                orderUser,
-                OrderStatus.RESERVED,
-                store,
-                menu,
-                quantity,
-                totalPrice
-        ));
+        try {
+            // 재고 확인 및 감소 (분산락 적용)
+            domainMenuService.decreaseStockWithLock(menu.getId(),quantity);
+
+            return orderRepository.save( new Order(
+                    orderUser,
+                    OrderStatus.RESERVED,
+                    store,
+                    menu,
+                    quantity,
+                    totalPrice
+            ));
+        } catch (ApiException e) {
+            throw new ApiException(ErrorStatus._INSUFFICIENT_INVENTORY);
+        }
     }
 
     // 주문 수정
@@ -90,7 +102,6 @@ public class DomainOrderService {
             String message = String.format("%s 님 조리 완료되었으니 받으러 오세요.", order.getUser().getUsername());
             eventPublisher.publishEvent(new OrderStatusChangeEvent(message));
         }
-
         return order;
     }
 
