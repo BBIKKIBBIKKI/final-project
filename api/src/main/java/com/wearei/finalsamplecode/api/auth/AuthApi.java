@@ -5,6 +5,7 @@ import com.wearei.finalsamplecode.api.auth.dto.response.AuthResponse;
 import com.wearei.finalsamplecode.common.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,4 +33,10 @@ public class AuthApi {
         var token = authService.signin(request.email(), request.password());
         return ApiResponse.onSuccess(new AuthResponse.SignIn(token));
     }
+
+    @GetMapping("/healthCheck")
+    public String healthCheck() {
+        return "api 어플리케이션 헬스체크 정상적";
+    }
+
 }
