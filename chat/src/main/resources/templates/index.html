@@ -35,7 +35,7 @@
 
 <script>
     // WebSocket + STOMP 클라이언트 초기화
-    const socket = new SockJS('http://localhost:8080/chat'); // '/chat' 엔드포인트와 연결
+    const socket = new SockJS('/chat'); // '/chat' 엔드포인트와 연결
     // const socket = new WebSocket('ws://localhost:8080/chat');
     const stompClient = Stomp.over(socket);
 
@@ -44,25 +44,46 @@
     const messageInput = document.getElementById('messageInput');
     const sendButton = document.getElementById('sendButton');
 
-    // 연결 시작
-    stompClient.connect({}, (frame) => {
-        console.log('Connected to WebSocket server');
-        console.log('Connected to WebSocket server : ' + frame);
-
-        // 연결 상태 정보를 제대로 출력하기 위해 frame.headers 사용
-        if (frame && frame.headers) {
-            console.log('Connected headers:', frame.headers); // 헤더 정보 출력
-        }
-
-        // /sub/{roomId} 구독
-        stompClient.subscribe(`/sub/chat/${roomId}`, (message) => {
-            const receivedMessage = JSON.parse(message.body);
-            const messageElement = document.createElement('p');
-            messageElement.textContent = `Server: ${receivedMessage.content}`;
-            messagesDiv.appendChild(messageElement);
+    // 채팅 기록을 서버에서 불러오기
+    fetch(`/chat/history/${roomId}`)
+        .then(response => response.json())
+        .then(messages => {
+            messages.forEach(message => {
+                const messageElement = document.createElement('p');
+                messageElement.textContent = `Server: ${message.content}`;
+                messagesDiv.appendChild(messageElement);
+            });
             messagesDiv.scrollTop = messagesDiv.scrollHeight; // Scroll to the bottom
+        })
+        .catch(error => console.error('Error fetching chat history:', error));
+
+    // 연결 시작
+    if (!stompClient.connected) {
+        stompClient.connect({}, (frame) => {
+            // console.log('Connected to WebSocket server');
+            // console.log('Connected to WebSocket server : ' + frame);
+            //
+            // // 연결 상태 정보를 제대로 출력하기 위해 frame.headers 사용
+            // if (frame && frame.headers) {
+            //     console.log('Connected headers:', frame.headers); // 헤더 정보 출력
+            // }
+
+            // /sub/{roomId} 구독
+            stompClient.subscribe(`/sub/chat/${roomId}`, (message) => {
+                const receivedMessage = JSON.parse(message.body);
+                const messageElement = document.createElement('p');
+                messageElement.textContent = `${receivedMessage.sender}: ${receivedMessage.content}`;
+                messagesDiv.appendChild(messageElement);
+                messagesDiv.scrollTop = messagesDiv.scrollHeight; // Scroll to the bottom
+            });
+
+            stompClient.send(`/pub/chat/join/${roomId}`, {}, JSON.stringify({
+                sender: "User",
+                content: "joined",
+                sendTime: new Date()
+            }));
         });
-    });
+    }
 
     // 메시지 전송
     sendButton.addEventListener('click', () => {
@@ -72,7 +93,8 @@
             const chatMessage = {
                 sender: "User", // 사용자 이름
                 content: content,
-                type: "CHAT" // 메시지 타입
+                type: "CHAT", // 메시지 타입
+                sendTime : new Date().toISOString().slice(0, -1)
             };
 
             console.log(roomId);
