@@ -81,8 +81,8 @@ jobs:
       - name: Deploy to Elastic Beanstalk
         uses: einaregilsson/beanstalk-deploy@v14
         with:
-          aws_access_key: ${{ secrets.S3_ACCESS_KEY }}
-          aws_secret_key: ${{ secrets.S3_SECRET_KEY }}
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
           application_name: bbikkibbikki
           environment_name: Bbikkibbikki-env-2
           version_label: ${{ github.sha }}
