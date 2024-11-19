@@ -19,7 +19,7 @@ public class MenuApi {
 
     @PostMapping
     public ApiResponse<MenuResponse.Create> createMenu(@AuthenticationPrincipal AuthUser authUser, @Valid @RequestBody MenuRequest.Create request) {
-        return ApiResponse.onSuccess(new MenuResponse.Create(domainMenuService.createMenu(authUser.getUserId(), request.storeId(),request.menuName(), request.price())));
+        return ApiResponse.onSuccess(new MenuResponse.Create(domainMenuService.createMenu(authUser.getUserId(), request.storeId(),request.menuName(), request.price(), request.inventory())));
     }
 
     @PatchMapping("/{menuId}")
