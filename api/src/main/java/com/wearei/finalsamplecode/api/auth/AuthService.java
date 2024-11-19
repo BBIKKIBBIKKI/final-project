@@ -25,8 +25,6 @@ public class AuthService {
 
         Preconditions.validate(!userRepository.existsByEmail(email), ErrorStatus._EMAIL_ALREADY_EXISTS);
 
-        Preconditions.validate(!userRepository.existsByUsername(name), ErrorStatus._BAD_REQUEST_USER);
-
         return userRepository.save(new User(
           email,
           name,
