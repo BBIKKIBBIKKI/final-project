@@ -6,7 +6,7 @@ on:
     #    branches: [ main, dev, "*-*" ]
 
 #    branches: [ main, dev, "chat-*" ]
-    branches: [ main, dev, "chat-*" ]
+    branches: [ main, dev ]
 
 
   # github pull request 생성 시 CI 실행
