@@ -58,6 +58,201 @@
 <br/><br/>
 
 ## ⚾️ KEY SUMMARY
+---
+### 🍁 **성능 개선 : 동시성제어 - 분산락**
+---
+#### 📌 **한 줄 요약**  
+   - Redis 기반 분산락(Redisson)을 사용하여 음식 주문/예약 시 재고 맞게 주문 완료. 
+   - 재고 부족 상태에서 새로운 주문이 발생하지 않아 동시성 제어 성공
+
+#### 📌 **도입 배경**  
+   - 사전 주문 시스템에서는 높은 동시성(ex)재고가 없는데 주문이 들어간 경우)을 요구하므로, 분산락을 통해 처리 속도와 일관성을 동시에 확보.
+
+#### 📌 **기술적 선택지**  
+
+![스크린샷 2024-11-14 오후 2 39 33](https://github.com/user-attachments/assets/757d9148-5fd8-498c-9195-39618bba14df)
+
+#### 📌 성능 테스트
+<details>
+  <summary>🧪 락 미적용 테스트 결과</summary>
+
+#### 테스트 시나리오
+- **테스트 시나리오**: 100명의 사용자가 동시에 재고 2개씩 주문.
+
+#### 재고 감소 처리 결과
+- Redis에서 동시성 문제가 발생하여 재고가 음수로 감소.
+
+**결론**:
+- 락 미적용 상태에서는 동시성 문제로 인해 데이터 충돌 발생.
+- 음수 재고가 기록되며, 데이터 무결성이 크게 훼손됨.
+
+</details>
+
+<details>
+  <summary>🧪 락 적용 테스트 결과</summary>
+
+#### 테스트 시나리오
+- **테스트 시나리오**: 100명의 사용자가 동시에 재고 2개씩 주문.
+
+#### 재고 감소 처리 결과
+- Redis에서 동시성 제어가 성공적으로 작동하여 정확한 재고 감소 확인.
+- 재고 부족 시 정확히 예외(`ApiException`) 발생.
+
+**결론**:
+- 락이 적용된 경우, 정확히 100개의 주문이 처리되었으며, 재고 부족 상태에서 새로운 주문이 발생하지 않음.
+- 모든 스레드에서 데이터 무결성이 유지됨.
+
+</details>
+
+#### 📌 종합결과
+![스크린샷 2024-11-18 오후 1 20 09](https://github.com/user-attachments/assets/956d4ed9-fc17-40b5-88b5-3f8999229f03)
+
+
+#### 📌 결론
+
+- **락 적용 결과**: Redis 분산 락을 적용한 경우, 데이터의 무결성과 안정성이 크게 향상되었습니다. 동시성 문제를 완벽히 해결하여 모든 요청이 정확히 처리되었습니다.
+- **락 미적용 결과**: 락을 적용하지 않은 경우, 데이터 충돌로 인해 재고가 음수로 기록되는 문제가 발생하였습니다.
+
+---
+### 🍁 **트러블 슈팅 : Gradle Multimodule 구조와 Elastic Beanstalk 도입**
+---
+
+#### 📌 **배경**
+   - **의존성 분리를 위한 구조 채택**
+     - 의존성 분리를 위해 MSA를 도입하려 했으나, 튜터의 추천으로 Multi-Module 구조가 MSA의 의존성 분리와 비슷한 효과를 제공할 수 있음이 확인됨.
+     - Gradle Multimodule 구조로 전환하여, api module, batch module, 채팅 module, integration module을 각 모듈로 구성 
+   - **프로젝트의 효율적인 인프라 관리**
+     - Auto Scaling Group, Application Load Balancer 등의 설정을 간단히 관리할 수 있는 AWS Elastic Beanstalk 도입을 검토
+
+
+#### 📌 구조 검토 및 문제점 
+<details>
+<summary>구조 2: ALB 및 Auto Scaling Group 사용</summary>
+
+#### 구성
+- EC2 인스턴스를 Auto Scaling Group으로 묶고, ALB를 통해 트래픽을 분산.
+<img width="424" alt="스크린샷 2024-11-20 14 45 56" src="https://github.com/user-attachments/assets/3e9bcd2e-4898-409e-976d-2a77f58e7835">
+
+#### 문제점
+- 서버 확장에는 유리하지만 인스턴스 간 상태 유지 및 유지보수 문제 발생.
+- 복잡한 유지보수로 인해 제외.
+
+</details>
+
+
+<details>
+<summary>구조 3: 개별 EC2 인스턴스에 MySQL 설치</summary>
+
+#### 구성
+- 각 EC2 인스턴스에 MySQL을 설치.
+<img width="541" alt="스크린샷 2024-11-20 14 46 55" src="https://github.com/user-attachments/assets/2f5acb89-4924-4dd1-85ca-61acdd704c9b">
+
+#### 문제점
+- 데이터 동기화 문제로 데이터 일관성 부족.
+- 관리 및 확장성 어려움.
+
+#### 대안
+1. **AWS RDS 활용 (채택)**:
+    - **장점**: 중앙 집중 데이터 관리 및 유지보수 용이.
+2. **하나의 EC2에서 MySQL 공유**:
+    - **장점**: 비용 절감 가능.
+    - **단점**: 확장성 제한.
+    
+</details>
+
+
+<details>
+<summary>구조 4: Auto Scaling 및 Redis 동기화 문제</summary>
+
+#### 구성
+- EC2 인스턴스 간 Auto Scaling, Redis 캐시 사용.
+<img width="590" alt="스크린샷 2024-11-20 14 47 45" src="https://github.com/user-attachments/assets/aa0226af-081f-4744-a07f-cb841a9dc779">
+
+#### 문제점
+- Redis 동기화 미흡 → 캐시 일관성 문제 발생 가능.
+
+#### 대안
+- **ElastiCache 사용**:
+    - Redis를 중앙 관리로 전환하여 캐시 일관성 보장 및 성능 최적화.
+
+</details>
+
+<details>
+<summary>구조 5: MSA (Microservices Architecture) 도입 필요성</summary>
+
+#### 구성
+- 각 EC2 인스턴스에서 독립적인 서비스(`chat`, `api`, `batch`)를 운영.
+<img width="707" alt="스크린샷 2024-11-20 14 52 43" src="https://github.com/user-attachments/assets/c459f054-de45-402e-be8e-cd0462fbb371">
+
+#### 문제점
+- 서비스 간 결합도가 높아 장애 발생 시 다른 서비스에 영향을 미침.
+
+#### 대안
+- **MSA 도입**:
+    - 서비스 독립성 강화.
+    - 장애가 전체 시스템에 미치는 영향을 최소화.
+
+</details>
+
+<details>
+<summary>구조 6: 서비스별 Auto Scaling Group 구성</summary>
+
+#### 구성
+- 각 서비스(`일반 CRUD`, `채팅`, `주문`)에 독립적인 Auto Scaling Group 배정.
+<img width="571" alt="스크린샷 2024-11-20 14 53 07" src="https://github.com/user-attachments/assets/297bdc72-88cb-4090-a491-554a2ee2a2bb">
+
+#### 문제점
+- 단일 서버 사용 시 트래픽 집중 문제.
+
+#### 대안
+- 각 서비스에 Auto Scaling Group 적용.
+- 동적 트래픽 조정으로 서비스 유연성 확보.
+
+</details>
+
+
+<details>
+<summary>구조 7: MSA 대신 Spring Boot Multi-Module 전환</summary>
+
+#### 구성
+- Spring Boot Multi-Module 구조로 전환:
+    - `api module`, `batch module`, `채팅 module`, `integration module`.
+<img width="701" alt="스크린샷 2024-11-20 14 53 36" src="https://github.com/user-attachments/assets/aa4312b2-77ab-4ddf-9145-588ed3e7faeb">
+
+#### 문제점
+- MSA 도입의 복잡성을 해결할 시간 부족.
+
+#### 대안
+- **Multi-Module 전환**:
+    - MSA의 의존성 분리 효과를 간소화된 구조로 구현.
+
+</details>
+
+
+
+<details>
+<summary>구조 8: Auto Scaling Group, ALB 관리</summary>
+
+![스크린샷 2024-11-14 오후 8 57 27 (3)](https://github.com/user-attachments/assets/551a505f-dcba-4a4a-aed3-1dda83be6972)
+
+#### 문제점
+- Auto Scaling Group과 ALB의 개별 관리로 인한 복잡성 증가.
+- 프로젝트 진행 속도 저하.
+
+#### 대안
+- **Elastic Beanstalk 도입**:
+    - Auto Scaling Group 및 ALB 설정 간소화.
+    - 인프라 관리 부담 감소, 개발 속도 향상.
+
+</details>
+
+#### 📌 결론 및 핵심 기능 개선 방향
+
+ Elastic Beanstalk 도입을 통해 다음과 같은 개선 사항을 기대할 수 있습니다.
+
+1. **자동화된 인프라 관리**: Elastic Beanstalk가 EC2, Auto Scaling Group, Application Load Balancer를 자동으로 설정하고 관리하여 인프라 설정 및 유지보수를 단순화.
+2. **개발 효율성 향상**: 개발팀이 인프라 관리에 소요되는 시간을 줄이고, 애플리케이션 개발에 집중할 수 있는 환경 제공.
+
 <br/><br/>
 
 ## ⚾️ 인프라 아키텍쳐 & 적용 기술!
@@ -139,10 +334,11 @@ CI/CD 자동화를 통해 코드 품질과 배포 효율성을 높이기 위해 
 
 | 역할 | 이름 | 역할 설명 |
 | :------------: | :------------: | :------------ |
-| **팀장** | [@정은교](https://github.com/ekj1003) | - 프로젝트 전체 관리 및 방향 설정<br>- 주요 의사결정과 팀 내 소통 담당 <br>- 구단/구장/선수(CRUD) <br>- AWS S3 <br>- Indexing <br>- MultiModule <br>- AWS RDS <br>- 소셜 로그인|
-| **부팀장** | [@이재희](https://github.com/leejaehee0807) | - 팀장 보조 및 작업 분배<br>- 주요 문서 작성 및 발표 자료 준비 <br>- 서버와 데이터베이스 설계 및 관리 <br>- 회원/유저/선수/구단 커뮤니티/일정(CRUD) <br>- 소셜 로그인 <br>- 동시성제어|
-| **팀원** | [@오현택](https://github.com/duduio2050) | - 주요 개발 작업 수행<br>- 기술적 난관 발생 시 해결책 제안<br>- 구단 게시판/댓글(CRUD) <br>- 실시간 채팅 <br>- CI/CD <br>- ElasticBeanstalk <br>- ElasticCache |
-| **팀원** | [@박현국](https://github.com/HyunKook-Park) | - 주요 개발 작업 수행<br>- 코어 기능 구현 및 문제 해결 담당 <br>- 가게/메뉴/주문(CRUD) <br>- AWS SQS <br>- MultiModule <br>- Redis Cache <br>- Cloudfront |
+| **👑 팀장** | [@정은교](https://github.com/ekj1003) | - 프로젝트 전체 관리 및 방향 설정<br>- 주요 의사결정과 팀 내 소통 담당 <br>- 구단/구장/선수(CRUD) <br>- AWS S3 <br>- Indexing <br>- MultiModule <br>- AWS RDS <br>- OAuth 2.0 카카오 소셜로그인|
+| **👑 부팀장** | [@이재희](https://github.com/leejaehee0807) | - 팀장 보조 및 작업 분배<br>- 주요 문서 작성 및 발표 자료 준비 <br>- 서버와 데이터베이스 설계 및 관리 <br>- 회원/유저/선수/구단 커뮤니티/일정(CRUD) <br>- 팀원 간 협업 조율과 피드백 제공 <br>- 동시성제어 <br>- OAuth 2.0 카카오 소셜로그인|
+| **👑 팀원** | [@오현택](https://github.com/duduio2050) | - 주요 개발 작업 수행<br>- 기술적 난관 발생 시 해결책 제안<br>- 구단 게시판/댓글(CRUD) <br>- 실시간 채팅 <br>- CI/CD <br>- ElasticBeanstalk <br>- ElasticCache |
+| **👑 팀원** | [@박현국](https://github.com/HyunKook-Park) | - 주요 개발 작업 수행<br>- 코어 기능 구현 및 문제 해결 담당 <br>- 가게/메뉴/주문(CRUD) <br>- AWS SQS <br>- MultiModule <br>- Redis Cache <br>- Cloudfront |
+
 
 <br/><br/>
 
