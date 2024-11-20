@@ -68,6 +68,13 @@
 | :------------: | :------------: |:------------:|:------------:|
 |[@정은교](https://github.com/ekj1003)|[@이재희](https://github.com/leejaehee0807)|[@오현택](https://github.com/duduio2050)|[@박현국](https://github.com/HyunKook-Park)|
 
+| 역할 | 이름 | 역할 설명 |
+| :------------: | :------------: | :------------ |
+| **팀장** | [@정은교](https://github.com/ekj1003) | - 프로젝트 전체 관리 및 방향 설정<br>- 주요 의사결정과 팀 내 소통 담당 <br>- 구단/구장/선수(CRUD) <br>- AWS S3 <br>-인덱싱 <br>- MultiModule <br>- RDS|
+| **부팀장** | [@이재희](https://github.com/leejaehee0807) | - 팀장 보조 및 작업 분배<br>- 주요 문서 작성 및 발표 자료 준비 <br>- 서버와 데이터베이스 설계 및 관리 <br>- 회원/유저/선수/구단 커뮤니티/일정(CRUD) <br>- 팀원 간 협업 조율과 피드백 제공 <br>- 동시성제어|
+| **팀원** | [@오현택](https://github.com/duduio2050) | - 주요 개발 작업 수행<br>- 기술적 난관 발생 시 해결책 제안<br>- 구단 게시판/댓글(CRUD) <br>- 실시간 채팅 <br>- CI/CD <br>- ElasticBeanstalk <br>- ElasticCache |
+| **팀원** | [@박현국](https://github.com/HyunKook-Park) | - 주요 개발 작업 수행<br>- 코어 기능 구현 및 문제 해결 담당 <br>- 가게/메뉴/주문(CRUD) <br>- AWS SQS <br>- MultiModule <br>- Redis Cache <br>- Cloudfront | 
+
 
 ## 성과 및 회고
 
