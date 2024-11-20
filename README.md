@@ -1,27 +1,47 @@
-# 야구 나두? 프로젝트
+# ⚾️ 야구 나두? 프로젝트
+<img width="498" alt="스크린샷 2024-11-14 19 54 08" src="https://github.com/user-attachments/assets/e39c46d5-c91a-458e-bcf0-cca6fdb6ad45">
+<img width="393" alt="스크린샷 2024-11-14 20 07 35" src="https://github.com/user-attachments/assets/a204f8fc-6b98-43bd-a37d-44360d124f38">
 
 ## 📖 목차
-1. [프로젝트 소개](#프로젝트-소개)
-2. [팀소개](#팀소개)
-3. [주요기능](#주요기능)
-4. [개발기간](#개발기간)
-5. [기술스택](#기술스택)
-6. [와이어프레임](#와이어프레임)
-7. [API 명세서](#API-명세서)
-8. [ERD](#ERD)
-9. [아키텍쳐 다이아그램](#아키텍쳐-다이아그램)
-10. [CI/CD 플로우 차트](#CI/CD-플로우-차트)
-    
-## 👨‍🏫 프로젝트 소개
+1. 프로젝트 소개
+2. 프로젝트 핵심 목표
+3. KEY SUMMARY
+4. 인프라 아키텍쳐 & 적용 기술
+5. 주요기능
+6. 기술적 고도화
+7. 역할 분담 및 협업 방식
+8. 성과 및 회고
+
+## 프로젝트 소개
 **“야구 너도 할 수 있어”** 야구의 야자도 모르는 “**야린이”**들을 **야구 입문소 커뮤니티**
 야구 규칙부터 선수 덕질까지, 광범위한 정보를 쉽고 재미있게 배울 수 있습니다. 팬덤 활동을 즐기고, 좋아하는 선수를 알아가며, 야구의 매력을 함께 알아볼까요?
+## 프로젝트 핵심 목표
 
-## 💜 팀소개
+
+## KEY SUMMARY
+
+
+## 인프라 아키텍쳐 & 적용 기술
+
+
+## 주요기능
+
+
+## 기술적 고도화
+
+
+## 역할 분담 및 협업 방식
 | 팀장 | 부팀장 | 팀원 | 팀원 | 팀원 |
 | :------------: | :------------: |:------------:|:------------:|:------------:|
 |[@정은교](https://github.com/ekj1003)|[@이재희](https://github.com/leejaehee0807)|[@오현택](https://github.com/duduio2050)|[@박현국](https://github.com/HyunKook-Park)|[@전우성](https://github.com/jeunwoosung)|
 
-### [팀 노션](https://www.notion.so/teamsparta/7df9fd15fa05414c848d3e7d4d0c9266)
+## 성과 및 회고
+
+
+## 👨‍🏫 프로젝트 소개
+
+
+
 
 ## 💜 주요기능
 
@@ -43,8 +63,6 @@
 - 인덱싱
     : 선수 테이블 인덱싱
 
-## ⏲️ 개발기간
-- 2024.10.21(월) ~ 2024.11.22(금)
 
 ## 📚️ 기술스택
 
@@ -73,17 +91,3 @@
 ### ✔️ Library
 ![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
 
-## ✔️ 와이어프레임
-https://embed.figma.com/design/pDd7kx221auWuDxgz6xSD9/Bbikki?node-id=0-1&t=8HwyPIOHDGqx7S4q-1&embed-host=notion&footer=false&theme=system
-
-## ✔️ API 명세서
-https://www.notion.so/teamsparta/1262dc3ef51481a281d6fd7b6a26ffe9?v=1262dc3ef514813583bd000cfffdb22b&pvs=4
-
-## ✔️ ERD
-<img width="1089" alt="스크린샷 2024-10-24 오후 1 23 04" src="https://github.com/user-attachments/assets/3f37a084-2561-46c2-b206-2dfa5b78bb8c">
-
-## ✔️ 아키텍쳐 다이아그램
-<img width="902" alt="스크린샷 2024-11-06 14 51 38" src="https://github.com/user-attachments/assets/01d24b78-c12b-4605-8862-a770f5ebb7a9">
-
-## ✔️ CI/CD 플로우 차트
-<img width="671" alt="스크린샷 2024-11-06 14 52 50" src="https://github.com/user-attachments/assets/bfef9b79-c009-469d-9a84-ae15b2e7d1b5">
