@@ -20,6 +20,9 @@ public class DefaultS3Api implements S3Api { // application.yml이 local, prod, 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
+    @Value("${cloud.aws.cloudfront.domain}")
+    private String cloudFrontDomain;
+
     // S3에 이미지를 업로드하는 메소드
     @Override
     public String uploadImageToS3(MultipartFile file) throws IOException {
@@ -30,7 +33,8 @@ public class DefaultS3Api implements S3Api { // application.yml이 local, prod, 
         String fileName = file.getOriginalFilename();
         String prefix = String.valueOf(System.currentTimeMillis());
         String newFileName = String.format("api/%s_%s", prefix, fileName);
-        String fileUrl = String.format("https://%s.s3.ap-northeast-2.amazonaws.com/%s", bucket, newFileName);
+//        String fileUrl = String.format("https://%s.s3.ap-northeast-2.amazonaws.com/%s", bucket, newFileName);
+        String fileUrl = String.format("https://%s/%s", cloudFrontDomain, newFileName);
 
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentType(file.getContentType());
