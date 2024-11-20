@@ -66,6 +66,12 @@ subprojects {
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
         testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
         testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+
+        // Redis
+        implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+        // Redisson
+        implementation 'org.redisson:redisson-spring-boot-starter:3.37.0'
     }
 
     configurations {
@@ -111,6 +117,22 @@ project(":api") {
     }
 }
 
+project(":batch") {
+    dependencies {
+        implementation project(":core")
+        implementation project(":common")
+        implementation project(":integration")
+    }
+
+    tasks.named("bootJar") {
+        enabled = true
+    }
+
+    jar {
+        enabled = true
+    }
+}
+
 project(":chat") {
     dependencies {
         implementation project(":core")
@@ -134,9 +156,6 @@ project(":core") {
     dependencies {
         implementation project(":common")
         implementation project(":integration")
-        // Redisson
-        implementation 'org.redisson:redisson-spring-boot-starter:3.37.0'
-
     }
 }
 
@@ -155,10 +174,6 @@ project(":integration") {
         // AWS S3 연동
         implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
-        // Redis
-        implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-        // Redisson
-        implementation 'org.redisson:redisson-spring-boot-starter:3.37.0'
         // websocket
         implementation 'org.springframework.boot:spring-boot-starter-websocket'
 
