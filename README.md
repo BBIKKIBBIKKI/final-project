@@ -4,21 +4,21 @@
 <br/><br/>
 
 ## ⚾️ 목차
-1. 프로젝트 소개
-2. 프로젝트 핵심 목표
-3. KEY SUMMARY
-4. 인프라 아키텍쳐 & 적용 기술
-5. 주요기능
-6. 기술적 고도화
-7. 역할 분담 및 협업 방식
-8. 성과 및 회고
-<br/><br/>
+1. **프로젝트 소개**
+2. **프로젝트 핵심 목표**
+3. **KEY SUMMARY**
+4. **인프라 아키텍쳐 & 적용 기술**
+5. **주요기능**
+6. **기술적 고도화**
+7. **역할 분담 및 협업 방식**
+8. **성과 및 회고**
+<br/><br/><br/>
 
 ## ⚾️ 프로젝트 소개
 
 **“야구 너도 할 수 있어”** 야구의 야자도 모르는 "**야린이**"들을 **야구 입문소 커뮤니티**
 야구 규칙부터 선수 덕질까지, 광범위한 정보를 쉽고 재미있게 배울 수 있습니다. 팬덤 활동을 즐기고, 좋아하는 선수를 알아가며, 야구의 매력을 함께 알아볼까요?
-<br/><br/>
+<br/><br/><br/>
 
 ## ⚾️ 프로젝트 핵심 목표
 
@@ -55,14 +55,207 @@
 ---
 ### 📌 JMeter 를 통한 성능, 부하 테스트
 - **“Apache JMeter”** 를 사용하여 동시성제어, 인덱싱, 캐시에 대한 성능 테스트와, 스트레스 테스트를 검증한 결과를 토대로 애플리케이션의 응답 시간을 최적화하고, 병목 현상을 분석하여 성능을 개선하였습니다.
-<br/><br/>
+<br/><br/><br/><br/>
 
 ## ⚾️ KEY SUMMARY
+---
+### 🍁 **성능 개선 : 동시성제어 - 분산락**
+---
+#### 📌 **한 줄 요약**  
+   - Redis 기반 분산락(Redisson)을 사용하여 음식 주문/예약 시 재고 맞게 주문 완료. 
+   - 재고 부족 상태에서 새로운 주문이 발생하지 않아 동시성 제어 성공
+
+#### 📌 **도입 배경**  
+   - 사전 주문 시스템에서는 높은 동시성(ex)재고가 없는데 주문이 들어간 경우)을 요구하므로, 분산락을 통해 처리 속도와 일관성을 동시에 확보.
+
+#### 📌 **기술적 선택지**  
+
+![스크린샷 2024-11-14 오후 2 39 33](https://github.com/user-attachments/assets/757d9148-5fd8-498c-9195-39618bba14df)
+
+#### 📌 성능 테스트
+<details>
+  <summary>🧪 락 미적용 테스트 결과</summary>
+
+#### 테스트 시나리오
+- **테스트 시나리오**: 100명의 사용자가 동시에 재고 2개씩 주문.
+
+#### 재고 감소 처리 결과
+- Redis에서 동시성 문제가 발생하여 재고가 음수로 감소.
+
+**결론**:
+- 락 미적용 상태에서는 동시성 문제로 인해 데이터 충돌 발생.
+- 음수 재고가 기록되며, 데이터 무결성이 크게 훼손됨.
+
+</details>
+
+<details>
+  <summary>🧪 락 적용 테스트 결과</summary>
+
+#### 테스트 시나리오
+- **테스트 시나리오**: 100명의 사용자가 동시에 재고 2개씩 주문.
+
+#### 재고 감소 처리 결과
+- Redis에서 동시성 제어가 성공적으로 작동하여 정확한 재고 감소 확인.
+- 재고 부족 시 정확히 예외(`ApiException`) 발생.
+
+**결론**:
+- 락이 적용된 경우, 정확히 100개의 주문이 처리되었으며, 재고 부족 상태에서 새로운 주문이 발생하지 않음.
+- 모든 스레드에서 데이터 무결성이 유지됨.
+
+</details>
+
+#### 📌 종합결과
+![스크린샷 2024-11-18 오후 1 20 09](https://github.com/user-attachments/assets/956d4ed9-fc17-40b5-88b5-3f8999229f03)
+
+
+#### 📌 결론
+
+- **락 적용 결과**: Redis 분산 락을 적용한 경우, 데이터의 무결성과 안정성이 크게 향상되었습니다. 동시성 문제를 완벽히 해결하여 모든 요청이 정확히 처리되었습니다.
+- **락 미적용 결과**: 락을 적용하지 않은 경우, 데이터 충돌로 인해 재고가 음수로 기록되는 문제가 발생하였습니다.
+
+---
+### 🍁 **트러블 슈팅 : Gradle Multimodule 구조와 Elastic Beanstalk 도입**
+---
+
+#### 📌 **배경**
+   - **의존성 분리를 위한 구조 채택**
+     - 의존성 분리를 위해 MSA를 도입하려 했으나, 튜터의 추천으로 Multi-Module 구조가 MSA의 의존성 분리와 비슷한 효과를 제공할 수 있음이 확인됨.
+     - Gradle Multimodule 구조로 전환하여, api module, batch module, 채팅 module, integration module을 각 모듈로 구성 
+   - **프로젝트의 효율적인 인프라 관리**
+     - Auto Scaling Group, Application Load Balancer 등의 설정을 간단히 관리할 수 있는 AWS Elastic Beanstalk 도입을 검토
+
+
+#### 📌 구조 검토 및 문제점 
+<details>
+<summary>구조 2: ALB 및 Auto Scaling Group 사용</summary>
+
+#### 구성
+- EC2 인스턴스를 Auto Scaling Group으로 묶고, ALB를 통해 트래픽을 분산.
+<img width="424" alt="스크린샷 2024-11-20 14 45 56" src="https://github.com/user-attachments/assets/3e9bcd2e-4898-409e-976d-2a77f58e7835">
+
+#### 문제점
+- 서버 확장에는 유리하지만 인스턴스 간 상태 유지 및 유지보수 문제 발생.
+- 복잡한 유지보수로 인해 제외.
+
+</details>
+
+
+<details>
+<summary>구조 3: 개별 EC2 인스턴스에 MySQL 설치</summary>
+
+#### 구성
+- 각 EC2 인스턴스에 MySQL을 설치.
+<img width="541" alt="스크린샷 2024-11-20 14 46 55" src="https://github.com/user-attachments/assets/2f5acb89-4924-4dd1-85ca-61acdd704c9b">
+
+#### 문제점
+- 데이터 동기화 문제로 데이터 일관성 부족.
+- 관리 및 확장성 어려움.
+
+#### 대안
+1. **AWS RDS 활용 (채택)**:
+    - **장점**: 중앙 집중 데이터 관리 및 유지보수 용이.
+2. **하나의 EC2에서 MySQL 공유**:
+    - **장점**: 비용 절감 가능.
+    - **단점**: 확장성 제한.
+    
+</details>
+
+
+<details>
+<summary>구조 4: Auto Scaling 및 Redis 동기화 문제</summary>
+
+#### 구성
+- EC2 인스턴스 간 Auto Scaling, Redis 캐시 사용.
+<img width="590" alt="스크린샷 2024-11-20 14 47 45" src="https://github.com/user-attachments/assets/aa0226af-081f-4744-a07f-cb841a9dc779">
+
+#### 문제점
+- Redis 동기화 미흡 → 캐시 일관성 문제 발생 가능.
+
+#### 대안
+- **ElastiCache 사용**:
+    - Redis를 중앙 관리로 전환하여 캐시 일관성 보장 및 성능 최적화.
+
+</details>
+
+<details>
+<summary>구조 5: MSA (Microservices Architecture) 도입 필요성</summary>
+
+#### 구성
+- 각 EC2 인스턴스에서 독립적인 서비스(`chat`, `api`, `batch`)를 운영.
+<img width="707" alt="스크린샷 2024-11-20 14 52 43" src="https://github.com/user-attachments/assets/c459f054-de45-402e-be8e-cd0462fbb371">
+
+#### 문제점
+- 서비스 간 결합도가 높아 장애 발생 시 다른 서비스에 영향을 미침.
+
+#### 대안
+- **MSA 도입**:
+    - 서비스 독립성 강화.
+    - 장애가 전체 시스템에 미치는 영향을 최소화.
+
+</details>
+
+<details>
+<summary>구조 6: 서비스별 Auto Scaling Group 구성</summary>
+
+#### 구성
+- 각 서비스(`일반 CRUD`, `채팅`, `주문`)에 독립적인 Auto Scaling Group 배정.
+<img width="571" alt="스크린샷 2024-11-20 14 53 07" src="https://github.com/user-attachments/assets/297bdc72-88cb-4090-a491-554a2ee2a2bb">
+
+#### 문제점
+- 단일 서버 사용 시 트래픽 집중 문제.
+
+#### 대안
+- 각 서비스에 Auto Scaling Group 적용.
+- 동적 트래픽 조정으로 서비스 유연성 확보.
+
+</details>
+
+
+<details>
+<summary>구조 7: MSA 대신 Spring Boot Multi-Module 전환</summary>
+
+#### 구성
+- Spring Boot Multi-Module 구조로 전환:
+    - `api module`, `batch module`, `채팅 module`, `integration module`.
+<img width="701" alt="스크린샷 2024-11-20 14 53 36" src="https://github.com/user-attachments/assets/aa4312b2-77ab-4ddf-9145-588ed3e7faeb">
+
+#### 문제점
+- MSA 도입의 복잡성을 해결할 시간 부족.
+
+#### 대안
+- **Multi-Module 전환**:
+    - MSA의 의존성 분리 효과를 간소화된 구조로 구현.
+
+</details>
+
+
+
+<details>
+<summary>구조 8: Auto Scaling Group, ALB 관리</summary>
+
+![스크린샷 2024-11-14 오후 8 57 27 (3)](https://github.com/user-attachments/assets/551a505f-dcba-4a4a-aed3-1dda83be6972)
+
+#### 문제점
+- Auto Scaling Group과 ALB의 개별 관리로 인한 복잡성 증가.
+- 프로젝트 진행 속도 저하.
+
+#### 대안
+- **Elastic Beanstalk 도입**:
+    - Auto Scaling Group 및 ALB 설정 간소화.
+    - 인프라 관리 부담 감소, 개발 속도 향상.
+
+</details>
+
+#### 📌 결론 및 핵심 기능 개선 방향
+
+1. **자동화된 인프라 관리**: Elastic Beanstalk가 EC2, Auto Scaling Group, Application Load Balancer를 자동으로 설정하고 관리하여 인프라 설정 및 유지보수를 단순화.
+2. **개발 효율성 향상**: 개발팀이 인프라 관리에 소요되는 시간을 줄이고, 애플리케이션 개발에 집중할 수 있는 환경 제공.
+
 <br/><br/>
 
 ## ⚾️ 인프라 아키텍쳐 & 적용 기술
 ### 📌 인프라 아키텍쳐
-<img width="928" alt="InfraStructureDiagram" src="https://github.com/user-attachments/assets/4f8508d5-3082-4a15-a28b-53899af83a83">
+![스크린샷 2024-11-20 오후 3 06 53](https://github.com/user-attachments/assets/fefed4c4-96e0-4d9b-b6d5-f7e4cd6ebde4)
 
 ### 📌 적용기술
 <details>
@@ -72,65 +265,64 @@
 <img src="https://img.shields.io/badge/JDK 17-green?style=for-the-badge&logo=#000000&logoColor=white"><img src="https://img.shields.io/badge/spring boot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white"><img src="https://img.shields.io/badge/Spring Security-6DB33F?style=for-the-badge&logo=Spring Security&logoColor=white">![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
 
 #### <img src="https://img.shields.io/badge/gradle multimoduel-red?style=for-the-badge&logo=gradle&logoColor=white">
-프로젝트의 모듈화를 통해 코드의 재사용성과 관리성을 높이기 위해 Gradle 멀티모듈 구성을 사용했습니다. 각 모듈별로 독립적인 개발과 테스트가 가능하며, CI/CD 과정에서의 효율성을 높입니다.
+프로젝트의 모듈화를 통해 코드의 재사용성과 관리성을 높이기 위해 ***Gradle 멀티모듈 구성***을 사용했습니다. 각 모듈별로 독립적인 개발과 테스트가 가능하며, CI/CD 과정에서의 효율성을 높입니다.
 
 ---
 
 #### <img src="https://img.shields.io/badge/Amazon ElastiCache-orange?style=for-the-badge&logo=amazonelasticache&logoColor=white">
-선수의 랭킹을 캐싱하여 조회 속도를 높이기 위해 Redis를 도입했습니다. Redis는 빠른 응답 속도를 제공해 성능 향상에 기여합니다.
+선수의 랭킹을 ***캐싱***하여 조회 속도를 높이기 위해 ***Redis***를 도입했습니다. Redis는 빠른 응답 속도를 제공해 성능 향상에 기여합니다.
 
 ---
 
 #### <img src="https://img.shields.io/badge/indexing-yellow?style=for-the-badge&logo=&logoColor=white">
-선수 검색 속도를 최적화하기 위해 주요 데이터 필드(player_name, team_name)에 인덱싱을 적용하여 조회 성능을 강화했습니다.
+선수 검색 속도를 최적화하기 위해 주요 데이터 필드(player_name, team_name)에 ***인덱싱***을 적용하여 조회 성능을 강화했습니다.
 
 ---
 
 #### <img src="https://img.shields.io/badge/AWS-green?style=for-the-badge&logo=#232F3E&logoColor=white"><img src="https://img.shields.io/badge/EC2-blue?style=for-the-badge&logo=amazonec2&logoColor=white"><img src="https://img.shields.io/badge/S3-sodomy?style=for-the-badge&logo=amazons3&logoColor=white"><img src="https://img.shields.io/badge/SQS-purple?style=for-the-badge&logo=amazonsqs&logoColor=white">
-- **EC2** : 애플리케이션 서버를 호스팅하고, 유연한 확장성을 지원하는 AWS EC2를 선택했습니다.
-- **S3** : 구단, 구장, 선수의 이미지 파일들을 S3를 사용하여 안전하게 관리하며, 애플리케이션에서 파일을 간편하게 업로드 및 다운로드할 수 있습니다.
-- **SQS** : 비동기 처리와 메시지 전송을 위해 SQS를 도입하여 안정적인 메시지 큐를 통해 확장성과 내구성을 보장합니다.
+- **EC2** : 애플리케이션 서버를 호스팅하고, 유연한 확장성을 지원하는 ***AWS EC2***를 선택했습니다.
+- **S3** : 구단, 구장, 선수의 이미지 파일들을 ***S3***를 사용하여 안전하게 관리하며, 애플리케이션에서 파일을 간편하게 업로드 및 다운로드할 수 있습니다.
+- **SQS** : 비동기 처리와 메시지 전송을 위해 ***SQS***를 도입하여 안정적인 메시지 큐를 통해 확장성과 내구성을 보장합니다.
   
 ---
 
 #### <img src="https://img.shields.io/badge/AWS elastic beanstalk -pink?style=for-the-badge&logo=#2088FF&logoColor=white">
-애플리케이션의 배포 및 관리를 간소화하고, 자동화된 인프라 환경을 통해 개발에 집중할 수 있도록 AWS Elastic Beanstalk을 도입했습니다. Elastic Beanstalk은 애플리케이션 실행 환경을 자동으로 프로비저닝하고 모니터링하며, 배포 프로세스를 최적화하여 운영 효율성을 높입니다.
+애플리케이션의 배포 및 관리를 간소화하고, 자동화된 인프라 환경을 통해 개발에 집중할 수 있도록 ***AWS Elastic Beanstalk***을 도입했습니다. ***Elastic Beanstalk***은 애플리케이션 실행 환경을 자동으로 프로비저닝하고 모니터링하며, 배포 프로세스를 최적화하여 운영 효율성을 높입니다.
 
 ---
 
 #### <img src="https://img.shields.io/badge/Github Actions-camel?style=for-the-badge&logo=#2088FF&logoColor=white">
-CI/CD 자동화를 통해 코드 품질과 배포 효율성을 높이기 위해 GitHub Actions를 사용했습니다. 코드 커밋 시 자동 빌드, 테스트, 배포 파이프라인을 구축하여 일관된 품질을 유지합니다.
+***CI/CD 자동화***를 통해 코드 품질과 배포 효율성을 높이기 위해 ***GitHub Actions***를 사용했습니다. 코드 커밋 시 자동 빌드, 테스트, 배포 파이프라인을 구축하여 일관된 품질을 유지합니다.
 
 ---
 
 ####  <img src="https://img.shields.io/badge/Apche JMeter-red?style=for-the-badge&logo=apachejmeter&logoColor=white">
-애플리케이션의 성능 테스트와 부하 테스트를 위해 Apache JMeter를 사용했습니다. 이를 통해 애플리케이션의 응답 시간을 최적화하고 병목 현상을 분석하여 성능을 개선했습니다.
+애플리케이션의 성능 테스트와 부하 테스트를 위해 ***Apache JMeter***를 사용했습니다. 이를 통해 애플리케이션의 응답 시간을 최적화하고 병목 현상을 분석하여 성능을 개선했습니다.
 
 ####  협업 도구
 ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)![Slack](https://img.shields.io/badge/Slack-4A154B?style=for-the-badge&logo=slack&logoColor=white)<img src="https://img.shields.io/badge/Notion-black?style=for-the-badge&logo=notion&logoColor=white">
 </details>
 <br/><br/>
 
-
 ## ⚾️ 주요기능
 - **덕질 커뮤니티**
     : 최애 선수 팔로잉, 구단 응원 게시물, 댓글, 좋아요 기능
 
 - **실시간 채팅**
-    : Redis Pub/Sub을 통한 매 경기마다 실시간 채팅으로 야구인들과 소통!
+    : ***Redis Pub/Sub***을 통한 매 경기마다 실시간 채팅으로 야구인들과 소통!
 
 - **구장별 가게 음식 예약**
-    : 음식을 주문/예약할 때 분산락을 이용해 메뉴의 재고와 순서를 파악해 혼잡스럽지 않도록 교통정리 하는 기능
+    : 음식을 주문/예약할 때 ***분산락***을 이용해 메뉴의 재고와 순서를 파악해 혼잡스럽지 않도록 교통정리 하는 기능
   
 - **음식 주문 알림**
-    : AWS SQS를 통해 비동기 메세지큐로 특정 이벤트에 대한 실시간 음식 주문 알림 기능
+    : ***AWS SQS***를 통해 비동기 메세지큐로 특정 이벤트에 대한 실시간 음식 주문 알림 기능
 
 - **CI/CD**
-    : Elastic Beanstalk를 사용한 무중단 배포 구현
+    : ***Elastic Beanstalk***를 사용한 무중단 배포 구현
   
 - **인덱싱**
-    : 선수 테이블 인덱싱
-<br/><br/>
+    : 선수 테이블 ***인덱싱***
+<br/><br/><br/>
 
 ## ⚾️ 기술적 고도화
 <details>
@@ -332,16 +524,30 @@ CI/CD 자동화를 통해 코드 품질과 배포 효율성을 높이기 위해 
 TTL 설정은 자정 외의 시간에서도 일정 주기마다 캐시를 유지하고 싶을 때 유용합니다.
 
 
-## ⚾️ 역할 분담 및 협업 방식
+<br/><br/><br/>
 
+## ⚾️ 역할 분담 및 협업 방식
+### 📌 역할 분담
 | 역할 | 이름 | 역할 설명 |
 | :------------: | :------------: | :------------ |
-| **팀장** | [@정은교](https://github.com/ekj1003) | - 프로젝트 전체 관리 및 방향 설정<br>- 주요 의사결정과 팀 내 소통 담당 <br>- 구단/구장/선수(CRUD) <br>- AWS S3 <br>- Indexing <br>- MultiModule <br>- AWS RDS <br>- 소셜 로그인|
-| **부팀장** | [@이재희](https://github.com/leejaehee0807) | - 팀장 보조 및 작업 분배<br>- 주요 문서 작성 및 발표 자료 준비 <br>- 서버와 데이터베이스 설계 및 관리 <br>- 회원/유저/선수/구단 커뮤니티/일정(CRUD) <br>- 소셜 로그인 <br>- 동시성제어|
-| **팀원** | [@오현택](https://github.com/duduio2050) | - 주요 개발 작업 수행<br>- 기술적 난관 발생 시 해결책 제안<br>- 구단 게시판/댓글(CRUD) <br>- 실시간 채팅 <br>- CI/CD <br>- ElasticBeanstalk <br>- ElasticCache |
-| **팀원** | [@박현국](https://github.com/HyunKook-Park) | - 주요 개발 작업 수행<br>- 코어 기능 구현 및 문제 해결 담당 <br>- 가게/메뉴/주문(CRUD) <br>- AWS SQS <br>- MultiModule <br>- Redis Cache <br>- Cloudfront |
+| **👑 팀장** | [@정은교](https://github.com/ekj1003) | - 프로젝트 전체 관리 및 방향 설정<br>- 주요 의사결정과 팀 내 소통 담당 <br>- 구단/구장/선수(CRUD) <br>- AWS S3 <br>- Indexing <br>- MultiModule <br>- AWS RDS <br>- OAuth 2.0 카카오 소셜로그인|
+| **👑 부팀장** | [@이재희](https://github.com/leejaehee0807) | - 팀장 보조 및 작업 분배<br>- 주요 문서 작성 및 발표 자료 준비 <br>- 서버와 데이터베이스 설계 및 관리 <br>- 회원/유저/선수/구단 커뮤니티/일정(CRUD) <br>- 팀원 간 협업 조율과 피드백 제공 <br>- 동시성제어 <br>- OAuth 2.0 카카오 소셜로그인|
+| **👑 팀원** | [@오현택](https://github.com/duduio2050) | - 주요 개발 작업 수행<br>- 기술적 난관 발생 시 해결책 제안<br>- 구단 게시판/댓글(CRUD) <br>- 실시간 채팅 <br>- CI/CD <br>- ElasticBeanstalk <br>- ElasticCache |
+| **👑 팀원** | [@박현국](https://github.com/HyunKook-Park) | - 주요 개발 작업 수행<br>- 코어 기능 구현 및 문제 해결 담당 <br>- 가게/메뉴/주문(CRUD) <br>- AWS SQS <br>- MultiModule <br>- Redis Cache <br>- Cloudfront |
 
-<br/><br/>
+### 📌 협업 방식
+- 점심 시간 : 12:00 ~ 13:00
+- 저녁 시간 : 18:00 ~ 19: 00
+- 아침 회의 : 10:00 ~ 10:30
+- 회의가 길어질 경우 50분 회의 10분 휴식 하기 !!
+- 저녁 회의 : 20:00 ~ 21:00 + 코드 리뷰
+- 회의할 때 꼭 캠 키기, 다른 때는 자유~
+- 자리비울 때, 오픈채팅방, 상태메세지, 춤추기
+- 퇴실 전 매일 스크럼 기획 회의 진행상황 체크, 캘린더에 체크
+- 퇴실 전 5분 기록보드 작성
+- 매일 저녁 먹고 바로 진행상황 체크
+
+<br/><br/><br/>
 
 ## ⚾️ 성과 및 회고
 ### 😊 잘된 점
