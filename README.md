@@ -13,7 +13,7 @@
 8. 성과 및 회고
 
 ## ⚾️ 프로젝트 소개
-**“야구 너도 할 수 있어”** 야구의 야자도 모르는 “**야린이”**들을 **야구 입문소 커뮤니티**
+**“야구 너도 할 수 있어”** 야구의 야자도 모르는 "**야린이**"들을 **야구 입문소 커뮤니티**
 야구 규칙부터 선수 덕질까지, 광범위한 정보를 쉽고 재미있게 배울 수 있습니다. 팬덤 활동을 즐기고, 좋아하는 선수를 알아가며, 야구의 매력을 함께 알아볼까요?
 
 ## ⚾️ 프로젝트 핵심 목표
@@ -26,21 +26,6 @@
 
 
 ## ⚾️ 주요기능
-
-
-## ⚾️ 기술적 고도화
-
-
-## ⚾️ 역할 분담 및 협업 방식
-| 팀장 | 부팀장 | 팀원 | 팀원 | 팀원 |
-| :------------: | :------------: |:------------:|:------------:|:------------:|
-|[@정은교](https://github.com/ekj1003)|[@이재희](https://github.com/leejaehee0807)|[@오현택](https://github.com/duduio2050)|[@박현국](https://github.com/HyunKook-Park)|[@전우성](https://github.com/jeunwoosung)|
-
-## ⚾️ 성과 및 회고
-
-
-
-## 💜 주요기능
 
 - 덕질 커뮤니티
     : 최애 선수 팔로잉, 구단 응원 게시물, 댓글, 좋아요 기능
@@ -60,31 +45,45 @@
 - 인덱싱
     : 선수 테이블 인덱싱
 
+## ⚾️ 기술적 고도화
 
-## 📚️ 기술스택
 
-### ✔️ Tool
-![Figma](https://img.shields.io/badge/figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white)
-![Slack](https://img.shields.io/badge/Slack-4A154B?style=for-the-badge&logo=slack&logoColor=white)
-<img src="https://img.shields.io/badge/Amazon%20S3-569A31?style=for-the-badge&logo=Amazon%20S3&logoColor=white">
-<img src="https://img.shields.io/badge/Amazon RDS-527FFF?style=for-the-badge&logo=amazon rds&logoColor=white">
+## ⚾️ 역할 분담 및 협업 방식
+| 팀장 | 부팀장 | 팀원 | 팀원 | 팀원 |
+| :------------: | :------------: |:------------:|:------------:|:------------:|
+|[@정은교](https://github.com/ekj1003)|[@이재희](https://github.com/leejaehee0807)|[@오현택](https://github.com/duduio2050)|[@박현국](https://github.com/HyunKook-Park)|[@전우성](https://github.com/jeunwoosung)|
 
-### ✔️ Language
-![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
+## ⚾️ 성과 및 회고
+### 😊 잘된 점
+#### 📌 **성능 최적화 성공**
+  - "***Gradle Multimodule***"을 프로젝트 구조로 채택하여 '**독립적으로 모듈을 관리**'하고 코드 간의 의존성 줄여 독립성과 유지보수성 확보.
+  - "***Elastic Beanstalk***"을 도입하여 '**EC2, Auto Scaling Group, Application Load Balancer를 자동으로 설정**'하고 관리하여 인프라 설정 및 유지보수를 단순화.
+  - "***Redis 기반 분산락***"을 사용하여 '**정확한 재고 감소 및 동시성 문제 방지**'.
+  - "***Indexing***"을 활용하여 선수 검색 쿼리 평균 시간 '**96% 성능 향상**'.
+  - "***ElastiCache***"를 사용하여 선수 랭킹 조회 시 '**최소 응답 시간 약 0ms 달성**', 평균 응답 시간 90ms 이하 달성.
+  - "***QueryDSL***"을 통해 구현한 구장 검색 시 요청당 '**평균 응답 시간 4.83ms를 달성**'하고, '**10만개**'의 동시적인 http request에도 '**안정적임**'.
+  - "***Redis Pub/Sub***"을 통해 Auto-Scaling 환경에서 데이터를 '**순차적으로 처리**', 메세지의 '**순서를 보장**'.
 
-### ✔️ Version Control
-![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)
+#### 📌 **효율적이고 도전적인 협업**
+  - 팀원 간의 **역할 분담이 명확**하고, 매일 아침 10시 각자 할일을 논의하는 **스크럼 회의를 통해 효율적으로 개발**.
+  - **문제 발생시 빠르게 공유**하고, 팀원 모두가 **적극적으로 해결**.
+  - Notion 캘린더의 ***마일스톤을 설정하여***, 단기 목표를 세우고 장기 목표로 이어지도록하여 **효율적인 일정 관리**.
+  - 도입해보고 싶은 ***추가적인 기술***(AWS SQS, Redis Pub/Sub, AWS Cloud Front, Elastic Beanstalk, Gradle Multimodule 등)을 **적극적으로 제안**하고, 팀원 모두 **수용**하며 개발 진행.
 
-### ✔️ IDE
-![IntelliJ IDEA](https://img.shields.io/badge/IntelliJIDEA-000000.svg?style=for-the-badge&logo=intellij-idea&logoColor=white)
+---
 
-### ✔️ Framework
-<img src="https://img.shields.io/badge/spring boot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white"> <img src="https://img.shields.io/badge/Spring Security-6DB33F?style=for-the-badge&logo=Spring Security&logoColor=white"> <img src="https://img.shields.io/badge/Hibernate-59666C?style=for-the-badge&logo=Hibernate&logoColor=white">
+### 😢 아쉬운 점
+- **프로젝트 초기 설계 부족**  
+  - Controller 단에서만 존재해야하는 AuthUser와 RequestDto등이 Service단에 직접적으로 주입되어 의존성이 증가하여, 이후 Gradle Multimodule 구조로 분리하면서 해당 의존성을 삭제하는데 어려움을 겪음.
+  - API 명세서 작성시 RESTful하게 적지 못한 부분이 존재하여 수정하는데 어려움을 겪음.
+  - 프로젝트 스코프가 생각보다 큰 편이다보니 API 명세서에 따라 와이어프레임을 구성하는 데에도 어려움을 겪음.
 
-### ✔️  DBMS
-![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white)
-![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white)
+- **코드 리펙토링의 어려움**
+  - Gradle Multimodule로 구조화를 하면서, 대부분 리펙토링을 진행하였으나 다른 팀원의 코드를 리펙토링하는데 어려움을 겪음.
 
-### ✔️ Library
-![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
+---
 
+### 🔮 향후 계획
+- **추가 기능 개발**  
+  - 토스 페이먼츠를 사용하여 음식 결제 시스템 기능 개발. 
+  - 카카오뿐만 아니라 다른 소셜 로그인(Naver, Google 등) 기능 추가 개발.
