@@ -2,13 +2,9 @@ package com.wearei.finalsamplecode.core.domain.user.entity;
 
 import com.wearei.finalsamplecode.common.entity.Timestamped;
 import com.wearei.finalsamplecode.common.enums.UserRole;
-import com.wearei.finalsamplecode.core.domain.player.entity.Player;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Entity
@@ -42,18 +38,20 @@ public class User extends Timestamped {
         this.isDeleted = true;
     }
 
-    public void updateUser(String name, String email, String password){
-        this.username=name;
-        this.email=email;
-        this.password=password;
-    }
-
     public void updatePassword(String password) {
         this.password = password;
     }
 
     public User(Long id, UserRole userRole) {
         this.id = id;
+        this.userRole = userRole;
+    }
+
+    public User(Long id, String email,String username, String password, UserRole userRole){
+        this.id =id;
+        this.email = email;
+        this.username = username;
+        this.password = password;
         this.userRole = userRole;
     }
 

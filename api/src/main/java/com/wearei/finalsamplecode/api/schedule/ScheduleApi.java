@@ -25,13 +25,13 @@ public class ScheduleApi {
     }
 
     @PatchMapping("/{scheduleId}")
-    public ApiResponse<ScheduleResponse.Update> updateSchedule(@PathVariable Long scheduleId, @RequestBody ScheduleRequest.Update request) {
-        return ApiResponse.onSuccess(new ScheduleResponse.Update(domainScheduleService.updateSchedule(scheduleId, request.teamId())));
+    public ApiResponse<ScheduleResponse.Update> updateSchedule(@AuthenticationPrincipal AuthUser authUser, @PathVariable Long scheduleId, @RequestBody ScheduleRequest.Update request) {
+        return ApiResponse.onSuccess(new ScheduleResponse.Update(domainScheduleService.updateSchedule(authUser.getUserId(), scheduleId, request.teamId())));
     }
 
     @GetMapping
     public ApiResponse<List<ScheduleResponse.GetAll>> getSchedules(@RequestBody Long teamId) {
-        List<Schedule> schedules = defaultScheduleService.getSchedules(teamId);
+        List<Schedule> schedules = defaultScheduleService.getTeamAllSchedules(teamId);
         List<ScheduleResponse.GetAll> responses = schedules.stream()
                 .map(ScheduleResponse.GetAll::new).toList();
         return ApiResponse.onSuccess(responses);
@@ -39,12 +39,12 @@ public class ScheduleApi {
 
     @GetMapping("/{scheduleId}")
     public ApiResponse<ScheduleResponse.Get> getSchedule(@PathVariable Long scheduleId, @RequestParam Long teamId) {
-        return ApiResponse.onSuccess(new ScheduleResponse.Get(defaultScheduleService.getSchedule(teamId, scheduleId)));
+        return ApiResponse.onSuccess(new ScheduleResponse.Get(defaultScheduleService.getTeamSchedule(teamId, scheduleId)));
     }
 
     @DeleteMapping("/{scheduleId}")
-    public ApiResponse<Void> deleteSchedule(@PathVariable Long scheduleId, @RequestParam Long teamId) {
-        domainScheduleService.deleteSchedule(scheduleId, teamId);
+    public ApiResponse<Void> deleteSchedule(@AuthenticationPrincipal AuthUser authUser, @PathVariable Long scheduleId, @RequestParam Long teamId) {
+        domainScheduleService.deleteSchedule(authUser.getUserId(), scheduleId, teamId);
         return ApiResponse.onSuccess(SuccessStatus._DELETION_SUCCESS.getMessage());
     }
 }

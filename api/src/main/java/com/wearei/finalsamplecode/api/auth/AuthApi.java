@@ -5,16 +5,17 @@ import com.wearei.finalsamplecode.api.auth.dto.response.AuthResponse;
 import com.wearei.finalsamplecode.common.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthApi {
+
     private final AuthService authService;
+
     // 회원가입
-    @PostMapping("/auth/sign-up")
+    @PostMapping("/sign-up")
     public ApiResponse<AuthResponse.SignUp> signup(
             @Valid
             @RequestBody AuthRequest.SignUp request) {
@@ -25,7 +26,7 @@ public class AuthApi {
     }
 
     // 로그인
-    @PostMapping("/auth/sign-in")
+    @PostMapping("/sign-in")
     public ApiResponse<AuthResponse.SignIn> signin(
             @Valid
             @RequestBody AuthRequest.SignIn request) {

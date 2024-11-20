@@ -38,6 +38,7 @@ public enum ErrorStatus implements BaseCode {
 
     // menu
     _NOT_FOUND_MENU(HttpStatus.NOT_FOUND, "404", "존재하지 않는 메뉴입니다."),
+    _INSUFFICIENT_INVENTORY(HttpStatus.BAD_REQUEST,"400","재고가 부족합니다."),
 
     // team
     _NOT_FOUND_TEAM(HttpStatus.NOT_FOUND, "404", "존재하지 않는 구단입니다."),
@@ -88,7 +89,14 @@ public enum ErrorStatus implements BaseCode {
     _NO_PERMISSION_BOARD_MODIFICATION(HttpStatus.NOT_FOUND, "403", "해당 게시글의 수정권한이 없습니다."),
 
     //like
-    _LIKES_DONT_ZERO(HttpStatus.BAD_REQUEST, "400", "0이하로 감소시킬수 없습니다.");
+    _LIKES_DONT_ZERO(HttpStatus.BAD_REQUEST, "400", "0이하로 감소시킬수 없습니다."),
+
+    // lock
+    _LOCK_ERROR(HttpStatus.BAD_REQUEST,"423","락을 획득하지 못했습니다."),
+
+    // parsing
+    _PARSING_ERROR(HttpStatus.BAD_REQUEST,"400","데이터 파싱 중 오류가 발생 했습니다.");
+
 
     private HttpStatus httpStatus;
     private String statusCode;

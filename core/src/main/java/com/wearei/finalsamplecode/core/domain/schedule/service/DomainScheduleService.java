@@ -24,6 +24,7 @@ public class DomainScheduleService {
     private final TeamRepository teamRepository;
 
     public Schedule createSchedule(Long userId, Long teamId, String title, String contents, String ground, LocalDate date, LocalTime time) {
+
         User user = userRepository.findByIdOrThrow(userId);
 
         Preconditions.validate(!user.isNotSameRole(UserRole.ROLE_ADMIN), ErrorStatus._NOT_OWNER_USER);
@@ -40,7 +41,12 @@ public class DomainScheduleService {
         ));
     }
 
-    public Schedule updateSchedule(Long scheduleId, Long teamId) {
+    public Schedule updateSchedule(Long userId, Long scheduleId, Long teamId) {
+
+        User user = userRepository.findByIdOrThrow(userId);
+
+        Preconditions.validate(!user.isNotSameRole(UserRole.ROLE_ADMIN), ErrorStatus._NOT_OWNER_USER);
+
         //구단 조회
         Team team = teamRepository.findByIdOrThrow(teamId);
 
@@ -61,7 +67,12 @@ public class DomainScheduleService {
         return schedule;
     }
 
-    public void deleteSchedule(Long scheduleId, Long teamId) {
+    public void deleteSchedule(Long userId, Long scheduleId, Long teamId) {
+
+        User user = userRepository.findByIdOrThrow(userId);
+
+        Preconditions.validate(!user.isNotSameRole(UserRole.ROLE_ADMIN), ErrorStatus._NOT_OWNER_USER);
+
         teamRepository.findByIdOrThrow(teamId);
 
         Schedule schedule = scheduleRepository.findByIdOrThrow(scheduleId);
