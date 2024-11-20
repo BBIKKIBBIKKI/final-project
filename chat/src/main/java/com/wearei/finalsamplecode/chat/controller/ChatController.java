@@ -42,7 +42,7 @@ public class ChatController {
 
     @GetMapping("/")
     public String home() {
-        return "채팅 어플리케이션 헬스체크 정상적";
+        return "index";
     }
 
     @ResponseBody
