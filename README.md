@@ -19,7 +19,7 @@
 ## 💜 팀소개
 | 팀장 | 부팀장 | 팀원 | 팀원 | 팀원 |
 | :------------: | :------------: |:------------:|:------------:|:------------:|
-|[@정은교](https://github.com/ekj1003)|[@이재희](https://github.com/leejaehee0807)|[@오현택](https://github.com/duduio2050)|[@박현국](https://github.com/HyunKook-Park)|[@전우성](https://github.com/jeunwoosung)|
+|[@정은교](https://github.com/ekj1003)|[@이재희](https://github.com/leejaehee0807)|[@오현택](https://github.com/duduio2050)|[@박현국](https://github.com/HyunKook-Park)
 
 ### [팀 노션](https://www.notion.so/teamsparta/7df9fd15fa05414c848d3e7d4d0c9266)
 
