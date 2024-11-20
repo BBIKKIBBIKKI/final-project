@@ -25,10 +25,9 @@ public class PlayerApi {
     @GetMapping("/ranking")
     public ApiResponse<List<PlayerResponse.Ranking>> getRankingByFollow(@RequestParam(defaultValue = "10") Integer limit){
         List<Player> players = defaultPlayerService.getRankingByFollow(limit);
-        return ApiResponse.onSuccess(
-                players.stream()
-                        .map(PlayerResponse.Ranking::new)
-                        .toList()
-        );
+        List<PlayerResponse.Ranking> rankings = players.stream()
+                .map(PlayerResponse.Ranking::new)
+                .toList();
+        return ApiResponse.onSuccess(rankings);
     }
 }

@@ -30,6 +30,8 @@ cloud:
       bucket: ${PROD_S3_BUCKET_NAME}
     stack.auto: false
     region.static: ap-northeast-2
+    cloudfront:
+      domain: ${PROD_CLOUD_FRONT}
     sqs:
       queue-name:
         queue: ${PROD_SQS_NAME}

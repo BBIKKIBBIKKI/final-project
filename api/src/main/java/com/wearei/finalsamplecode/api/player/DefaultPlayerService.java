@@ -1,5 +1,6 @@
 package com.wearei.finalsamplecode.api.player;
 
+import com.wearei.finalsamplecode.api.player.dto.response.PlayerResponse;
 import com.wearei.finalsamplecode.common.apipayload.status.ErrorStatus;
 import com.wearei.finalsamplecode.common.exception.ApiException;
 import com.wearei.finalsamplecode.core.domain.follow.service.DomainFollowService;
@@ -39,7 +40,7 @@ public class DefaultPlayerService {
 
         return ranking.stream()
                 .map(tuple -> {
-                    var id = (Integer) Objects.requireNonNull(tuple.getValue());
+                    Integer id = (Integer) Objects.requireNonNull(tuple.getValue());
 
                     return playerRepository.findById(id.longValue())
                       .orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_PLAYER));

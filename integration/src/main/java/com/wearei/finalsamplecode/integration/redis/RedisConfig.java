@@ -34,32 +34,6 @@ public class RedisConfig {
         template.setValueSerializer(new GenericJackson2JsonRedisSerializer()); // Json 직렬화
         return template;
     }
-//
-//    @Bean
-//    public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
-//        RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
-//                .entryTtl(Duration.ofMinutes(10)); // 만료 시간 설정
-//        return RedisCacheManager.builder(redisConnectionFactory)
-//                .cacheDefaults(redisCacheConfiguration)
-//                .build();
-//    }
-
-
-//    // 메세지 저장되는 컨테이너 팩토리 설정
-//    @Bean
-//    public RedisMessageListenerContainer redisContainer(RedisConnectionFactory connectionFactory, MessageListenerAdapter listenerAdapter) {
-//        RedisMessageListenerContainer container = new RedisMessageListenerContainer();
-//        container.setConnectionFactory(connectionFactory);
-//        container.addMessageListener(listenerAdapter, new PatternTopic("notification-channel"));
-//        return container;
-//    }
-//
-//    // redis pub / sub 사용하여 알림 받는 기능
-//    @Bean
-//    public MessageListenerAdapter listenerAdapter(RedisSubscribe redisSubscriber) {
-//        return new MessageListenerAdapter(redisSubscriber, "handleMessage");
-//
-//    }
 }
 
 

@@ -1,13 +1,11 @@
 package com.wearei.finalsamplecode.core.domain.follow.service;
 
-import com.wearei.finalsamplecode.core.domain.follow.repository.FollowRepository;
 import com.wearei.finalsamplecode.core.domain.follow.entity.Follow;
+import com.wearei.finalsamplecode.core.domain.follow.repository.FollowRepository;
 import com.wearei.finalsamplecode.core.domain.player.entity.Player;
 import com.wearei.finalsamplecode.core.domain.player.repository.PlayerRepository;
 import com.wearei.finalsamplecode.core.domain.user.entity.User;
 import com.wearei.finalsamplecode.core.domain.user.repository.UserRepository;
-import com.wearei.finalsamplecode.common.apipayload.status.ErrorStatus;
-import com.wearei.finalsamplecode.common.exception.ApiException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -34,9 +32,9 @@ public class DomainFollowService {
         /*
         * Redis Sorted Set 에 팔로우 수 업데이트
         * sorted set : 랭킹 작업에 최적화된 자료구조
-        * Key = playerId, score = 팔로우 수로 저장
+        * Key = FOLLOW_RANKING_KEY, Value = playerId, score = player.getFollow 팔로우 수로 저장
         * */
-        redisTemplate.opsForZSet().incrementScore(FOLLOW_RANKING_KEY, player.getId(), 1);
+        redisTemplate.opsForZSet().incrementScore(FOLLOW_RANKING_KEY, player.getId(), player.getFollow());
 
         return followRepository.save(
                 new Follow(user, player)
