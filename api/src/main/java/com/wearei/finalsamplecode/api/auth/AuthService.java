@@ -1,18 +1,16 @@
 package com.wearei.finalsamplecode.api.auth;
 
-import com.wearei.finalsamplecode.common.support.Preconditions;
-import com.wearei.finalsamplecode.security.JwtUtil;
 import com.wearei.finalsamplecode.common.apipayload.status.ErrorStatus;
 import com.wearei.finalsamplecode.common.enums.UserRole;
 import com.wearei.finalsamplecode.common.exception.ApiException;
+import com.wearei.finalsamplecode.common.support.Preconditions;
 import com.wearei.finalsamplecode.core.domain.user.entity.User;
 import com.wearei.finalsamplecode.core.domain.user.repository.UserRepository;
-import jakarta.servlet.http.HttpServletResponse;
+import com.wearei.finalsamplecode.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.Optional;
 
 @Service
 @Transactional

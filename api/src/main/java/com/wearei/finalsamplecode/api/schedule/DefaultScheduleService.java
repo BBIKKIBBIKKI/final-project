@@ -13,11 +13,11 @@ import java.util.List;
 public class DefaultScheduleService {
     private final ScheduleRepository scheduleRepository;
 
-    public List<Schedule> getSchedules(Long teamId) {
+    public List<Schedule> getTeamAllSchedules(Long teamId) {
         return scheduleRepository.findSchedulesByTeamId(teamId);
     }
 
-    public Schedule getSchedule(Long teamId, Long scheduleId) {
+    public Schedule getTeamSchedule(Long teamId, Long scheduleId) {
         return scheduleRepository.findByTeamIdAndId(teamId, scheduleId);
     }
 }
