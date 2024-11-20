@@ -7,7 +7,6 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
       # uses는 github actions에서 제공하는 플러그인을 실행.(git checkout 실행)
       - name: checkout
