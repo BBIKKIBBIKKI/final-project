@@ -73,19 +73,19 @@ jobs:
           file: ./Dockerfile_chat
           push: true
           tags: oht2050/bbikkibbikki-chat:latest
-#
-#      # ZIP 파일 생성
-#      - name: Create ZIP file for deployment
-#        run: zip -r deploy.zip docker-compose.yml other-source-files/*  # 필요한 파일들 포함
-#
-#      # Elastic Beanstalk 배포
-#      - name: Deploy to Elastic Beanstalk
-#        uses: einaregilsson/beanstalk-deploy@v14
-#        with:
-#          aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
-#          aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
-#          application_name: bbikkibbikki
-#          environment_name: Bbikkibbikki-env-2
-#          version_label: ${{ github.sha }}
-#          region: ap-northeast-2
-#          deployment_package: deploy.zip  # ZIP 파일의 이름
+
+      # ZIP 파일 생성
+      - name: Create ZIP file for deployment
+        run: zip -r deploy.zip docker-compose.yml other-source-files/*  # 필요한 파일들 포함
+
+      # Elastic Beanstalk 배포
+      - name: Deploy to Elastic Beanstalk
+        uses: einaregilsson/beanstalk-deploy@v14
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
+          application_name: bbikkibbikki
+          environment_name: Bbikkibbikki-env-2
+          version_label: ${{ github.sha }}
+          region: ap-northeast-2
+          deployment_package: deploy.zip  # ZIP 파일의 이름
