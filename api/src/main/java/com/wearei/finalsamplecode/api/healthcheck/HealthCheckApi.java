@@ -10,4 +10,9 @@ public class HealthCheckApi {
     public String home() {
         return "api 어플리케이션 헬스체크 정상적 2";
     }
+
+    @GetMapping("/healthCheck")
+    public String healthCheck() {
+        return "api 어플리케이션 헬스체크 정상적";
+    }
 }
