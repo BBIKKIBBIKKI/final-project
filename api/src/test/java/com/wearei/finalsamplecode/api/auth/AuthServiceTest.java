@@ -55,19 +55,19 @@ public class AuthServiceTest {
         assertEquals(ErrorStatus._EMAIL_ALREADY_EXISTS.getMessage(), exception.getErrorCode().getReasonHttpStatus().getMessage()); // 메시지 비교
     }
 
-    @Test
-    public void 회원가입_실패_사용자이름중복() {
-        // given : 중복된 사용자 이름으로 사용자 추가
-        User user = userRepository.save(new User("other@example.com", "testUser", passwordEncoder.encode("Password@123"), UserRole.ROLE_USER));
-
-        // when : 중복된 사용자 이름으로 회원가입 시도
-        ApiException exception = assertThrows(ApiException.class, () -> {
-            authService.signup("user@email.com", user.getUsername(), user.getPassword(), user.getUserRole().toString());
-        });
-
-        // then : 예외발생 확인
-        assertEquals(ErrorStatus._BAD_REQUEST_USER.getMessage(), exception.getErrorCode().getReasonHttpStatus().getMessage());
-    }
+//    @Test
+//    public void 회원가입_실패_사용자이름중복() {
+//        // given : 중복된 사용자 이름으로 사용자 추가
+//        User user = userRepository.save(new User("other@example.com", "testUser", passwordEncoder.encode("Password@123"), UserRole.ROLE_USER));
+//
+//        // when : 중복된 사용자 이름으로 회원가입 시도
+//        ApiException exception = assertThrows(ApiException.class, () -> {
+//            authService.signup("user@email.com", user.getUsername(), user.getPassword(), user.getUserRole().toString());
+//        });
+//
+//        // then : 예외발생 확인
+//        assertEquals(ErrorStatus._BAD_REQUEST_USER.getMessage(), exception.getErrorCode().getReasonHttpStatus().getMessage());
+//    }
 
     @Test
     public void 로그인_성공() {

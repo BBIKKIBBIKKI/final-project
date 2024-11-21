@@ -4,10 +4,6 @@ spring:
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
-  data:
-    redis:
-      host: ${REDIS_HOST}
-      port: ${REDIS_PORT}
 
   jpa:
     hibernate:
@@ -24,6 +20,11 @@ spring:
       max-file-size: 5MB
       max-request-size: 5MB
 
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+
 jwt:
   secret:
     key: ${JWT_SECRET_KEY}
@@ -34,6 +35,8 @@ cloud:
       bucket: ${S3_BUCKET_NAME}
     stack.auto: false
     region.static: ap-northeast-2
+    cloudfront:
+      domain: ${CLOUD_FRONT}
     sqs:
       queue-name:
         queue: ${SQS_NAME}

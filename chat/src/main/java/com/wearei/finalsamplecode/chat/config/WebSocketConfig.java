@@ -1,31 +1,31 @@
 package com.wearei.finalsamplecode.chat.config;
 
-import com.wearei.finalsamplecode.chat.repository.ChatRepository;
-import com.wearei.finalsamplecode.chat.service.ChatHandler;
-import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.socket.config.annotation.EnableWebSocket;
-import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
-import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
+import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
+import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
+import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
 @Configuration
-@EnableWebSocket
-@RequiredArgsConstructor
-public class WebSocketConfig implements WebSocketConfigurer {
-    private final ChatRepository roomRepository;
+//@RequiredArgsConstructor
+@EnableWebSocketMessageBroker
+public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
+
+
+    @Override
+    public void configureMessageBroker(MessageBrokerRegistry config) {
+        config.enableSimpleBroker("/sub"); // 메시지 구독 경로
+        config.setApplicationDestinationPrefixes("/pub"); // 메시지 발행 경로
+    }
 
     /**
      * /chat path 로 연결 시 웹 소켓 연결
      * setAllowedOrigins("*") -> 도메인 허용 설정
      */
     @Override
-    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(chatHandler(), "/chat").setAllowedOrigins("*");
-    }
-
-    @Bean
-    public ChatHandler chatHandler() {
-        return new ChatHandler(roomRepository);
+    public void registerStompEndpoints(StompEndpointRegistry registry) {
+        registry.addEndpoint("/chat")  // /chat 경로로 WebSocket 연결
+                .setAllowedOrigins("http://localhost:8080")
+                .withSockJS();  // SockJS 사용 설정
     }
 }

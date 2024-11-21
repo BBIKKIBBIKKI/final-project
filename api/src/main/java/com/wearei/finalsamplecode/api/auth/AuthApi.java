@@ -33,4 +33,15 @@ public class AuthApi {
         var token = authService.signin(request.email(), request.password());
         return ApiResponse.onSuccess(new AuthResponse.SignIn(token));
     }
+
+    @GetMapping("/")
+    public String home() {
+        return "api 어플리케이션 헬스체크 정상적";
+    }
+
+    @GetMapping("/healthCheck")
+    public String healthCheck() {
+        return "api 어플리케이션 헬스체크 정상적";
+    }
+
 }

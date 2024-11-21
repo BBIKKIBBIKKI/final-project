@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STOMP Chat</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.2/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #messages {
+            border: 1px solid #ccc;
+            height: 300px;
+            overflow-y: scroll;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        #messageInput {
+            width: 80%;
+            padding: 10px;
+        }
+        #sendButton {
+            padding: 10px 15px;
+        }
+    </style>
+</head>
+<body>
+<h1>STOMP WebSocket Chat</h1>
+<div id="messages"></div>
+<input type="text" id="messageInput" placeholder="Type your message here">
+<button id="sendButton">Send</button>
+
+<script>
+    // WebSocket + STOMP 클라이언트 초기화
+    const socket = new SockJS('/chat'); // '/chat' 엔드포인트와 연결
+    // const socket = new WebSocket('ws://localhost:8080/chat');
+    const stompClient = Stomp.over(socket);
+
+    const roomId = "test"; // 테스트할 Room ID
+    const messagesDiv = document.getElementById('messages');
+    const messageInput = document.getElementById('messageInput');
+    const sendButton = document.getElementById('sendButton');
+
+    // 채팅 기록을 서버에서 불러오기
+    fetch(`/chat/history/${roomId}`)
+        .then(response => response.json())
+        .then(messages => {
+            messages.forEach(message => {
+                const messageElement = document.createElement('p');
+                messageElement.textContent = `Server: ${message.content}`;
+                messagesDiv.appendChild(messageElement);
+            });
+            messagesDiv.scrollTop = messagesDiv.scrollHeight; // Scroll to the bottom
+        })
+        .catch(error => console.error('Error fetching chat history:', error));
+
+    // 연결 시작
+    if (!stompClient.connected) {
+        stompClient.connect({}, (frame) => {
+            // console.log('Connected to WebSocket server');
+            // console.log('Connected to WebSocket server : ' + frame);
+            //
+            // // 연결 상태 정보를 제대로 출력하기 위해 frame.headers 사용
+            // if (frame && frame.headers) {
+            //     console.log('Connected headers:', frame.headers); // 헤더 정보 출력
+            // }
+
+            // /sub/{roomId} 구독
+            stompClient.subscribe(`/sub/chat/${roomId}`, (message) => {
+                const receivedMessage = JSON.parse(message.body);
+                const messageElement = document.createElement('p');
+                messageElement.textContent = `${receivedMessage.sender}: ${receivedMessage.content}`;
+                messagesDiv.appendChild(messageElement);
+                messagesDiv.scrollTop = messagesDiv.scrollHeight; // Scroll to the bottom
+            });
+
+            stompClient.send(`/pub/chat/join/${roomId}`, {}, JSON.stringify({
+                sender: "User",
+                content: "joined",
+                sendTime: new Date()
+            }));
+        });
+    }
+
+    // 메시지 전송
+    sendButton.addEventListener('click', () => {
+        const content = messageInput.value.trim();
+        if (content) {
+            // /pub/chat/{roomId}로 메시지 전송
+            const chatMessage = {
+                sender: "User", // 사용자 이름
+                content: content,
+                type: "CHAT", // 메시지 타입
+                sendTime : new Date().toISOString().slice(0, -1)
+            };
+
+            console.log(roomId);
+
+            stompClient.send(`/pub/chat/${roomId}`, {}, JSON.stringify(chatMessage));
+
+            const sentMessage = document.createElement('p');
+            sentMessage.textContent = `You: ${content}`;
+            sentMessage.style.color = 'blue';
+            messagesDiv.appendChild(sentMessage);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+            messageInput.value = ''; // 입력 필드 초기화
+        }
+    });
+
+    // Enter 키로 메시지 전송
+    messageInput.addEventListener('keypress', (event) => {
+        if (event.key === 'Enter') {
+            sendButton.click();
+        }
+    });
+</script>
+</body>
+</html>
