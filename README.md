@@ -6,15 +6,13 @@
 <br/><br/><br/>
 
 ## ⚾️ API MODULE 실행 방법
-1. **git clone**
-2. **api/src/main/resources/application-local.yml 환경 변수 셋팅**
-3. **application 실행**
+1. **api/src/main/resources/application-local.yml 환경 변수 셋팅**
+2. **application 실행**
 <br/><br/><br/>
 
 ## ⚾️ CHAT MODULE 실행 방법
-1. **git clone**
-2. **chat/src/main/resources/application-local.yml 환경 변수 셋팅**
-3. **application 실행**
+1. **chat/src/main/resources/application-local.yml 환경 변수 셋팅**
+2. **application 실행**
 <br/><br/><br/>
 
 
