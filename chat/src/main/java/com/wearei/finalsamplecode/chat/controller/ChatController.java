@@ -48,6 +48,6 @@ public class ChatController {
     @ResponseBody
     @GetMapping("/healthCheck")
     public String healthCheck() {
-        return "채팅 어플리케이션 헬스체크 정상적";
+        return "{\"status\":\"ok\"}";
     }
 }

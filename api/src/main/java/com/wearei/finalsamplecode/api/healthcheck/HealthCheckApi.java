@@ -13,6 +13,6 @@ public class HealthCheckApi {
 
     @GetMapping("/healthCheck")
     public String healthCheck() {
-        return "api 어플리케이션 헬스체크 정상적";
+        return "{\"status\":\"ok\"}";
     }
 }

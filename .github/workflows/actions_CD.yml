@@ -105,4 +105,5 @@ jobs:
 
       - name : healthCheck
         run : | 
-          sleep 60
+          echo 'healthCheck 시작'
+          sleep 300
