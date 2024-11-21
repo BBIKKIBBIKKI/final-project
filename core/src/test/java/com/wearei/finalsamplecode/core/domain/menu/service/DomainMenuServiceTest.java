@@ -45,11 +45,11 @@ class DomainMenuServiceTest {
         given(userRepository.findByIdOrThrow(user.getId())).willReturn(user);
         given(domainStoreService.checkStore(anyLong())).willReturn(store);
 
-        Menu menu = new Menu(store,"메뉴",1000L, user);
+        Menu menu = new Menu(store,"메뉴",1000L, user, 100L);
 
         given(menuRepository.save(any())).willReturn(menu);
         // when
-        Menu createdMenu = domainMenuService.createMenu(user.getId(), store.getId(),menu.getMenuName(),menu.getPrice());
+        Menu createdMenu = domainMenuService.createMenu(user.getId(), store.getId(),menu.getMenuName(),menu.getPrice(), menu.getInventory());
 
         assertNotNull(createdMenu);
         assertEquals(menu.getMenuName(), createdMenu.getMenuName());
@@ -64,11 +64,12 @@ class DomainMenuServiceTest {
         Long storeId = 1L;
         String menuName = "menu";
         Long price = 1000L;
+        Long inventory = 100L;
 
         given(userRepository.findByIdOrThrow(invalidId)).willThrow(new ApiException(ErrorStatus._NOT_FOUND_USER));
 
         ApiException exception = assertThrows(ApiException.class, () -> {
-            domainMenuService.createMenu(invalidId,storeId,menuName,price);
+            domainMenuService.createMenu(invalidId,storeId,menuName,price,inventory);
         });
 
         assertEquals(ErrorStatus._NOT_FOUND_USER.getMessage(), exception.getErrorCode().getReasonHttpStatus().getMessage());
@@ -81,12 +82,13 @@ class DomainMenuServiceTest {
         Long invalidStoreId = 999L;
         String menuName = "menu";
         Long price = 1000L;
+        Long inventory = 100L;
 
         given(userRepository.findByIdOrThrow(user.getId())).willReturn(user);
         given(domainStoreService.checkStore(invalidStoreId)).willThrow(new ApiException(ErrorStatus._NOT_FOUND_STORE));
 
         ApiException exception = assertThrows(ApiException.class, () -> {
-            domainMenuService.createMenu(user.getId(),invalidStoreId,menuName,price);
+            domainMenuService.createMenu(user.getId(),invalidStoreId,menuName,price, inventory);
         });
 
         assertEquals(ErrorStatus._NOT_FOUND_STORE.getMessage(), exception.getErrorCode().getReasonHttpStatus().getMessage());
@@ -98,7 +100,7 @@ class DomainMenuServiceTest {
         User user = new User(userId, UserRole.ROLE_OWNER);
         Long storeId = 1L;
         Store store = new Store(storeId);
-        Menu menu = new Menu(store,"메뉴",1000L, user);
+        Menu menu = new Menu(store,"메뉴",1000L, user,100L);
 
         given(userRepository.findByIdOrThrow(user.getId())).willReturn(user);
         given(domainStoreService.checkStore(anyLong())).willReturn(store);

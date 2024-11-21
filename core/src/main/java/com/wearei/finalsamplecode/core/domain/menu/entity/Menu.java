@@ -27,11 +27,15 @@ public class Menu extends BaseEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    public Menu(Store store, String menuName, Long price, User user) {
+    @Column(nullable = false)
+    private Long inventory;
+
+    public Menu(Store store, String menuName, Long price, User user, Long inventory) {
         this.store = store;
         this.menuName = menuName;
         this.price = price;
         this.user = user;
+        this.inventory = inventory;
     }
 
     public void update(String menuName, Long price) {

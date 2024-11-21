@@ -17,4 +17,7 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
     default Player findByPlayerIdOrThrow(Long playerId) {
         return findById(playerId).orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_PLAYER));
     }
+
+    @Query("SELECT p.id, p.follow FROM Player p")
+    List<Object[]> findPlayerFollowCounts();
 }
