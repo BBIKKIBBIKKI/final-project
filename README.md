@@ -18,7 +18,20 @@
 
 **“야구 너도 할 수 있어”** 야구의 야자도 모르는 "**야린이**"들을 **야구 입문소 커뮤니티**
 야구 규칙부터 선수 덕질까지, 광범위한 정보를 쉽고 재미있게 배울 수 있습니다. 팬덤 활동을 즐기고, 좋아하는 선수를 알아가며, 야구의 매력을 함께 알아볼까요?
-<br/><br/><br/>
+<br/><br/>
+<img src="https://img.shields.io/badge/Java-007396?style=flat-square&logo=java&logoColor=white"/> <img src="https://img.shields.io/badge/Spring Framework-008000?style=flat-square&logo=spring&logoColor=white"/> <img src="https://img.shields.io/badge/Spring Boot-008000?style=flat-square&logo=springboot&logoColor=white"/> <img src="https://img.shields.io/badge/Amazon ElastiCache-0073BB?style=flat-square&logo=amazonelasticache&logoColor=white"/> <img src="https://img.shields.io/badge/Docker-0db7ed?style=flat-square&logo=docker&logoColor=white"/> <img src="https://img.shields.io/badge/Git-F05033?style=flat-square&logo=git&logoColor=white"/> <img src="https://img.shields.io/badge/Github-181717?style=flat-square&logo=github&logoColor=white"/> <img src="https://img.shields.io/badge/AWS-FF9900?style=flat-square&logo=amazonwebservices&logoColor=white"/> <img src="https://img.shields.io/badge/Amazon EC2-FF9900?style=flat-square&logo=amazonec2&logoColor=white"/> <img src="https://img.shields.io/badge/Amazon S3-D86613?style=flat-square&logo=amazons3&logoColor=white"/> <img src="https://img.shields.io/badge/Amazon SQS-F2B619?style=flat-square&logo=amazonsqs&logoColor=white"/> <img src="https://img.shields.io/badge/AWS%20Elastic%20Beanstalk-6AA84F?style=flat-square&logo=amazonaws&logoColor=white"/> <img src="https://img.shields.io/badge/GitHub Actions-2088FF?style=flat-square&logo=githubactions&logoColor=white"/> <img src="https://img.shields.io/badge/Apache JMeter-E2231A?style=flat-square&logo=apachejmeter&logoColor=white"/> <img src="https://img.shields.io/badge/Notion-000000?style=flat-square&logo=notion&logoColor=white"/> <img src="https://img.shields.io/badge/Slack-E01E5A?style=flat-square&logo=slack&logoColor=white"/> <img src="https://img.shields.io/badge/Redis-DC382D?style=flat-square&logo=redis&logoColor=white"/> <img src="https://img.shields.io/badge/Cloud Front-F58536?style=flat-square&logo=amazonwebservices&logoColor=white"/> <img src="https://img.shields.io/badge/Amazon Route53-FF9900?style=flat-square&logo=amazonroute53&logoColor=white"/> <img src="https://img.shields.io/badge/AWS Elastic LoadBalancing-8C4B9B?style=flat-square&logo=awselasticloadbalancing&logoColor=white"/> <img src="https://img.shields.io/badge/Amazon RDS-0073BB?style=flat-square&logo=amazonrds&logoColor=white"/> <img src="https://img.shields.io/badge/CI/CD-28A745?style=flat-square&logo=circleci&logoColor=white"/>
+
+
+
+
+
+
+
+
+
+
+
+<br/>
 
 ## ⚾️ 프로젝트 핵심 목표
 
@@ -85,6 +98,7 @@
 **결론**:
 - 락 미적용 상태에서는 동시성 문제로 인해 데이터 충돌 발생.
 - 음수 재고가 기록되며, 데이터 무결성이 크게 훼손됨.
+  ![3](https://github.com/user-attachments/assets/84a08e76-8f79-4035-a4b4-b9169ee291e2)
 
 </details>
 
@@ -101,6 +115,8 @@
 **결론**:
 - 락이 적용된 경우, 정확히 100개의 주문이 처리되었으며, 재고 부족 상태에서 새로운 주문이 발생하지 않음.
 - 모든 스레드에서 데이터 무결성이 유지됨.
+![image](https://github.com/user-attachments/assets/0f2c99a5-03f7-48c2-b8ed-611617dd30e2)
+![2](https://github.com/user-attachments/assets/bd8aa5af-670b-43cd-827b-ee2aa788a8ce)
 
 </details>
 
@@ -479,8 +495,8 @@
 사전 주문 시스템의 효율적 운영을 위해 높은 동시성을 지원하고 데이터 일관성을 보장하는 분산락 방식을 선택했습니다. 이를 통해 주문 처리가 보다 신속하고 안정적으로 이루어질 수 있으며, 관중들이 대기 시간을 줄이고 보다 편리하게 경기를 관람할 수 있도록 지원할 수 있습니다.
 
  <br/><br/>
-   </details>
 
+   </details>   
    <details>
 <summary><b> Redis Cache </b></summary>
      
@@ -524,8 +540,111 @@
 TTL 설정은 자정 외의 시간에서도 일정 주기마다 캐시를 유지하고 싶을 때 유용합니다.
    <br/><br/>
    </details>
+   
+  <details>
+<summary><b> Indexing </b></summary><br/>
+     선수를 검색할 때, 인덱싱을 설정하여 선수 검색 속도를 향상시켰습니다. 위의 3개의 테스트는 실패하였고, 아래 2개의 테스트는 성공하였습니다.
+     <br/><br/>
+     <details>
+        <summary> ❌ 10만명 players</summary><br/>
+           <details>
+           <summary> 인덱스 1개 적용 </summary>
+           <br/>
+           SELECT * FROM players WHERE player_name = '정지원';
+
+⇒ 2번의 테스트를 했으나, 인덱스를 잘못 설정한 것 같다.
+
+- **평균 실행 시간**이 인덱싱 후 증가 (0.005018초 → 0.005739초).
+- **최대 실행 시간**은 인덱싱 후에 약 두 배 이상 증가 (0.043525초 → 0.079399초).
+
+⇒ 아무래도, player_name의 중복도가 높아 발생한 것 같다.
+
+⇒ 인덱스를 player_name, player_id로 2개 설정하였다.
+<br/>
+        </details>
+        <details>
+           <summary> 인덱스 2개 적용 </summary>
+           SELECT * FROM players WHERE player_name = '정지원';
+
+### 1. **인덱스 적용 전**
+
+- **파일 1**:
+    - 평균 실행 시간: 0.003061초
+        - 최소 실행 시간: 0.000100초
+        - 최대 실행 시간: 0.038680초
+    - **파일 2**:
+        - 평균 실행 시간: 0.002979초
+        - 최소 실행 시간: 0.000053초
+        - 최대 실행 시간: 0.038885초
+    - **파일 3**:
+        - 평균 실행 시간: 0.003079초
+        - 최소 실행 시간: 0.000101초
+        - 최대 실행 시간: 0.042486초
+    
+    ### 2. **인덱스 1개 적용 후**
+    
+    - **파일 1**:
+        - 평균 실행 시간: 0.004245초
+        - 최소 실행 시간: 0.000082초
+        - 최대 실행 시간: 0.056506초
+    - **파일 2**:
+        - 평균 실행 시간: 0.005739초
+        - 최소 실행 시간: 0.000139초
+        - 최대 실행 시간: 0.079399초
+    - **파일 3**:
+        - 평균 실행 시간: 0.005677초
+        - 최소 실행 시간: 0.000085초
+        - 최대 실행 시간: 0.045023초
+    
+    ### 3. **인덱스 2개 적용 후**
+    
+    - **파일 1**:
+        - 평균 실행 시간: 0.003278초
+        - 최소 실행 시간: 0.000068초
+        - 최대 실행 시간: 0.042980초
+    - **파일 2**:
+        - 평균 실행 시간: 0.003646초
+        - 최소 실행 시간: 0.000082초
+        - 최대 실행 시간: 0.051115초
+    - **파일 3**:
+        - 평균 실행 시간: 0.003268초
+        - 최소 실행 시간: 0.000073초
+        - 최대 실행 시간: 0.039152초
+    
+    ### 결론:
+    
+    1. **인덱스 1개 적용 후** 평균 실행 시간이 증가했으며, 최대 실행 시간도 전반적으로 증가했습니다.
+    2. **평균 실행 시간**은 인덱스 2개 적용 후에 약간 증가했습니다:
+        - 파일 1: 0.003061초 → 0.003278초
+        - 파일 2: 0.002979초 → 0.003646초
+        - 파일 3: 0.003079초 → 0.003268초
+    3. **최소 실행 시간**은 인덱스 2개 적용 후에 약간 감소했습니다, 이는 인덱스 적용 후 일부 쿼리가 더 빠르게 실행된다는 것을 의미할 수 있습니다.
+    4. **최대 실행 시간**은 인덱스 적용 후 전반적으로 증가했습니다, 특히 파일 2에서 최대 실행 시간이 증가하여 0.051115초에 도달했습니다.
+        </details>
+     </details>
+     <details> 
+        <summary> ❌ 50만명 players </summary><br/>
+        <details>
+           <summary> 평균 실행 시간 </summary>
+           <br/>
+           인덱스 전: 0.000821
+           <br/>
+인덱스 1개 후: 0.001032
+<br/>
+인덱스 2개 후: 0.001110
+        </details>
+      
+     </details>
+     <details> <summary>  ⚠️ 100만명 players </summary>
+        <details> <summary> 평균 실행 시간 </summary>
+        
+      
+        
+     </details>
+</details>
 
 <br/><br/><br/>
+
 
 ## ⚾️ 역할 분담 및 협업 방식
 ### 📌 역할 분담
