@@ -22,15 +22,6 @@
 <img src="https://img.shields.io/badge/Java-007396?style=flat-square&logo=java&logoColor=white"/> <img src="https://img.shields.io/badge/Spring Framework-008000?style=flat-square&logo=spring&logoColor=white"/> <img src="https://img.shields.io/badge/Spring Boot-008000?style=flat-square&logo=springboot&logoColor=white"/> <img src="https://img.shields.io/badge/Amazon ElastiCache-0073BB?style=flat-square&logo=amazonelasticache&logoColor=white"/> <img src="https://img.shields.io/badge/Docker-0db7ed?style=flat-square&logo=docker&logoColor=white"/> <img src="https://img.shields.io/badge/Git-F05033?style=flat-square&logo=git&logoColor=white"/> <img src="https://img.shields.io/badge/Github-181717?style=flat-square&logo=github&logoColor=white"/> <img src="https://img.shields.io/badge/AWS-FF9900?style=flat-square&logo=amazonwebservices&logoColor=white"/> <img src="https://img.shields.io/badge/Amazon EC2-FF9900?style=flat-square&logo=amazonec2&logoColor=white"/> <img src="https://img.shields.io/badge/Amazon S3-D86613?style=flat-square&logo=amazons3&logoColor=white"/> <img src="https://img.shields.io/badge/Amazon SQS-F2B619?style=flat-square&logo=amazonsqs&logoColor=white"/> <img src="https://img.shields.io/badge/AWS%20Elastic%20Beanstalk-6AA84F?style=flat-square&logo=amazonaws&logoColor=white"/> <img src="https://img.shields.io/badge/GitHub Actions-2088FF?style=flat-square&logo=githubactions&logoColor=white"/> <img src="https://img.shields.io/badge/Apache JMeter-E2231A?style=flat-square&logo=apachejmeter&logoColor=white"/> <img src="https://img.shields.io/badge/Notion-000000?style=flat-square&logo=notion&logoColor=white"/> <img src="https://img.shields.io/badge/Slack-E01E5A?style=flat-square&logo=slack&logoColor=white"/> <img src="https://img.shields.io/badge/Redis-DC382D?style=flat-square&logo=redis&logoColor=white"/> <img src="https://img.shields.io/badge/Cloud Front-F58536?style=flat-square&logo=amazonwebservices&logoColor=white"/> <img src="https://img.shields.io/badge/Amazon Route53-FF9900?style=flat-square&logo=amazonroute53&logoColor=white"/> <img src="https://img.shields.io/badge/AWS Elastic LoadBalancing-8C4B9B?style=flat-square&logo=awselasticloadbalancing&logoColor=white"/> <img src="https://img.shields.io/badge/Amazon RDS-0073BB?style=flat-square&logo=amazonrds&logoColor=white"/> <img src="https://img.shields.io/badge/CI/CD-28A745?style=flat-square&logo=circleci&logoColor=white"/>
 
 
-
-
-
-
-
-
-
-
-
 <br/>
 
 ## ⚾️ 프로젝트 핵심 목표
@@ -387,7 +378,7 @@
 
     Elastic Beanstalk은 인프라 관리의 효율성과 확장성을 제공하며, 초기 설정 이후 애플리케이션 배포와 운영을 자동화하여 운영 부담을 크게 줄여줍니다. EC2를 수동으로 관리하는 방식은 운영 인프라에 많은 시간과 비용이 소요되고, Kubernetes는 관리와 설정의 복잡성이 커서 소규모 서비스에는 적합하지 않다는 점에서 Elastic Beanstalk을 도입하는 것이 최적의 선택이었습니다. Elastic Beanstalk을 통해 자동 확장, 모니터링, 성능 관리의 용이성을 확보하고, 서비스의 안정성과 신뢰성을 높일 수 있어 최종적으로 Elastic Beanstalk을 도입하기로 결정하였습니다.
    <br/><br/>
-   </details>
+</details>
 
 <details>
 <summary><b> Redis Pub/Sub </b></summary>
@@ -419,9 +410,9 @@
 
     - Auto Scaling 환경에서 서버 간 채팅 메시지 동기화 문제를 해결하기 위해 Redis Pub/Sub을 사용하면 각 인스턴스가 Redis를 통해 메시지를 주고받으며 동기화 문제를 해소할 수 있습니다.
    <br/><br/>
-   </details>
+</details>
 
-   <details>
+<details>
 <summary><b> AWS SQS </b></summary>
 
 1. **문제 상황**
@@ -443,7 +434,7 @@
 
     위와 같은 이유로 SQS를 메시징 서비스로 최종 도입하게 되었습니다. SQS는 규모에 적합한 이벤트 전달 방식이며, AWS에서 관리하는 서비스로써 초기 설치나 복잡한 설정 없이 쉽게 사용할 수 있습니다. Kafka나 Kinesis는 대용량 분산 환경에 더 적합하고, Redis나 RabbitMQ는 설정과 유지보수의 복잡성이 요구되어 본 프로젝트의 요구사항에 적합하지 않다고 판단되었습니다. SQS는 주문 상태 변경과 같은 단순한 이벤트 처리에 최적화된 선택지로서, 유지 관리가 간편하고 비용 효율적이며 프로젝트의 목표에 가장 부합하는 도구였습니다.
    <br/><br/>
-   </details>
+</details>
 
 <details>
 <summary><b> Gradle Multimodule </b></summary>
@@ -471,9 +462,9 @@
     
     Gradle Multi-Module 구조는 프로젝트를 체계적으로 관리하고, 모듈별로 독립성과 유연성을 유지하면서도 통합된 빌드 환경을 제공하여 개발 효율성을 크게 향상시킬 수 있습니다. 프로젝트를 모듈화함으로써 개발 속도와 코드 유지보수성이 증가하고, 팀 협업 시 각 모듈을 독립적으로 작업할 수 있어 개발 프로세스가 개선됩니다. 단일 프로젝트나 개별 레포지토리 분리의 경우 유지보수와 통합이 복잡해질 수 있어, Gradle Multi-Module 구조를 채택하는 것이 가장 적합한 선택으로 판단되었습니다.
    <br/><br/>
-   </details>
+</details>
 
-   <details>
+<details>
 <summary><b> 동시성 제어 </b></summary>
 
 
@@ -496,8 +487,9 @@
 
  <br/><br/>
 
-   </details>   
-   <details>
+</details> 
+
+<details>
 <summary><b> Redis Cache </b></summary>
      
 ### 도입 이유
@@ -526,12 +518,12 @@
 
 ### 대안 비교
 
-| 전략 | 장점 | 단점 | 적용 시기 |
-| --- | --- | --- | --- |
-| Write-Through | 실시간 일관성 유지, 빠른 업데이트 | 캐시와 DB 모두 업데이트하므로 약간의 오버헤드 | 팔로우 변경이 빈번히 발생하는 경우 |
-| Read-Through | 조회 시 빠른 응답 속도, DB 부하 감소 | 캐시 미스 시 초기 조회 지연 | 조회가 빈번히 발생하는 경우 |
-| TTL 기반 초기화 | 주기적인 캐시 정리와 메모리 최적화 | 정해진 시간에만 초기화되어 실시간성을 보장하지 못할 수 있음 | 데이터가 오래될 때 |
-| 스케줄러 기반 초기화 | 정확한 시간에 캐시 일관성 보장 | 초기화 주기 설정이 고정적 | 자정 기준으로 캐시 정리가 필요한 경우 |
+| 전략                 | 장점                                 | 단점                                                        | 적용 시기                             |
+| -------------------- | ------------------------------------ | ----------------------------------------------------------- | ------------------------------------- |
+| Write-Through        | 실시간 일관성 유지, 빠른 업데이트    | 캐시와 DB 모두 업데이트하므로 약간의 오버헤드               | 팔로우 변경이 빈번히 발생하는 경우    |
+| Read-Through         | 조회 시 빠른 응답 속도, DB 부하 감소 | 캐시 미스 시 초기 조회 지연                                 | 조회가 빈번히 발생하는 경우           |
+| TTL 기반 초기화      | 주기적인 캐시 정리와 메모리 최적화   | 정해진 시간에만 초기화되어 실시간성을 보장하지 못할 수 있음 | 데이터가 오래될 때                    |
+| 스케줄러 기반 초기화 | 정확한 시간에 캐시 일관성 보장       | 초기화 주기 설정이 고정적                                   | 자정 기준으로 캐시 정리가 필요한 경우 |
 
 ### 결론
 
@@ -539,35 +531,23 @@
 다만, 캐시와 DB 간의 일관성을 보완하기 위해 현재처럼 스케줄러로 자정마다 캐시를 초기화하는 추가 전략이 필요하며, 
 TTL 설정은 자정 외의 시간에서도 일정 주기마다 캐시를 유지하고 싶을 때 유용합니다.
    <br/><br/>
-   </details>
-   
-  <details>
-<summary><b> Indexing </b></summary><br/>
-     선수를 검색할 때, 인덱싱을 설정하여 선수 검색 속도를 향상시켰습니다. 위의 3개의 테스트는 실패하였고, 아래 2개의 테스트는 성공하였습니다.
-     <br/><br/>
-     <details>
-        <summary> ❌ 10만명 players</summary><br/>
-           <details>
-           <summary> 인덱스 1개 적용 </summary>
-           <br/>
-           SELECT * FROM players WHERE player_name = '정지원';
+</details>
 
-⇒ 2번의 테스트를 했으나, 인덱스를 잘못 설정한 것 같다.
-
-- **평균 실행 시간**이 인덱싱 후 증가 (0.005018초 → 0.005739초).
-- **최대 실행 시간**은 인덱싱 후에 약 두 배 이상 증가 (0.043525초 → 0.079399초).
-
-⇒ 아무래도, player_name의 중복도가 높아 발생한 것 같다.
-
-⇒ 인덱스를 player_name, player_id로 2개 설정하였다.
-<br/>
-        </details>
-        <details>
-           <summary> 인덱스 2개 적용 </summary>
-           SELECT * FROM players WHERE player_name = '정지원';
+<details> <summary> <b>Indexing</b> </summary>
+   <details>
+      <summary> ❌ 10만명 players </summary>
+         <details> <summary> 인덱스 1개 적용</summary>
+            <br>SELECT * FROM players WHERE player_name = '정지원';<br>
+            ⇒ 2번의 테스트를 했으나, 인덱스를 잘못 설정한 것 같다.<br>
+- **평균 실행 시간**이 인덱싱 후 증가 (0.005018초 → 0.005739초).<br>
+- **최대 실행 시간**은 인덱싱 후에 약 두 배 이상 증가 (0.043525초 → 0.079399초).<br>
+⇒ 아무래도, `player_name`의 중복도가 높아 발생한 것 같다.<br>
+⇒ 인덱스를 `player_name`, `player_id`로 2개 설정하였다.<br>
+         </details>
+         <details> <summary> 인덱스 2개 적용</summary>
+            <br>SELECT * FROM players WHERE player_name = '정지원';<br>
 
 ### 1. **인덱스 적용 전**
-
 - **파일 1**:
     - 평균 실행 시간: 0.003061초
         - 최소 실행 시간: 0.000100초
@@ -597,7 +577,6 @@ TTL 설정은 자정 외의 시간에서도 일정 주기마다 캐시를 유지
         - 최대 실행 시간: 0.045023초
     
     ### 3. **인덱스 2개 적용 후**
-    
     - **파일 1**:
         - 평균 실행 시간: 0.003278초
         - 최소 실행 시간: 0.000068초
@@ -620,40 +599,66 @@ TTL 설정은 자정 외의 시간에서도 일정 주기마다 캐시를 유지
         - 파일 3: 0.003079초 → 0.003268초
     3. **최소 실행 시간**은 인덱스 2개 적용 후에 약간 감소했습니다, 이는 인덱스 적용 후 일부 쿼리가 더 빠르게 실행된다는 것을 의미할 수 있습니다.
     4. **최대 실행 시간**은 인덱스 적용 후 전반적으로 증가했습니다, 특히 파일 2에서 최대 실행 시간이 증가하여 0.051115초에 도달했습니다.
-        </details>
-     </details>
-     <details> 
-        <summary> ❌ 50만명 players </summary><br/>
-        <details>
-           <summary> 평균 실행 시간 </summary>
-           <br/>
-           인덱스 전: 0.000821
-           <br/>
-인덱스 1개 후: 0.001032
-<br/>
-인덱스 2개 후: 0.001110
-        </details>
-      
-     </details>
-     <details> <summary>  ⚠️ 100만명 players </summary>
-        <details> <summary> 평균 실행 시간 </summary>
-        
-      
-        
-     </details>
-</details>
+         </details>
+   </details>
+   <details><summary> ❌ 50만명 players </summary>
+      <details>
+         <summary> 평균 실행 시간 </summary>
+            <br>인덱스 전: 0.000821<br>
+            인덱스 1개 후: 0.001032<br>
+            인덱스 2개 후: 0.001110
+      </details>
+   </details>
+   <details><summary> ⚠️ 100만명 players </summary>
+      <details><summary> 평균 실행시간 </summary>
+         <img width="680" alt="스크린샷 2024-11-21 오후 6 01 36" src="https://github.com/user-attachments/assets/dbce6e08-2046-4d1a-8ec3-71ecf05acd06">
+      </details>
+      <details><summary> 테스트 방법</summary>
+         <img width="426" alt="스크린샷 2024-11-21 오후 6 05 32" src="https://github.com/user-attachments/assets/a53356d4-8d91-4aa6-861e-c9ec5eb0e5c1">
+         <img width="401" alt="스크린샷 2024-11-21 오후 6 05 53" src="https://github.com/user-attachments/assets/df9ec9a6-211e-4591-b408-5c62c528a30b">
+      </details>
+   </details>
+   <details><summary> ✅ 100만명 players with 다른 indexes </summary>
+      <details><summary> 테스트 결과 </summary>
+         <img width="652" alt="스크린샷 2024-11-21 오후 6 08 52" src="https://github.com/user-attachments/assets/2ffdaa0d-a0c9-4141-9a0d-03a7b61205e6">
+      </details>
+      <details><summary> 테스트 방법 </summary>
+         <img width="645" alt="스크린샷 2024-11-21 오후 6 09 40" src="https://github.com/user-attachments/assets/436f3c00-9906-4f8e-bebc-bf756561d1e0">
+      </details>
+   </details>
+   <details><summary> ✅ 부하테스트 </summary>
+      <br><b> 테스트 진행 </b>
+      <br> : 인덱싱 전/후 각각 5번 테스트 진행<br/>
+      <details><summary> 시나리오 </summary>
+         : 10명의 가상 사용자가 1초 간격으로 모두 시작하여, 각자 5번의 반복 루프 동안 총 100개의 요청을 보내고, 전체적으로 약 1초에 100개의 요청이 전송되도록 조절하여 <b>총 1000개의 HTTP 요청</b>을 1분에 걸쳐 전송.
+      </details>
+      <details><summary> 데이터 목록 </summary>
+         <details><summary> 인덱스 전 </summary>
+            <img width="612" alt="스크린샷 2024-11-21 오후 6 22 34" src="https://github.com/user-attachments/assets/9f1872d2-cfd0-4449-bb7b-933ca5b21b3e">
+         </details>
+         <details><summary> 인덱스 후 </summary>
+            <img width="612" alt="스크린샷 2024-11-21 오후 6 22 53" src="https://github.com/user-attachments/assets/87aa7e5b-b486-4e15-a0f1-268cea0bffa1">
+         </details>
+         <details><summary> 인덱스 전/후 결과 </summary>
+            <img width="646" alt="스크린샷 2024-11-21 오후 6 25 02" src="https://github.com/user-attachments/assets/7735b8fe-be24-4ea8-83ae-3099b0047b80">
+         </details>
+         <details><summary> 성능 개선 그래프 </summary>
+            <img width="633" alt="스크린샷 2024-11-21 오후 6 25 26" src="https://github.com/user-attachments/assets/5dbe697e-091c-4f09-a97d-d431e4ab1df4">
+         </details>
+      </details>
+   </details>
+</details>   
 
-<br/><br/><br/>
 
 
 ## ⚾️ 역할 분담 및 협업 방식
 ### 📌 역할 분담
-| 역할 | 이름 | 역할 설명 |
-| :------------: | :------------: | :------------ |
-| **👑 팀장** | [@정은교](https://github.com/ekj1003) | - 프로젝트 전체 관리 및 방향 설정<br>- 주요 의사결정과 팀 내 소통 담당 <br>- 구단/구장/선수(CRUD) <br>- AWS S3 <br>- Indexing <br>- MultiModule <br>- AWS RDS <br>- OAuth 2.0 카카오 소셜로그인|
-| **👑 부팀장** | [@이재희](https://github.com/leejaehee0807) | - 팀장 보조 및 작업 분배<br>- 주요 문서 작성 및 발표 자료 준비 <br>- 서버와 데이터베이스 설계 및 관리 <br>- 회원/유저/선수/구단 커뮤니티/일정(CRUD) <br>- 팀원 간 협업 조율과 피드백 제공 <br>- 동시성제어 <br>- OAuth 2.0 카카오 소셜로그인|
-| **👑 팀원** | [@오현택](https://github.com/duduio2050) | - 주요 개발 작업 수행<br>- 기술적 난관 발생 시 해결책 제안<br>- 구단 게시판/댓글(CRUD) <br>- 실시간 채팅 <br>- CI/CD <br>- ElasticBeanstalk <br>- ElasticCache |
-| **👑 팀원** | [@박현국](https://github.com/HyunKook-Park) | - 주요 개발 작업 수행<br>- 코어 기능 구현 및 문제 해결 담당 <br>- 가게/메뉴/주문(CRUD) <br>- AWS SQS <br>- MultiModule <br>- Redis Cache <br>- Cloudfront |
+|     역할     |                    이름                     | 역할 설명                                                                                                                                                                                                                                    |
+| :----------: | :-----------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  **👑 팀장**  |    [@정은교](https://github.com/ekj1003)    | - 프로젝트 전체 관리 및 방향 설정<br>- 주요 의사결정과 팀 내 소통 담당 <br>- 구단/구장/선수(CRUD) <br>- AWS S3 <br>- Indexing <br>- MultiModule <br>- AWS RDS <br>- OAuth 2.0 카카오 소셜로그인                                              |
+| **👑 부팀장** | [@이재희](https://github.com/leejaehee0807) | - 팀장 보조 및 작업 분배<br>- 주요 문서 작성 및 발표 자료 준비 <br>- 서버와 데이터베이스 설계 및 관리 <br>- 회원/유저/선수/구단 커뮤니티/일정(CRUD) <br>- 팀원 간 협업 조율과 피드백 제공 <br>- 동시성제어 <br>- OAuth 2.0 카카오 소셜로그인 |
+|  **👑 팀원**  |  [@오현택](https://github.com/duduio2050)   | - 주요 개발 작업 수행<br>- 기술적 난관 발생 시 해결책 제안<br>- 구단 게시판/댓글(CRUD) <br>- 실시간 채팅 <br>- CI/CD <br>- ElasticBeanstalk <br>- ElasticCache                                                                               |
+|  **👑 팀원**  | [@박현국](https://github.com/HyunKook-Park) | - 주요 개발 작업 수행<br>- 코어 기능 구현 및 문제 해결 담당 <br>- 가게/메뉴/주문(CRUD) <br>- AWS SQS <br>- MultiModule <br>- Redis Cache <br>- Cloudfront                                                                                    |
 
 ### 📌 협업 방식
 - 점심 시간 : 12:00 ~ 13:00
