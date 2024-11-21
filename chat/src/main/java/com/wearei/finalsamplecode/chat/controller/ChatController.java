@@ -39,10 +39,10 @@ public class ChatController {
     public List<ChatMessage> getCHatHistory(@PathVariable("roomId") String roomId) {
         return chatHistoryService.getChatHistory(roomId, 0, -1);
     }
-
+    @ResponseBody
     @GetMapping("/")
     public String home() {
-        return "index";
+        return "{\"status\":\"ok\"}";
     }
 
     @ResponseBody
