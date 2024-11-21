@@ -1,3 +1,23 @@
+# ⚾️ 야구 나두? : 어플리케이션 실행 방법
+
+## ⚾️ mysql, redis 설치
+1. **루트 디렉토리 이동**
+2. ```docker-compose -f docker-compose-local.yml up```
+<br/><br/><br/>
+
+## ⚾️ API MODULE 실행 방법
+1. **git clone**
+2. **api/src/main/resources/application-local.yml 환경 변수 셋팅**
+3. **application 실행**
+<br/><br/><br/>
+
+## ⚾️ CHAT MODULE 실행 방법
+1. **git clone**
+2. **chat/src/main/resources/application-local.yml 환경 변수 셋팅**
+3. **application 실행**
+<br/><br/><br/>
+
+
 # ⚾️ 야구 나두? : 야구 입문소 커뮤니티 서비스
 <img width="498" alt="스크린샷 2024-11-14 19 54 08" src="https://github.com/user-attachments/assets/e39c46d5-c91a-458e-bcf0-cca6fdb6ad45">
 <img width="393" alt="스크린샷 2024-11-14 20 07 35" src="https://github.com/user-attachments/assets/a204f8fc-6b98-43bd-a37d-44360d124f38">
