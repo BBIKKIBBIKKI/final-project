@@ -1,21 +1,3 @@
-# ⚾️ 야구 나두? : 어플리케이션 실행 방법
-
-## ⚾️ mysql, redis 설치
-1. **루트 디렉토리 이동**
-2. ```docker-compose -f docker-compose-local.yml up```
-<br/><br/><br/>
-
-## ⚾️ API MODULE 실행 방법
-1. **api/src/main/resources/application-local.yml 환경 변수 셋팅**
-2. **application 실행**
-<br/><br/><br/>
-
-## ⚾️ CHAT MODULE 실행 방법
-1. **chat/src/main/resources/application-local.yml 환경 변수 셋팅**
-2. **application 실행**
-<br/><br/><br/>
-
-
 # ⚾️ 야구 나두? : 야구 입문소 커뮤니티 서비스
 <img width="498" alt="스크린샷 2024-11-14 19 54 08" src="https://github.com/user-attachments/assets/e39c46d5-c91a-458e-bcf0-cca6fdb6ad45">
 <img width="393" alt="스크린샷 2024-11-14 20 07 35" src="https://github.com/user-attachments/assets/a204f8fc-6b98-43bd-a37d-44360d124f38">
@@ -727,3 +709,22 @@ TTL 설정은 자정 외의 시간에서도 일정 주기마다 캐시를 유지
   
   - 토스 페이먼츠를 사용하여 음식 결제 시스템 기능 개발. 
   - 카카오뿐만 아니라 다른 소셜 로그인(Naver, Google 등) 기능 추가 개발.
+ 
+
+<br/><br/><br/>
+# ⚾️ 야구 나두? : 어플리케이션 실행 방법
+
+## ⚾️ mysql, redis 설치
+1. **루트 디렉토리 이동**
+2. ```docker-compose -f docker-compose-local.yml up```
+<br/><br/><br/>
+
+## ⚾️ API MODULE 실행 방법
+1. **api/src/main/resources/application-local.yml 환경 변수 셋팅**
+2. **application 실행**
+<br/><br/><br/>
+
+## ⚾️ CHAT MODULE 실행 방법
+1. **chat/src/main/resources/application-local.yml 환경 변수 셋팅**
+2. **application 실행**
+<br/><br/><br/>
