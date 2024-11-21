@@ -40,6 +40,7 @@ jobs:
           echo "AUTH_KAKAO_SECRET=${{ secrets.AUTH_KAKAO_SECRET }}" >> $GITHUB_ENV
           echo "CLOUD_FRONT=${{ secrets.CLOUD_FRONT }}" >> $GITHUB_ENV
 
+
       # with은 plugin 파라미터 입니다. (java 17버전 셋업)
       - name: java setup
         uses: actions/setup-java@v2
