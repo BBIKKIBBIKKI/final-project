@@ -45,6 +45,7 @@ public class AuthService {
         Preconditions.validate(passwordEncoder.matches(password, user.getPassword()), ErrorStatus._BAD_REQUEST_PASSWORD);
 
         return jwtUtil.createToken(
+                user.getId(),
                 user.getEmail(),
                 user.getUserRole());
     }
