@@ -1,0 +1,54 @@
+# Event Trigger 특정 액션 (Push, Pull_Request)등이 명시한 Branch에서 일어나면 동작을 수행한다.
+on:
+  push:
+    branches: [ dev ]
+
+jobs:
+  build:
+    # 스크립트 실행 환경 (OS)
+    # 배열로 선언시 개수 만큼 반복해서 실행한다. ( 예제 : 1번 실행)
+    runs-on: [ ubuntu-latest ]
+
+    # 실제 실행 스크립트
+    steps:
+      # uses는 github actions에서 제공하는 플러그인을 실행.(git checkout 실행)
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: Set up environment variables
+        run: |
+          echo "DB_HOST=localhost:3306" >> $GITHUB_ENV
+          echo "DB_NAME=baseball" >> $GITHUB_ENV
+          echo "DB_USERNAME=root" >> $GITHUB_ENV
+          echo "DB_PASSWORD=root" >> $GITHUB_ENV
+          echo "REDIS_HOST=${{ secrets.REDIS_HOST }}" >> $GITHUB_ENV
+          echo "REDIS_PORT=${{ secrets.REDIS_PORT }}" >> $GITHUB_ENV
+          echo "JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }}" >> $GITHUB_ENV
+          echo "S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }}" >> $GITHUB_ENV
+          echo "SQS_NAME=${{ secrets.SQS_NAME }}" >> $GITHUB_ENV
+          echo "AWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY }}" >> $GITHUB_ENV
+          echo "AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }}" >> $GITHUB_ENV
+          echo "AUTH_KAKAO_ID=${{ secrets.AUTH_KAKAO_ID }}" >> $GITHUB_ENV
+          echo "AUTH_KAKAO_SECRET=${{ secrets.AUTH_KAKAO_SECRET }}" >> $GITHUB_ENV
+          echo "CLOUD_FRONT=${{ secrets.CLOUD_FRONT }}" >> $GITHUB_ENV
+
+      # with은 plugin 파라미터 입니다. (java 17버전 셋업)
+      - name: java setup
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt' # See 'Supported distributions' for available options
+          java-version: '17'
+
+      - name: Set up MySQL
+        run: |
+          sudo /etc/init.d/mysql start
+          mysql -e 'CREATE DATABASE baseball;' -uroot -proot
+
+      - name: Make gradlew executable
+        run: chmod +x gradlew
+
+      # Gradle 빌드 실행 및 JAR 파일 생성
+      # Gradle 빌드 실행 및 JAR 파일 생성
+      - name: Build with Gradle
+        run: |
+          ./gradlew :api:build -x test :chat:build -x test

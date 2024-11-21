@@ -1,0 +1,104 @@
+name: Deploy to Elastic Beanstalk
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # uses는 github actions에서 제공하는 플러그인을 실행.(git checkout 실행)
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: Set up environment variables
+        run: |
+          echo "DB_HOST=localhost:3306" >> $GITHUB_ENV
+          echo "DB_NAME=baseball" >> $GITHUB_ENV
+          echo "DB_USERNAME=root" >> $GITHUB_ENV
+          echo "DB_PASSWORD=root" >> $GITHUB_ENV
+          echo "REDIS_HOST=${{ secrets.REDIS_HOST }}" >> $GITHUB_ENV
+          echo "REDIS_PORT=${{ secrets.REDIS_PORT }}" >> $GITHUB_ENV
+          echo "JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }}" >> $GITHUB_ENV
+          echo "S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }}" >> $GITHUB_ENV
+          echo "SQS_NAME=${{ secrets.SQS_NAME }}" >> $GITHUB_ENV
+          echo "AWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY }}" >> $GITHUB_ENV
+          echo "AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }}" >> $GITHUB_ENV
+          echo "DB_HOST=localhost:3306" >> $GITHUB_ENV
+          echo "DB_NAME=baseball" >> $GITHUB_ENV
+          echo "DB_USERNAME=root" >> $GITHUB_ENV
+          echo "DB_PASSWORD=root" >> $GITHUB_ENV
+          echo "REDIS_HOST=${{ secrets.REDIS_HOST }}" >> $GITHUB_ENV
+          echo "REDIS_PORT=${{ secrets.REDIS_PORT }}" >> $GITHUB_ENV
+          echo "JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }}" >> $GITHUB_ENV
+          echo "S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }}" >> $GITHUB_ENV
+          echo "SQS_NAME=${{ secrets.SQS_NAME }}" >> $GITHUB_ENV
+          echo "AWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY }}" >> $GITHUB_ENV
+          echo "AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }}" >> $GITHUB_ENV
+          echo "AUTH_KAKAO_ID=${{ secrets.AUTH_KAKAO_ID }}" >> $GITHUB_ENV
+          echo "AUTH_KAKAO_SECRET=${{ secrets.AUTH_KAKAO_SECRET }}" >> $GITHUB_ENV
+          echo "CLOUD_FRONT=${{ secrets.CLOUD_FRONT }}" >> $GITHUB_ENV
+
+      # with은 plugin 파라미터 입니다. (java 17버전 셋업)
+      - name: java setup
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt' # See 'Supported distributions' for available options
+          java-version: '17'
+
+      - name: Set up MySQL
+        run: |
+          sudo /etc/init.d/mysql start
+          mysql -e 'CREATE DATABASE baseball;' -uroot -proot
+
+      - name: Make gradlew executable
+        run: chmod +x gradlew
+
+      # Gradle 빌드 실행 및 JAR 파일 생성
+      # Gradle 빌드 실행 및 JAR 파일 생성
+      - name: Build with Gradle
+        run: |
+          ./gradlew clean :api:build :chat:build
+
+      # DockerHub에 로그인
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # Docker 이미지 빌드 및 푸시
+      - name: Build and Push Docker API Image
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: ./Dockerfile_api
+          push: true
+          tags: oht2050/bbikkibbikki-api:latest
+
+      # Docker 이미지 빌드 및 푸시
+      - name: Build and Push Docker CHAT Image
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: ./Dockerfile_chat
+          push: true
+          tags: oht2050/bbikkibbikki-chat:latest
+
+      # ZIP 파일 생성
+      - name: Create ZIP file for deployment
+        run: zip -r deploy.zip docker-compose.yml other-source-files/*  # 필요한 파일들 포함
+
+      # Elastic Beanstalk 배포
+      - name: Deploy to Elastic Beanstalk
+        uses: einaregilsson/beanstalk-deploy@v14
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
+          application_name: bbikkibbikki
+          environment_name: Bbikkibbikki-env-2
+          version_label: ${{ github.sha }}
+          region: ap-northeast-2
+          deployment_package: deploy.zip  # ZIP 파일의 이름
+
