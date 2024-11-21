@@ -66,6 +66,7 @@ class DomainScheduleServiceTest {
 
     @Test
     void 일정_정상_수정_테스트() {
+        Long userId = 1L;
         Long scheduleId = 1L;
         Long teamId = 1L;
 
@@ -87,7 +88,7 @@ class DomainScheduleServiceTest {
         when(schedule.getDate()).thenReturn(date);
         when(schedule.getTime()).thenReturn(time);
 
-        Schedule updatedSchedule = domainScheduleService.updateSchedule(scheduleId, teamId);
+        Schedule updatedSchedule = domainScheduleService.updateSchedule(userId, scheduleId, teamId);
 
         verify(schedule, times(1)).updateSchedule(
                 eq(team),
@@ -102,6 +103,7 @@ class DomainScheduleServiceTest {
 
     @Test
     void 일정_정상_삭제_테스트() {
+        Long userId = 1L;
         Long scheduleId = 1L;
         Long teamId = 1L;
 
@@ -111,7 +113,7 @@ class DomainScheduleServiceTest {
         when(teamRepository.findByIdOrThrow(teamId)).thenReturn(team);
         when(scheduleRepository.findByIdOrThrow(scheduleId)).thenReturn(schedule);
 
-        domainScheduleService.deleteSchedule(scheduleId, teamId);
+        domainScheduleService.deleteSchedule(userId, scheduleId, teamId);
 
         verify(scheduleRepository, times(1)).delete(schedule);
     }

@@ -1,7 +1,5 @@
 package com.wearei.finalsamplecode.core.domain.menu.entity;
 
-import com.wearei.finalsamplecode.common.apipayload.status.ErrorStatus;
-import com.wearei.finalsamplecode.common.exception.ApiException;
 import com.wearei.finalsamplecode.core.domain.store.entity.Store;
 import com.wearei.finalsamplecode.core.domain.user.entity.User;
 import com.wearei.finalsamplecode.common.entity.BaseEntity;
@@ -43,13 +41,5 @@ public class Menu extends BaseEntity {
     public void update(String menuName, Long price) {
         this.menuName = menuName;
         this.price = price;
-    }
-
-    // 분산락 관련
-    public void decreaseStock(Long quantity) {
-        if (this.inventory < quantity) {
-            throw new ApiException(ErrorStatus._INSUFFICIENT_INVENTORY);
-        }
-        this.inventory -= quantity;
     }
 }

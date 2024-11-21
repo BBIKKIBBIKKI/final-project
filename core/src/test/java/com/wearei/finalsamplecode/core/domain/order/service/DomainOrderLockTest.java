@@ -10,7 +10,6 @@ import com.wearei.finalsamplecode.core.domain.user.repository.UserRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import java.lang.reflect.Field;
 import java.util.concurrent.CountDownLatch;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -46,7 +45,6 @@ public class DomainOrderLockTest {
     void setUp() {
 
         // Test 준비: Menu와 Stock 설정
-//        User user = new User(USER_ID, UserRole.ROLE_OWNER); // USER_ID 지정
         User user = new User(USER_ID, "leejaehee011@google.com", "leejaehee011", "Leejaehee1!", UserRole.ROLE_OWNER);
         userRepository.save(user);
 
@@ -86,9 +84,8 @@ public class DomainOrderLockTest {
                 .limit(people)
                 .collect(Collectors.toList());
         workers.forEach(Thread::start);
-        System.out.println("여기까진 나옴");
         latch.await();
-        System.out.println("여기서부터 안됨");
+
         workers.stream().filter(Thread::isAlive).forEach(Thread::interrupt);
 
         long currentStock = stockService.currentStock(stockKey);
@@ -153,23 +150,5 @@ public class DomainOrderLockTest {
             domainMenuService.decreaseStockWithoutLock(MENU_ID, quantity);
             latch.countDown();
         }
-    }
-
-    private void setFieldUsingReflection(Object obj, String fieldName, Object value) throws Exception {
-        Field field;
-        Class<?> clazz = obj.getClass();
-
-        while (true) {
-            try {
-                field = clazz.getDeclaredField(fieldName);
-                break;
-            } catch (NoSuchFieldException e) {
-                clazz = clazz.getSuperclass();
-                if (clazz == null) throw new NoSuchFieldException("Field not found: " + fieldName);
-            }
-        }
-
-        field.setAccessible(true);
-        field.set(obj, value);
     }
 }
