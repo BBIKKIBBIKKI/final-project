@@ -80,8 +80,7 @@
 ![스크린샷 2024-11-14 오후 2 39 33](https://github.com/user-attachments/assets/757d9148-5fd8-498c-9195-39618bba14df)
 
 #### 📌 성능 테스트
-<details>
-  <summary>🧪 락 미적용 테스트 결과</summary>
+  <summary>🧪 <b>락 미적용 테스트 결과</b></summary>
 
 #### 테스트 시나리오
 - **테스트 시나리오**: 100명의 사용자가 동시에 재고 2개씩 주문.
@@ -93,11 +92,9 @@
 - 락 미적용 상태에서는 동시성 문제로 인해 데이터 충돌 발생.
 - 음수 재고가 기록되며, 데이터 무결성이 크게 훼손됨.
   ![3](https://github.com/user-attachments/assets/84a08e76-8f79-4035-a4b4-b9169ee291e2)
+<br/><br/>
 
-</details>
-
-<details>
-  <summary>🧪 락 적용 테스트 결과</summary>
+  <summary>🧪 <b>락 적용 테스트 결과</b></summary>
 
 #### 테스트 시나리오
 - **테스트 시나리오**: 100명의 사용자가 동시에 재고 2개씩 주문.
@@ -112,7 +109,7 @@
 ![image](https://github.com/user-attachments/assets/0f2c99a5-03f7-48c2-b8ed-611617dd30e2)
 ![2](https://github.com/user-attachments/assets/bd8aa5af-670b-43cd-827b-ee2aa788a8ce)
 
-</details>
+
 
 #### 📌 종합결과
 ![스크린샷 2024-11-18 오후 1 20 09](https://github.com/user-attachments/assets/956d4ed9-fc17-40b5-88b5-3f8999229f03)
@@ -136,8 +133,8 @@
 
 
 #### 📌 구조 검토 및 문제점 
-<details>
-<summary>구조 2: ALB 및 Auto Scaling Group 사용</summary>
+
+<summary><b>구조 2: ALB 및 Auto Scaling Group 사용</b></summary>
 
 #### 구성
 - EC2 인스턴스를 Auto Scaling Group으로 묶고, ALB를 통해 트래픽을 분산.
@@ -146,12 +143,10 @@
 #### 문제점
 - 서버 확장에는 유리하지만 인스턴스 간 상태 유지 및 유지보수 문제 발생.
 - 복잡한 유지보수로 인해 제외.
+---
+<br/>
 
-</details>
-
-
-<details>
-<summary>구조 3: 개별 EC2 인스턴스에 MySQL 설치</summary>
+<summary><b>구조 3: 개별 EC2 인스턴스에 MySQL 설치</b></summary>
 
 #### 구성
 - 각 EC2 인스턴스에 MySQL을 설치.
@@ -167,12 +162,11 @@
 2. **하나의 EC2에서 MySQL 공유**:
     - **장점**: 비용 절감 가능.
     - **단점**: 확장성 제한.
-    
-</details>
+---
+<br/>
 
 
-<details>
-<summary>구조 4: Auto Scaling 및 Redis 동기화 문제</summary>
+<summary><b>구조 4: Auto Scaling 및 Redis 동기화 문제</b></summary>
 
 #### 구성
 - EC2 인스턴스 간 Auto Scaling, Redis 캐시 사용.
@@ -184,11 +178,11 @@
 #### 대안
 - **ElastiCache 사용**:
     - Redis를 중앙 관리로 전환하여 캐시 일관성 보장 및 성능 최적화.
+---
+<br/>
 
-</details>
 
-<details>
-<summary>구조 5: MSA (Microservices Architecture) 도입 필요성</summary>
+<summary><b>구조 5: MSA (Microservices Architecture) 도입 필요성</b></summary>
 
 #### 구성
 - 각 EC2 인스턴스에서 독립적인 서비스(`chat`, `api`, `batch`)를 운영.
@@ -201,11 +195,10 @@
 - **MSA 도입**:
     - 서비스 독립성 강화.
     - 장애가 전체 시스템에 미치는 영향을 최소화.
+---
+<br/>
 
-</details>
-
-<details>
-<summary>구조 6: 서비스별 Auto Scaling Group 구성</summary>
+<summary><b>구조 6: 서비스별 Auto Scaling Group 구성</b></summary>
 
 #### 구성
 - 각 서비스(`일반 CRUD`, `채팅`, `주문`)에 독립적인 Auto Scaling Group 배정.
@@ -217,12 +210,11 @@
 #### 대안
 - 각 서비스에 Auto Scaling Group 적용.
 - 동적 트래픽 조정으로 서비스 유연성 확보.
+---
+<br/>
 
-</details>
 
-
-<details>
-<summary>구조 7: MSA 대신 Spring Boot Multi-Module 전환</summary>
+<summary><b>구조 7: MSA 대신 Spring Boot Multi-Module 전환</b></summary>
 
 #### 구성
 - Spring Boot Multi-Module 구조로 전환:
@@ -235,13 +227,11 @@
 #### 대안
 - **Multi-Module 전환**:
     - MSA의 의존성 분리 효과를 간소화된 구조로 구현.
+---
+<br/>
 
-</details>
 
-
-
-<details>
-<summary>구조 8: Auto Scaling Group, ALB 관리</summary>
+<summary><b>구조 8: Auto Scaling Group, ALB 관리</b></summary>
 
 ![스크린샷 2024-11-14 오후 8 57 27 (3)](https://github.com/user-attachments/assets/551a505f-dcba-4a4a-aed3-1dda83be6972)
 
@@ -253,14 +243,13 @@
 - **Elastic Beanstalk 도입**:
     - Auto Scaling Group 및 ALB 설정 간소화.
     - 인프라 관리 부담 감소, 개발 속도 향상.
-
-</details>
+<br/>
 
 #### 📌 결론 및 핵심 기능 개선 방향
 
 1. **자동화된 인프라 관리**: Elastic Beanstalk가 EC2, Auto Scaling Group, Application Load Balancer를 자동으로 설정하고 관리하여 인프라 설정 및 유지보수를 단순화.
 2. **개발 효율성 향상**: 개발팀이 인프라 관리에 소요되는 시간을 줄이고, 애플리케이션 개발에 집중할 수 있는 환경 제공.
-
+---
 <br/><br/>
 
 ## ⚾️ 인프라 아키텍쳐 & 적용 기술
